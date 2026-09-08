@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Next.js
+.next/
+out/
+.vercel/
+
+# Legacy SvelteKit/Vite artifacts
+.svelte-kit/
+build/
+dist/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Testing and coverage
+coverage/
+playwright-report/
+test-results/
+
+# TypeScript/build caches
+*.tsbuildinfo
+
+# Tooling caches
+.turbo/
+.cache/
+
+# OS/editor files
+.DS_Store
+.zed/worktrees/
+*.swp
+*.swo

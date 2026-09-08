@@ -1,0 +1,46 @@
+@font-face {
+  font-family: 'CommitMono';
+  src: url('/fonts/CommitMono-400-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@stylex;
+@font-face {
+  font-family: 'CommitMono';
+  src: url('/fonts/CommitMono-700-Regular.otf') format('opentype');
+  font-weight: 700 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --font-commit-mono: 'CommitMono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-family: var(--font-commit-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+:root {
+  --primary: '#463366'
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+a {
+  text-decoration: none;
+  color: var(--primary);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}

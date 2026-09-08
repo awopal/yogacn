@@ -1,0 +1,87 @@
+{
+  "lsp": {
+    "vscode-css-language-server": {
+      "settings": {
+        "css": {
+          "lint": {
+            "unknownAtRules": "ignore"
+          }
+        }
+      }
+    },
+    "vtsls": {
+      "settings": {
+        "typescript": {
+          "tsdk": "node_modules/typescript/lib"
+        }
+      }
+    }
+  },
+  "languages": {
+    "TypeScript": {
+      "format_on_save": "on",
+      "formatter": [
+        {
+          "code_action": "source.fixAll.oxlint"
+        },
+        {
+          "external": {
+            "command": "pnpm",
+            "arguments": ["exec", "oxfmt", "--stdin-filepath", "{buffer_path}"]
+          }
+        }
+      ]
+    },
+    "TSX": {
+      "format_on_save": "on",
+      "formatter": [
+        {
+          "code_action": "source.fixAll.oxlint"
+        },
+        {
+          "external": {
+            "command": "pnpm",
+            "arguments": ["exec", "oxfmt", "--stdin-filepath", "{buffer_path}"]
+          }
+        }
+      ]
+    },
+    "JavaScript": {
+      "format_on_save": "on",
+      "formatter": [
+        {
+          "code_action": "source.fixAll.oxlint"
+        },
+        {
+          "external": {
+            "command": "pnpm",
+            "arguments": ["exec", "oxfmt", "--stdin-filepath", "{buffer_path}"]
+          }
+        }
+      ]
+    },
+    "JavaScript JSX": {
+      "format_on_save": "on",
+      "formatter": [
+        {
+          "code_action": "source.fixAll.oxlint"
+        },
+        {
+          "external": {
+            "command": "pnpm",
+            "arguments": ["exec", "oxfmt", "--stdin-filepath", "{buffer_path}"]
+          }
+        }
+      ]
+    },
+    "file_types": {
+      "TypeScript": ["*.stylex.ts"]
+    },
+    "color-highlight.languages": [
+      "javascript",
+      "javascriptreact",
+      "typescript",
+      "typescriptreact"
+    ]
+  }
+}
