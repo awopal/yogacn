@@ -21,13 +21,4 @@ export const ui = stylex.create({
     paddingInline: 16,
   },
   field: { display: 'grid', gap: 7 },
-  input: {
-    borderColor: '#1f1235',
-    borderRadius: 6,
-    borderStyle: 'solid',
-    borderWidth: 2,
-    paddingBlock: 11,
-    paddingInline: 12,
-    width: '100%',
-  },
 });

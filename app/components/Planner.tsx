@@ -3,6 +3,7 @@
 import { useEffect, useMemo } from 'react';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import * as stylex from '@stylexjs/stylex';
@@ -78,16 +79,16 @@ export default function Planner({
       <div {...stylex.props(plannerStyles.grid)}>
         <label {...stylex.props(formStyles.field)}>
           <span {...stylex.props(formStyles.label)}>ชื่อคลาส</span>
-          <input
-            {...stylex.props(formStyles.control)}
+          <Input
+            className={stylex.props(formStyles.control).className}
             value={draft.title}
             onChange={(event) => setField('title', event.target.value)}
           />
         </label>
         <label {...stylex.props(formStyles.field)}>
           <span {...stylex.props(formStyles.label)}>Intention</span>
-          <input
-            {...stylex.props(formStyles.control)}
+          <Input
+            className={stylex.props(formStyles.control).className}
             value={draft.intention}
             onChange={(event) => setField('intention', event.target.value)}
           />
@@ -107,8 +108,8 @@ export default function Planner({
         </label>
         <label {...stylex.props(formStyles.field)}>
           <span {...stylex.props(formStyles.label)}>Duration (minutes)</span>
-          <input
-            {...stylex.props(formStyles.control)}
+          <Input
+            className={stylex.props(formStyles.control).className}
             type="number"
             value={draft.duration}
             onChange={(event) => setField('duration', Number(event.target.value))}
@@ -116,8 +117,8 @@ export default function Planner({
         </label>
         <label {...stylex.props(formStyles.field)}>
           <span {...stylex.props(formStyles.label)}>Peak pose</span>
-          <input
-            {...stylex.props(formStyles.control)}
+          <Input
+            className={stylex.props(formStyles.control).className}
             value={draft.peakPose}
             onChange={(event) => setField('peakPose', event.target.value)}
           />
@@ -134,15 +135,15 @@ export default function Planner({
       <div {...stylex.props(plannerStyles.sectionList)}>
         {draft.sections.map((section) => (
           <Card key={section.id}>
-            <input
+            <Input
               className={cn(stylex.props(formStyles.control, plannerStyles.sectionTitle).className)}
               value={section.name}
               onChange={(event) => updateSection(section.id, event.target.value)}
             />
             {section.items.map((item, itemIndex) => (
               <div {...stylex.props(plannerStyles.item)} key={item.id}>
-                <input
-                  {...stylex.props(formStyles.control, plannerStyles.itemInput)}
+                <Input
+                  className={stylex.props(formStyles.control, plannerStyles.itemInput).className}
                   value={item.name}
                   onChange={(event) => updateItem(section.id, item.id, event.target.value)}
                 />

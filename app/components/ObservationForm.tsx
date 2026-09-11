@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
 import * as stylex from '@stylexjs/stylex';
 import { formStyles } from '../../styles/form.stylex';
 import { feedbackStyles } from '../../styles/feedback.stylex';
@@ -11,7 +12,7 @@ import { typographyStyles } from '../../styles/typography.stylex';
 
 const schema = z.object({
   observation: z.string().min(2, 'กรุณาระบุ observation'),
-  modification: z.string().min(2, 'กรุณาระบุ teaching modification')
+  modification: z.string().min(2, 'กรุณาระบุ teaching modification'),
 });
 
 export default function ObservationForm() {
@@ -25,7 +26,7 @@ export default function ObservationForm() {
     setMessage(
       result.success
         ? 'บันทึก observation ใน demo mode แล้ว'
-        : (result.error.issues[0]?.message ?? 'ข้อมูลไม่ถูกต้อง')
+        : (result.error.issues[0]?.message ?? 'ข้อมูลไม่ถูกต้อง'),
     );
   }
 
@@ -34,16 +35,16 @@ export default function ObservationForm() {
       <h3 {...stylex.props(typographyStyles.h3)}>Add observation</h3>
       <label {...stylex.props(formStyles.field)}>
         <span {...stylex.props(formStyles.label)}>Observation</span>
-        <textarea
-          {...stylex.props(formStyles.control, formStyles.textarea)}
+        <Textarea
+          {...stylex.props(formStyles.textarea)}
           value={observation}
           onChange={(event) => setObservation(event.target.value)}
         />
       </label>
       <label {...stylex.props(formStyles.field)}>
         <span {...stylex.props(formStyles.label)}>Teaching modification</span>
-        <textarea
-          {...stylex.props(formStyles.control, formStyles.textarea)}
+        <Textarea
+          {...stylex.props(formStyles.textarea)}
           value={modification}
           onChange={(event) => setModification(event.target.value)}
         />
@@ -52,7 +53,7 @@ export default function ObservationForm() {
       {message && (
         <p
           {...stylex.props(
-            message.startsWith('บันทึก') ? feedbackStyles.success : feedbackStyles.error
+            message.startsWith('บันทึก') ? feedbackStyles.success : feedbackStyles.error,
           )}
           role="status"
         >

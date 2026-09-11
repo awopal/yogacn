@@ -5,6 +5,8 @@ import type { Student } from '../../lib/types';
 import * as stylex from '@stylexjs/stylex';
 import { ui } from '../../styles/ui';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { cardStyles } from '@/components/ui/card';
 import { pageStyles } from '../../styles/page.stylex';
@@ -25,8 +27,8 @@ export default function StudentManager({ initialStudents }: { initialStudents: S
         id: `student-${Date.now()}`,
         displayName: name.trim(),
         note: note.trim(),
-        status: 'active'
-      }
+        status: 'active',
+      },
     ]);
     setName('');
     setNote('');
@@ -41,8 +43,8 @@ export default function StudentManager({ initialStudents }: { initialStudents: S
         <form {...stylex.props(ui.surface)} className="add-form" onSubmit={addStudent}>
           <label {...stylex.props(formStyles.field)}>
             <span {...stylex.props(formStyles.label)}>Display name</span>
-            <input
-              {...stylex.props(formStyles.control, formStyles.textarea)}
+            <Input
+              className={stylex.props(formStyles.control, formStyles.textarea).className}
               value={name}
               onChange={(event) => setName(event.target.value)}
               required
@@ -50,11 +52,7 @@ export default function StudentManager({ initialStudents }: { initialStudents: S
           </label>
           <label {...stylex.props(formStyles.field)}>
             <span {...stylex.props(formStyles.label)}>General note (not a diagnosis)</span>
-            <textarea
-              {...stylex.props(formStyles.control)}
-              value={note}
-              onChange={(event) => setNote(event.target.value)}
-            />
+            <Textarea value={note} onChange={(event) => setNote(event.target.value)} />
           </label>
           <div {...stylex.props(pageStyles.actions)}>
             <Button type="submit">Save student</Button>

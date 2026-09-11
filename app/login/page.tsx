@@ -2,6 +2,7 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import * as stylex from '@stylexjs/stylex';
 import { loginStyles } from '../../styles/login.stylex';
 import { formStyles } from '../../styles/form.stylex';
@@ -48,8 +49,7 @@ export default async function LoginPage() {
             <label {...stylex.props(formStyles.label)} htmlFor="email">
               Email
             </label>
-            <input
-              {...stylex.props(formStyles.control)}
+            <Input
               id="email"
               name="email"
               type="email"
@@ -61,8 +61,7 @@ export default async function LoginPage() {
             <label {...stylex.props(formStyles.label)} htmlFor="password">
               Password
             </label>
-            <input
-              {...stylex.props(formStyles.control)}
+            <Input
               id="password"
               name="password"
               type="password"

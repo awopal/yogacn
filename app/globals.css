@@ -47,9 +47,14 @@ select {
   font: inherit;
 }
 
+[data-slot='date-picker-trigger'] {
+  font-family: var(--font-commit-mono), ui-monospace, monospace !important;
+  font-weight: 400 !important;
+}
+
 .fc {
   --fc-border-color: rgb(70 51 102 / 0.14);
-  --fc-today-bg-color: rgb(251 221 116 / 0.16);
+  --fc-today-bg-color: transparent;
   --fc-page-bg-color: #fff;
   --fc-neutral-bg-color: #f8f7fb;
   --fc-button-bg-color: #463366;
@@ -62,9 +67,120 @@ select {
   font-family: var(--font-commit-mono), ui-monospace, monospace;
 }
 
+.fc-timeGridWeek-view,
+.fc-dayGridMonth-view {
+  --fc-today-bg-color: rgb(251 221 116 / 0.16);
+}
+
 .fc .fc-toolbar {
   flex-wrap: wrap;
   gap: 12px;
+}
+
+.date-picker-calendar {
+  color: #1f1235;
+  font-family: var(--font-commit-mono), ui-monospace, monospace;
+  font-size: 12px;
+}
+.date-picker-months,
+.date-picker-month {
+  display: grid;
+  gap: 8px;
+}
+.date-picker-months {
+  position: relative;
+}
+.date-picker-caption {
+  align-items: center;
+  display: flex;
+  justify-content: flex-start;
+  min-height: 32px;
+  padding-right: 64px;
+  pointer-events: none;
+  position: relative;
+}
+.date-picker-caption-label {
+  color: #463366;
+  font-weight: 800;
+}
+.date-picker-nav {
+  align-items: center;
+  display: flex;
+  gap: 4px;
+  pointer-events: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 2;
+}
+.date-picker-nav-button {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  color: #463366;
+  cursor: pointer;
+  display: inline-flex;
+  height: 28px;
+  justify-content: center;
+  width: 28px;
+}
+.date-picker-nav-button:hover,
+.date-picker-day-button:hover {
+  background: #f4effa;
+}
+.date-picker-grid {
+  border-collapse: collapse;
+  width: 100%;
+}
+.date-picker-weekdays,
+.date-picker-week {
+  display: grid;
+  grid-template-columns: repeat(7, 36px);
+}
+.date-picker-weekday,
+.date-picker-day {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding: 2px;
+}
+.date-picker-weekday {
+  color: rgb(27 20 37 / 0.65);
+  font-size: 11px;
+  font-weight: 800;
+  height: 28px;
+}
+.date-picker-day-button {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  color: #1f1235;
+  cursor: pointer;
+  display: inline-flex;
+  height: 32px;
+  justify-content: center;
+  padding: 0;
+  width: 32px;
+}
+.date-picker-today .date-picker-day-button {
+  background: #fff3c4;
+  box-shadow: none;
+  color: #1f1235;
+}
+.date-picker-outside .date-picker-day-button {
+  color: rgb(27 20 37 / 0.35);
+}
+.date-picker-selected .date-picker-day-button {
+  background: #463366;
+  color: #fff;
+}
+[data-time-control],
+[data-time-control] * {
+  font-family: var(--font-commit-mono), ui-monospace, monospace !important;
+  font-size: 14px;
+  font-weight: 400;
 }
 .fc .fc-toolbar-title {
   color: #463366;
@@ -96,7 +212,11 @@ select {
 .fc .fc-event {
   border: 0;
   border-radius: 5px;
+  color: #463366;
   padding: 2px 4px;
+}
+.fc .fc-event-main {
+  color: #eee8f7;
 }
 .fc .fc-event.status-cancelled {
   opacity: 0.58;
@@ -116,11 +236,29 @@ select {
   font-size: 11px;
   line-height: 1.25;
 }
+.schedule-event-meta {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  min-width: 0;
+}
 .schedule-event-content strong,
 .schedule-event-content span {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.schedule-event-student-count {
+  align-items: center;
+  display: inline-flex;
+  gap: 3px;
+  line-height: 12px;
+}
+.schedule-event-student-count svg {
+  display: block;
+  flex: 0 0 12px;
+  height: 12px;
+  width: 12px;
 }
 .schedule-event-content span {
   opacity: 0.9;

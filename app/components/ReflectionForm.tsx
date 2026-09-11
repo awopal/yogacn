@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import * as stylex from '@stylexjs/stylex';
 import { pageStyles } from '@/styles/page.stylex';
 import { cardStyles } from '@/components/ui/card';
@@ -12,7 +14,7 @@ import { typographyStyles } from '../../styles/typography.stylex';
 const schema = z.object({
   actual: z.number().min(1).max(360),
   reflection: z.string().min(2, 'กรุณาเขียน reflection อย่างน้อยเล็กน้อย'),
-  adjustment: z.string().min(2, 'กรุณาระบุ adjustment สำหรับครั้งถัดไป')
+  adjustment: z.string().min(2, 'กรุณาระบุ adjustment สำหรับครั้งถัดไป'),
 });
 export default function ReflectionForm({ planned }: { planned: number }) {
   const [actual, setActual] = useState(planned);
@@ -24,7 +26,7 @@ export default function ReflectionForm({ planned }: { planned: number }) {
     setMessage(
       result.success
         ? 'บันทึก reflection แล้ว และเก็บเป็นประวัติใหม่'
-        : (result.error.issues[0]?.message ?? 'กรุณาตรวจสอบข้อมูล')
+        : (result.error.issues[0]?.message ?? 'กรุณาตรวจสอบข้อมูล'),
     );
   }
   return (
@@ -41,8 +43,8 @@ export default function ReflectionForm({ planned }: { planned: number }) {
       </p>
       <label {...stylex.props(formStyles.field)}>
         <span {...stylex.props(formStyles.label)}>Actual duration</span>
-        <input
-          {...stylex.props(formStyles.control, formStyles.textarea)}
+        <Input
+          className={stylex.props(formStyles.control, formStyles.textarea).className}
           type="number"
           value={actual}
           onChange={(event) => setActual(Number(event.target.value))}
@@ -50,19 +52,15 @@ export default function ReflectionForm({ planned }: { planned: number }) {
       </label>
       <label {...stylex.props(formStyles.field)}>
         <span {...stylex.props(formStyles.label)}>What worked well</span>
-        <textarea
-          {...stylex.props(formStyles.control, formStyles.textarea)}
+        <Textarea
+          {...stylex.props(formStyles.textarea)}
           value={reflection}
           onChange={(event) => setReflection(event.target.value)}
         />
       </label>
       <label {...stylex.props(formStyles.field)}>
         <span {...stylex.props(formStyles.label)}>Adjustment for next time</span>
-        <textarea
-          {...stylex.props(formStyles.control)}
-          value={adjustment}
-          onChange={(event) => setAdjustment(event.target.value)}
-        />
+        <Textarea value={adjustment} onChange={(event) => setAdjustment(event.target.value)} />
       </label>
       <div {...stylex.props(pageStyles.actions)}>
         <Button type="submit">Save reflection</Button>
@@ -73,7 +71,7 @@ export default function ReflectionForm({ planned }: { planned: number }) {
       {message && (
         <p
           {...stylex.props(
-            message.startsWith('บันทึก') ? feedbackStyles.success : feedbackStyles.error
+            message.startsWith('บันทึก') ? feedbackStyles.success : feedbackStyles.error,
           )}
           role="status"
         >
