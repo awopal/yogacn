@@ -8,26 +8,38 @@
 
 @stylex;
 @font-face {
-  font-family: "CommitMono";
-  src: url("/fonts/CommitMono-700-Regular.otf") format("opentype");
+  font-family: 'CommitMono';
+  src: url('/fonts/CommitMono-700-Regular.otf') format('opentype');
   font-weight: 700 800;
   font-style: normal;
   font-display: swap;
 }
 
 :root {
-  --font-commit-mono:
-    "CommitMono", ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-family:
-    var(--font-commit-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-commit-mono: 'CommitMono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-family: var(--font-commit-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 :root {
-  --primary: "#463366";
+  --primary: '#463366';
 }
 
 * {
   box-sizing: border-box;
+}
+
+/* Keep every scroll container usable without displaying a scrollbar. */
+*,
+*::before,
+*::after {
+  -ms-overflow-style: none;
+  scrollbar-width: none !important;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+  height: 0;
+  width: 0;
 }
 
 body {
