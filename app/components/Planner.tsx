@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -11,70 +11,65 @@ import { formStyles } from '../../styles/form.stylex';
 import { plannerStyles } from '../../styles/planner.stylex';
 import { feedbackStyles } from '../../styles/feedback.stylex';
 import { typographyStyles } from '../../styles/typography.stylex';
+import { useClassBuilderStore } from '@/lib/stores/class-builder-store';
+import type { Level } from '@/lib/types';
 
 const planSchema = z.object({
   title: z.string().min(2, 'กรุณาระบุชื่อคลาสอย่างน้อย 2 ตัวอักษร'),
   intention: z.string().min(2, 'กรุณาระบุ intention'),
-  duration: z.number().min(10).max(240)
+  duration: z.number().min(10).max(240),
 });
-
-type Section = { name: string; items: string[] };
 
 export default function Planner({
   initialTitle = 'Core & Control',
   initialIntention = 'Steady from the center',
   initialLevel = 'intermediate',
   initialDuration = 60,
-  initialPeakPose = 'Navasana'
+  initialPeakPose = 'Navasana',
 }: {
   initialTitle?: string;
   initialIntention?: string;
-  initialLevel?: string;
+  initialLevel?: Level;
   initialDuration?: number;
   initialPeakPose?: string;
 }) {
-  const [title, setTitle] = useState(initialTitle);
-  const [intention, setIntention] = useState(initialIntention);
-  const [level, setLevel] = useState(initialLevel);
-  const [duration, setDuration] = useState(initialDuration);
-  const [peakPose, setPeakPose] = useState(initialPeakPose);
-  const [error, setError] = useState('');
-  const [sections, setSections] = useState<Section[]>([
-    { name: 'Arrival & Warm-up', items: ['Seated breathing', 'Cat–Cow', 'Bird Dog'] },
-    {
-      name: 'Sun A — Core Progression',
-      items: ['Round 1: Hold Plank', 'Round 2: Add 2 Low Planks', 'Round 3: Add Side Plank']
-    },
-    {
-      name: 'Balance & Peak Focus',
-      items: ['High Lunge to Warrior III', 'Navasana', 'Core Compression']
-    },
-    { name: 'Cool Down', items: ['Supine Twist', 'Savasana'] }
-  ]);
+  const draft = useClassBuilderStore((state) => state.draft);
+  const error = useClassBuilderStore((state) => state.error);
+  const setField = useClassBuilderStore((state) => state.setField);
+  const addSection = useClassBuilderStore((state) => state.addSection);
+  const updateSection = useClassBuilderStore((state) => state.updateSection);
+  const addItem = useClassBuilderStore((state) => state.addItem);
+  const updateItem = useClassBuilderStore((state) => state.updateItem);
+  const removeItem = useClassBuilderStore((state) => state.removeItem);
+  const reorderItem = useClassBuilderStore((state) => state.reorderItem);
+  const setError = useClassBuilderStore((state) => state.setError);
+  const reset = useClassBuilderStore((state) => state.reset);
+
+  useEffect(() => {
+    reset({
+      title: initialTitle,
+      intention: initialIntention,
+      level: initialLevel,
+      duration: initialDuration,
+      peakPose: initialPeakPose,
+    });
+  }, [initialDuration, initialIntention, initialLevel, initialPeakPose, initialTitle, reset]);
 
   const total = useMemo(
-    () => sections.reduce((sum, section) => sum + section.items.length * 5, 0),
-    [sections]
+    () => draft.sections.reduce((sum, section) => sum + section.items.length * 5, 0),
+    [draft.sections],
   );
 
   function save() {
-    const result = planSchema.safeParse({ title, intention, duration });
+    const result = planSchema.safeParse({
+      title: draft.title,
+      intention: draft.intention,
+      duration: draft.duration,
+    });
     setError(
       result.success
         ? 'บันทึกแผนคลาสใน demo mode แล้ว'
-        : (result.error.issues[0]?.message ?? 'ข้อมูลไม่ถูกต้อง')
-    );
-  }
-
-  function addSection() {
-    setSections((current) => [...current, { name: 'New section', items: [] }]);
-  }
-
-  function addItem(index: number) {
-    setSections((current) =>
-      current.map((section, i) =>
-        i === index ? { ...section, items: [...section.items, 'New pose'] } : section
-      )
+        : (result.error.issues[0]?.message ?? 'ข้อมูลไม่ถูกต้อง'),
     );
   }
 
@@ -85,24 +80,24 @@ export default function Planner({
           <span {...stylex.props(formStyles.label)}>ชื่อคลาส</span>
           <input
             {...stylex.props(formStyles.control)}
-            value={title}
-            onChange={(event) => setTitle(event.target.value)}
+            value={draft.title}
+            onChange={(event) => setField('title', event.target.value)}
           />
         </label>
         <label {...stylex.props(formStyles.field)}>
           <span {...stylex.props(formStyles.label)}>Intention</span>
           <input
             {...stylex.props(formStyles.control)}
-            value={intention}
-            onChange={(event) => setIntention(event.target.value)}
+            value={draft.intention}
+            onChange={(event) => setField('intention', event.target.value)}
           />
         </label>
         <label {...stylex.props(formStyles.field)}>
           <span {...stylex.props(formStyles.label)}>Level</span>
           <select
             {...stylex.props(formStyles.control)}
-            value={level}
-            onChange={(event) => setLevel(event.target.value)}
+            value={draft.level}
+            onChange={(event) => setField('level', event.target.value as Level)}
           >
             <option>beginner</option>
             <option>all_levels</option>
@@ -115,74 +110,73 @@ export default function Planner({
           <input
             {...stylex.props(formStyles.control)}
             type="number"
-            value={duration}
-            onChange={(event) => setDuration(Number(event.target.value))}
+            value={draft.duration}
+            onChange={(event) => setField('duration', Number(event.target.value))}
           />
         </label>
         <label {...stylex.props(formStyles.field)}>
           <span {...stylex.props(formStyles.label)}>Peak pose</span>
           <input
             {...stylex.props(formStyles.control)}
-            value={peakPose}
-            onChange={(event) => setPeakPose(event.target.value)}
+            value={draft.peakPose}
+            onChange={(event) => setField('peakPose', event.target.value)}
           />
         </label>
       </div>
-      <p {...stylex.props(total > duration * 60 ? feedbackStyles.error : typographyStyles.muted)}>
+      <p
+        {...stylex.props(
+          total > draft.duration * 60 ? feedbackStyles.error : typographyStyles.muted,
+        )}
+      >
         Calculated content: {total} minutes{' '}
-        {total > duration * 60 ? '— เนื้อหาเกินเวลาที่เลือก' : ''}
+        {total > draft.duration * 60 ? '— เนื้อหาเกินเวลาที่เลือก' : ''}
       </p>
       <div {...stylex.props(plannerStyles.sectionList)}>
-        {sections.map((section, index) => (
-          <Card key={`${section.name}-${index}`}>
+        {draft.sections.map((section) => (
+          <Card key={section.id}>
             <input
               className={cn(stylex.props(formStyles.control, plannerStyles.sectionTitle).className)}
               value={section.name}
-              onChange={(event) =>
-                setSections((current) =>
-                  current.map((item, i) =>
-                    i === index ? { ...item, name: event.target.value } : item
-                  )
-                )
-              }
+              onChange={(event) => updateSection(section.id, event.target.value)}
             />
             {section.items.map((item, itemIndex) => (
-              <div {...stylex.props(plannerStyles.item)} key={`${item}-${itemIndex}`}>
+              <div {...stylex.props(plannerStyles.item)} key={item.id}>
                 <input
                   {...stylex.props(formStyles.control, plannerStyles.itemInput)}
-                  value={item}
-                  onChange={(event) =>
-                    setSections((current) =>
-                      current.map((s, i) =>
-                        i === index
-                          ? {
-                              ...s,
-                              items: s.items.map((value, j) =>
-                                j === itemIndex ? event.target.value : value
-                              )
-                            }
-                          : s
-                      )
-                    )
-                  }
+                  value={item.name}
+                  onChange={(event) => updateItem(section.id, item.id, event.target.value)}
                 />
                 <Button
                   type="button"
                   variant="ghost"
                   size="sm"
-                  onClick={() =>
-                    setSections((current) =>
-                      current.map((s, i) =>
-                        i === index ? { ...s, items: s.items.filter((_, j) => j !== itemIndex) } : s
-                      )
-                    )
-                  }
+                  disabled={itemIndex === 0}
+                  onClick={() => reorderItem(section.id, itemIndex, itemIndex - 1)}
+                  aria-label="Move pose up"
+                >
+                  ↑
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  disabled={itemIndex === section.items.length - 1}
+                  onClick={() => reorderItem(section.id, itemIndex, itemIndex + 1)}
+                  aria-label="Move pose down"
+                >
+                  ↓
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => removeItem(section.id, item.id)}
                 >
                   Delete
                 </Button>
               </div>
             ))}
-            <Button type="button" variant="ghost" size="sm" onClick={() => addItem(index)}>
+            <Button type="button" variant="ghost" size="sm" onClick={() => addItem(section.id)}>
               ＋ Add item
             </Button>
           </Card>
@@ -198,9 +192,7 @@ export default function Planner({
       </div>
       {error && (
         <p
-          {...stylex.props(
-            error.includes('บันทึก') ? feedbackStyles.success : feedbackStyles.error
-          )}
+          {...stylex.props(error.includes('บันทึก') ? feedbackStyles.success : feedbackStyles.error)}
           role="status"
         >
           {error}
