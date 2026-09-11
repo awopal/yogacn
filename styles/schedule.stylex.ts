@@ -3,14 +3,6 @@ import { boxShadow, colors, fontSize, radius, spacing } from './tokens.stylex';
 
 export const scheduleStyles = stylex.create({
   page: { padding: `0 ${spacing.page} ${spacing.page}`, minWidth: 0 },
-  head: {
-    alignItems: 'flex-end',
-    display: 'flex',
-    justifyContent: 'space-between',
-    gap: spacing.md,
-    marginBottom: spacing.lg,
-    '@media (max-width: 640px)': { alignItems: 'flex-start', flexDirection: 'column' },
-  },
   actions: {
     alignItems: 'center',
     display: 'flex',
@@ -25,30 +17,6 @@ export const scheduleStyles = stylex.create({
     '@media (max-width: 900px)': { gridTemplateColumns: 'repeat(2, minmax(0, 1fr))' },
     '@media (max-width: 520px)': { gridTemplateColumns: '1fr 1fr' },
   },
-  summaryCard: {
-    borderRadius: radius.card,
-    boxShadow: boxShadow.subtle,
-    padding: spacing.md,
-    minHeight: 112,
-  },
-  summaryLabel: {
-    color: colors.textMuted,
-    fontSize: fontSize.xs,
-    fontWeight: 800,
-    letterSpacing: '.06em',
-    textTransform: 'uppercase',
-  },
-  summaryValue: {
-    color: colors.primary,
-    display: 'block',
-    fontSize: fontSize.xl,
-    fontWeight: 800,
-    marginTop: spacing.sm,
-  },
-  summaryYellow: { backgroundColor: colors.tertiaryMuted },
-  summaryGreen: { backgroundColor: colors.healthyMuted },
-  summaryPurple: { backgroundColor: colors.secondaryMuted },
-  summaryPink: { backgroundColor: colors.accentSoft },
   filters: {
     alignItems: 'end',
     backgroundColor: colors.primarySoft,

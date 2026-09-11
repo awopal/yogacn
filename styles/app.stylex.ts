@@ -2,39 +2,6 @@ import * as stylex from '@stylexjs/stylex';
 import { boxShadow, colors, fontSize, radius, spacing } from './tokens.stylex';
 
 export const appStyles = stylex.create({
-  demoNotice: {
-    backgroundColor: colors.primary,
-    color: colors.healthy,
-    fontSize: fontSize.xs,
-    paddingBlock: spacing.sm,
-    paddingInline: spacing.md,
-    textAlign: 'center',
-  },
-  header: {
-    alignItems: 'center',
-    display: 'flex',
-    gap: spacing.lg,
-    justifyContent: 'space-between',
-    minHeight: 78,
-    paddingBlock: spacing.lg,
-    paddingInline: 'clamp(22px, 4vw, 64px)',
-    '@media (max-width: 640px)': { paddingInline: spacing.md },
-  },
-  nav: {
-    display: 'flex',
-    gap: spacing.sm,
-    '@media (max-width: 700px)': { gap: 2 },
-  },
-  navLink: {
-    borderRadius: radius.sm,
-    fontWeight: 700,
-    paddingBlock: spacing.sm,
-    paddingInline: spacing.md,
-    ':hover': {
-      backgroundColor: colors.surface,
-      fontWeight: 900,
-    },
-  },
   sidebar: {
     alignItems: 'center',
     backgroundColor: colors.primary,
@@ -150,34 +117,6 @@ export const appStyles = stylex.create({
     textAlign: 'left',
     margin: 0,
   },
-  brandMark: {
-    alignItems: 'center',
-    backgroundColor: colors.accent,
-    borderColor: colors.primary,
-    borderRadius: radius.pill,
-    borderStyle: 'solid',
-    borderWidth: 2,
-    display: 'grid',
-    justifyContent: 'center',
-    height: 40,
-    width: 40,
-  },
-  brandCluster: { alignItems: 'center', display: 'flex', gap: spacing.sm },
-  brand: {
-    alignItems: 'center',
-    display: 'flex',
-    fontSize: fontSize.lg,
-    fontWeight: 800,
-    gap: spacing.sm,
-    lineHeight: 1,
-  },
-  brandSmall: {
-    display: 'inline-block',
-    fontSize: fontSize.xs,
-    letterSpacing: '0.13em',
-    marginTop: spacing.xs,
-  },
-  accountActions: { alignItems: 'center', display: 'flex', gap: spacing.xs },
   profileMenuWrapper: {
     marginBottom: 0,
     paddingBottom: 0,
