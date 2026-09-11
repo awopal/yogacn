@@ -1,5 +1,5 @@
-export type PlanStatus = 'draft' | 'ready' | 'taught';
-export type Level = 'beginner' | 'all_levels' | 'intermediate' | 'advanced';
+export type PlanStatus = "draft" | "ready" | "taught";
+export type Level = "beginner" | "all_levels" | "intermediate" | "advanced";
 
 export type ClassPlan = {
   id: string;
@@ -9,6 +9,7 @@ export type ClassPlan = {
   plannedDurationMinutes: number;
   peakPose: string;
   status: PlanStatus;
+  isPublished: boolean;
   taughtCount: number;
   latestAdjustment?: string;
   lastTaughtAt: Date;
@@ -18,7 +19,7 @@ export type Student = {
   id: string;
   displayName: string;
   note: string;
-  status: 'active' | 'archived';
+  status: "active" | "archived";
 };
 
 export type SessionAttendance = {

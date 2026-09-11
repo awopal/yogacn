@@ -1,7 +1,66 @@
 import * as stylex from '@stylexjs/stylex';
-import { spacing } from './tokens.stylex';
+import { colors, radius, spacing } from './tokens.stylex';
 
 export const layoutStyles = stylex.create({
+  appFrame: {
+    backgroundColor: colors.pageBackground,
+    display: 'grid',
+    gridTemplateColumns: '88px minmax(0, 1fr)',
+    height: '100dvh',
+    minHeight: '100dvh',
+    maxHeight: '100dvh',
+    overflow: 'hidden',
+    padding: spacing.page,
+    gap: spacing.md,
+    '@media (max-width: 640px)': {
+      gridTemplateColumns: '88px minmax(0, 1fr)',
+      padding: spacing.sm,
+    },
+  },
+  main: {
+    display: 'flex',
+    flex: 1,
+    flexDirection: 'column',
+    minHeight: 0,
+    minWidth: 0,
+  },
+  appHeader: {
+    alignItems: 'center',
+    display: 'flex',
+    padding: spacing.page,
+  },
+  appHeaderTitle: {
+    alignItems: 'center',
+    display: 'flex',
+    gap: spacing.xs,
+  },
+  appHeaderDivider: { color: colors.textSubtle },
+  appHeaderMoonDay: {
+    alignItems: 'center',
+    borderRadius: radius.pill,
+    color: colors.primary,
+    display: 'inline-flex',
+    justifyContent: 'center',
+    padding: spacing.xs,
+  },
+  contentShell: {
+    backgroundColor: colors.background,
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    minHeight: 0,
+    borderRadius: radius.shell,
+    overflow: 'hidden',
+  },
+  contentArea: {
+    flex: 1,
+    minHeight: 0,
+    overflowX: 'hidden',
+    overflowY: 'auto',
+    overscrollBehavior: 'contain',
+    scrollbarColor: `${colors.secondary} transparent`,
+    scrollbarWidth: 'thin',
+  },
   row: { alignItems: 'center', display: 'flex', flexDirection: 'row', gap: spacing.sm },
   rowBetween: {
     alignItems: 'center',

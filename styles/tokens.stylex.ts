@@ -2,17 +2,28 @@ import * as stylex from '@stylexjs/stylex';
 
 export const colors = stylex.defineVars({
   primary: '#463366',
+  primarySoft: '#f4effa',
+  onPrimaryMuted: 'rgb(255 255 255 / 0.72)',
+  onPrimarySubtle: 'rgb(255 255 255 / 0.55)',
+  primaryOverlaySubtle: 'rgb(255 255 255 / 0.1)',
+  primaryOverlayFocus: 'rgb(255 255 255 / 0.16)',
+  primaryOverlayHover: 'rgb(255 255 255 / 0.18)',
   secondary: '#c9bae2',
+  secondaryMuted: '#eee8f7',
   tertiary: '#fbdd74',
+  tertiaryMuted: '#fff3c4',
   accent: '#ff6e6c',
+  accentSoft: '#fff0ed',
   text: '#1f1235',
   textMuted: 'rgb(27 20 37 / 0.65)',
+  textSubtle: 'rgb(27 20 37 / 0.46)',
   stroke: '#1f1235',
   background: '#ffffff',
+  pageBackground: '#f8f7fb',
   surface: '#ffe5e5',
   healthy: '#57bc68',
   healthyMuted: '#dff3e2',
-  danger: '#c94f5a'
+  danger: '#c94f5a',
 });
 
 export const fontSize = stylex.defineVars({
@@ -21,7 +32,7 @@ export const fontSize = stylex.defineVars({
   md: '16px',
   lg: '20px',
   xl: '24px',
-  heading: '32px'
+  heading: '32px',
 });
 
 export const spacing = stylex.defineVars({
@@ -29,12 +40,25 @@ export const spacing = stylex.defineVars({
   sm: '8px',
   md: '16px',
   lg: '24px',
-  xl: '32px'
+  xl: '32px',
+  page: 'clamp(14px, 2vw, 28px)',
+  grid: 'clamp(14px, 2vw, 20px)',
 });
 
 export const radius = stylex.defineVars({
   sm: '4px',
   md: '8px',
   lg: '12px',
-  pill: '999px'
+  card: '24px',
+  shell: '30px',
+  pill: '999px',
+});
+
+export const boxShadow = stylex.defineVars({
+  none: 'none',
+  subtle: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1)',
+  sm: '0 2px 0 rgb(31 18 53 / 0.16)',
+  md: '0 4px 10px rgb(31 18 53 / 0.16)',
+  lg: '0 8px 20px rgb(31 18 53 / 0.18)',
+  moonGlow: '0 0 0 4px rgb(251 221 116 / 0.18), 0 0 18px rgb(251 221 116 / 0.58)',
 });

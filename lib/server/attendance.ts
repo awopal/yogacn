@@ -1,5 +1,11 @@
 import type { SessionAttendance, Student } from '../types';
 
+export type AttendanceSummary = {
+  activeStudents: number;
+  uniqueStudents: number;
+  totalVisits: number;
+};
+
 export const getRecentAttendance = (attendance: SessionAttendance[]) =>
   [...attendance].sort((a, b) => b.attendedAt.localeCompare(a.attendedAt));
 
