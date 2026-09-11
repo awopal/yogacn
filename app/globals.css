@@ -44,3 +44,95 @@ textarea,
 select {
   font: inherit;
 }
+
+.fc {
+  --fc-border-color: rgb(70 51 102 / 0.14);
+  --fc-today-bg-color: rgb(251 221 116 / 0.16);
+  --fc-page-bg-color: #fff;
+  --fc-neutral-bg-color: #f8f7fb;
+  --fc-button-bg-color: #463366;
+  --fc-button-border-color: #463366;
+  --fc-button-hover-bg-color: #5b4480;
+  --fc-button-hover-border-color: #5b4480;
+  --fc-button-active-bg-color: #ff6e6c;
+  --fc-button-active-border-color: #ff6e6c;
+  color: #1f1235;
+  font-family: var(--font-commit-mono), ui-monospace, monospace;
+}
+
+.fc .fc-toolbar {
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.fc .fc-toolbar-title {
+  color: #463366;
+  font-size: 20px;
+}
+.fc .fc-button {
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 800;
+}
+.fc .fc-button:focus,
+.fc .fc-button:focus-visible,
+.fc .fc-button-active:focus,
+.fc .fc-button-active:focus-visible {
+  box-shadow: none !important;
+  outline: none !important;
+}
+.fc .fc-button-primary:not(:disabled):active:focus,
+.fc .fc-button-primary:not(:disabled).fc-button-active:focus,
+.fc .fc-button-primary:not(:disabled):active:focus-visible,
+.fc .fc-button-primary:not(:disabled).fc-button-active:focus-visible {
+  box-shadow: none !important;
+  outline: none !important;
+}
+.fc .fc-timegrid-axis-cushion {
+  font-size: 12px;
+  white-space: nowrap;
+}
+.fc .fc-event {
+  border: 0;
+  border-radius: 5px;
+  padding: 2px 4px;
+}
+.fc .fc-event.status-cancelled {
+  opacity: 0.58;
+  text-decoration: line-through;
+}
+.fc .fc-event.status-no-show {
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgb(255 255 255 / 0.2) 0 4px,
+    transparent 4px 8px
+  );
+}
+.schedule-event-content {
+  display: grid;
+  gap: 2px;
+  overflow: hidden;
+  font-size: 11px;
+  line-height: 1.25;
+}
+.schedule-event-content strong,
+.schedule-event-content span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.schedule-event-content span {
+  opacity: 0.9;
+}
+@media (max-width: 640px) {
+  .fc .fc-toolbar-title {
+    font-size: 16px;
+  }
+  .fc .fc-toolbar-chunk {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .fc .fc-button {
+    padding: 4px 6px;
+  }
+}
