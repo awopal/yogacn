@@ -31,6 +31,7 @@ test-results/
 
 # OS/editor files
 .DS_Store
+.zed/settings.json
 .zed/worktrees/
 *.swp
 *.swo
