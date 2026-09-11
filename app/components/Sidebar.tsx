@@ -12,8 +12,8 @@ import { Button } from '@/components/ui/button';
 
 const items = [
   { href: '/dashboard', label: 'Dashboard', Icon: Home },
-  { href: '/classes', label: 'Classes', Icon: CalendarDays },
   { href: '/schedule', label: 'Class Schedule', Icon: CalendarRange },
+  { href: '/classes', label: 'Classes', Icon: CalendarDays },
   { href: '/students', label: 'Student notes', Icon: UsersRound },
 ];
 
