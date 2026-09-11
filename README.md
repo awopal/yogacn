@@ -61,6 +61,41 @@ pnpm build     # Create a production build
 
 The primary action color is available through `bg-primary`, `text-primary`, and related Tailwind utilities. Its value is `#57bc68`.
 
+## Moon Days API
+
+`GET /api/moon-days` returns the astronomical New Moon and Full Moon moments for a calendar year. It uses `astronomy-engine` phase searches, so the results are based on the actual phase event time rather than an illumination estimate.
+
+Query parameters:
+
+- `year` — optional integer from `1` to `9999`; defaults to the current UTC year.
+- `timezone` — optional IANA timezone; defaults to `Asia/Bangkok`.
+
+Example:
+
+```bash
+curl "http://localhost:3000/api/moon-days?year=2026&timezone=Asia%2FBangkok"
+```
+
+The response contains `year`, `timezone`, and a chronologically sorted `moonDays` array:
+
+```json
+{
+  "year": 2026,
+  "timezone": "Asia/Bangkok",
+  "moonDays": [
+    {
+      "type": "new_moon",
+      "eventTimeUtc": "2026-01-18T19:52:00.000Z",
+      "eventTimeLocal": "2026-01-19T02:52:00+07:00",
+      "localDate": "2026-01-19",
+      "timezone": "Asia/Bangkok"
+    }
+  ]
+}
+```
+
+The API returns astronomical event dates only. Which dates count as Ashtanga practice holidays can vary by lineage and location, so Moon Day observance should remain a separate business rule.
+
 ## Intentional MVP limitations
 
 The planner uses accessible move-up and move-down controls instead of drag-and-drop. Wake lock depends on browser support. Nested Supabase plan writes currently use multiple statements; a production phase should move them into a database transaction/RPC and add end-to-end tests against local Supabase. Full duplication works in demo mode, while Supabase duplication is reserved for the next phase. Booking, payments, memberships, marketplaces, and AI-generated sequences remain out of scope.
