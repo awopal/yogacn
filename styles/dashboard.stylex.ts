@@ -234,6 +234,7 @@ export const dashboardStyles = stylex.create({
     gridTemplateColumns: 'minmax(0, 1fr) auto auto',
     height: 84,
     padding: spacing.md,
+    ':nth-child(odd)': { backgroundColor: colors.secondaryMutedLight },
     '@media (max-width: 640px)': { gridTemplateColumns: 'minmax(0, 1fr) auto' },
   },
   dashboardWelcome: {

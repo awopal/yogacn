@@ -4,6 +4,7 @@ export const colors = stylex.defineVars({
   primary: '#463366',
   secondary: '#c9bae2',
   secondaryMuted: '#eee8f7',
+  secondaryMutedLight: '#f6f3fb',
   tertiary: '#fbdd74',
   tertiaryMuted: '#fff3c4',
   accent: '#ff6e6c',
