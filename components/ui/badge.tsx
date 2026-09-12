@@ -1,27 +1,26 @@
-import * as React from "react";
-import { cn } from "@/lib/utils";
-import * as stylex from "@stylexjs/stylex";
-import { colors, radius, spacing, fontSize } from "../../styles/tokens.stylex";
+import * as React from 'react';
+import { cn } from '@/lib/utils';
+import * as stylex from '@stylexjs/stylex';
+import { colors, radius, spacing, fontSize, fontWeight } from '../../styles/tokens.stylex';
 
-export type BadgeVariant =
-  "default" | "draft" | "ready" | "taught" | "published" | "private";
+export type BadgeVariant = 'default' | 'draft' | 'ready' | 'taught' | 'published' | 'private';
 
 const styles = stylex.create({
   badge: {
     backgroundColor: colors.secondary,
     borderColor: colors.primary,
     borderRadius: radius.pill,
-    borderStyle: "solid",
+    borderStyle: 'solid',
     borderWidth: 1,
-    display: "inline-flex",
+    display: 'inline-flex',
     fontSize: fontSize.xs,
-    fontWeight: 700,
+    fontWeight: fontWeight.semibold,
     paddingBlock: spacing.xs,
     paddingInline: spacing.sm,
     color: colors.primary,
   },
   draft: {
-    backgroundColor: colors.surface,
+    backgroundColor: colors.accentMuted,
   },
   ready: {
     backgroundColor: colors.healthyMuted,
@@ -35,18 +34,15 @@ const styles = stylex.create({
 
 export function Badge({
   className,
-  variant = "default",
+  variant = 'default',
   ...props
 }: React.HTMLAttributes<HTMLSpanElement> & { variant?: BadgeVariant }) {
-  const styleProps = stylex.props(
-    styles.badge,
-    variant === "default" ? null : styles[variant],
-  );
+  const styleProps = stylex.props(styles.badge, variant === 'default' ? null : styles[variant]);
 
   return (
     <span
       {...styleProps}
-      className={cn("badge", variant, styleProps.className, className)}
+      className={cn('badge', variant, styleProps.className, className)}
       {...props}
     />
   );

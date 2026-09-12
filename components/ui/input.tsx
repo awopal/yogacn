@@ -6,10 +6,10 @@ import { colors, fontSize, radius, spacing } from '../../styles/tokens.stylex';
 const inputStyles = stylex.create({
   input: {
     backgroundColor: colors.background,
-    borderColor: colors.primary,
+    borderColor: colors.secondary,
     borderRadius: radius.sm,
     borderStyle: 'solid',
-    borderWidth: 2,
+    borderWidth: 1,
     color: colors.text,
     fontSize: fontSize.sm,
     minHeight: 42,
@@ -20,10 +20,9 @@ const inputStyles = stylex.create({
     transitionProperty: 'border-color, box-shadow, background-color',
     transitionTimingFunction: 'ease-out',
     width: '100%',
-    ':hover': { borderColor: colors.primary },
     ':focus': {
       borderColor: colors.primary,
-      boxShadow: `0 0 0 3px ${colors.primarySoft}`,
+      boxShadow: `0 0 0 3px ${colors.secondaryMuted}`,
     },
     ':disabled': {
       backgroundColor: colors.pageBackground,
@@ -36,7 +35,7 @@ const inputStyles = stylex.create({
   },
   invalid: {
     borderColor: colors.danger,
-    boxShadow: `0 0 0 3px ${colors.accentSoft}`,
+    boxShadow: `0 0 0 3px ${colors.accentMuted}`,
   },
   readOnly: { backgroundColor: colors.pageBackground },
 });

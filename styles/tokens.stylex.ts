@@ -2,25 +2,17 @@ import * as stylex from '@stylexjs/stylex';
 
 export const colors = stylex.defineVars({
   primary: '#463366',
-  primarySoft: '#f4effa',
-  onPrimaryMuted: 'rgb(255 255 255 / 0.72)',
-  onPrimarySubtle: 'rgb(255 255 255 / 0.55)',
-  primaryOverlaySubtle: 'rgb(255 255 255 / 0.1)',
-  primaryOverlayFocus: 'rgb(255 255 255 / 0.16)',
-  primaryOverlayHover: 'rgb(255 255 255 / 0.18)',
   secondary: '#c9bae2',
   secondaryMuted: '#eee8f7',
   tertiary: '#fbdd74',
   tertiaryMuted: '#fff3c4',
   accent: '#ff6e6c',
-  accentSoft: '#fff0ed',
+  accentMuted: '#ffe5e5',
   text: '#1f1235',
-  textMuted: 'rgb(27 20 37 / 0.65)',
-  textSubtle: 'rgb(27 20 37 / 0.46)',
+  textMuted: '#1B1425A6',
   stroke: '#1f1235',
   background: '#ffffff',
   pageBackground: '#f8f7fb',
-  surface: '#ffe5e5',
   healthy: '#57bc68',
   healthyMuted: '#dff3e2',
   danger: '#c94f5a',
@@ -61,4 +53,12 @@ export const boxShadow = stylex.defineVars({
   md: '0 4px 10px rgb(31 18 53 / 0.16)',
   lg: '0 8px 20px rgb(31 18 53 / 0.18)',
   moonGlow: '0 0 0 4px rgb(251 221 116 / 0.18), 0 0 18px rgb(251 221 116 / 0.58)',
+});
+
+export const fontWeight = stylex.defineVars({
+  light: 300,
+  normal: 400,
+  medium: 500,
+  semibold: 700,
+  bold: 900,
 });

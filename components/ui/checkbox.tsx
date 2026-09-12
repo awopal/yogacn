@@ -26,12 +26,12 @@ const styles = stylex.create({
     transitionTimingFunction: 'ease-out',
     width: 18,
     ':hover': {
-      backgroundColor: colors.primarySoft,
+      backgroundColor: colors.secondaryMuted,
       borderColor: colors.primary,
     },
     ':focus-visible': {
       borderColor: colors.primary,
-      outline: `2px solid ${colors.primarySoft}`,
+      outline: `2px solid ${colors.secondaryMuted}`,
       outlineOffset: 1,
     },
     ':disabled': { cursor: 'not-allowed', opacity: 0.55 },

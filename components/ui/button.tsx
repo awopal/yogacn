@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Slot } from 'radix-ui';
 import { cn } from '@/lib/utils';
 import * as stylex from '@stylexjs/stylex';
-import { colors, fontSize, radius, spacing } from '../../styles/tokens.stylex';
+import { colors, fontSize, fontWeight, radius, spacing } from '../../styles/tokens.stylex';
 
 const styles = stylex.create({
   button: {
@@ -15,7 +15,7 @@ const styles = stylex.create({
     borderWidth: 2,
     cursor: 'pointer',
     display: 'inline-flex',
-    fontWeight: 900,
+    fontWeight: fontWeight.bold,
     gap: spacing.sm,
     justifyContent: 'center',
     minHeight: 60,
@@ -45,6 +45,7 @@ const styles = stylex.create({
     color: colors.primary,
     textDecoration: 'underline',
   },
+  noPadding: { paddingBlock: 0, paddingInline: 0 },
   xs: {
     fontSize: fontSize.xs,
     minHeight: 24,
@@ -72,15 +73,27 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   variant?: ButtonVariant;
   size?: ButtonSize;
   asChild?: boolean;
+  noPadding?: boolean;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = 'default', size = 'default', asChild = false, ...props }, ref) => {
+  (
+    {
+      className,
+      variant = 'default',
+      size = 'default',
+      asChild = false,
+      noPadding = false,
+      ...props
+    },
+    ref,
+  ) => {
     const Comp = asChild ? Slot.Root : 'button';
     const styleProps = stylex.props(
       styles.button,
       variant !== 'default' && styles[variant],
       size !== 'default' && styles[size],
+      noPadding && styles.noPadding,
     );
     return (
       <Comp

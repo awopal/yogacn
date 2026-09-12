@@ -7,7 +7,7 @@ import { DayPicker } from 'react-day-picker';
 import { Popover } from 'radix-ui';
 import * as stylex from '@stylexjs/stylex';
 import { cn } from '@/lib/utils';
-import { colors, fontSize, radius, spacing } from '../../styles/tokens.stylex';
+import { colors, fontSize, fontWeight, radius, spacing } from '../../styles/tokens.stylex';
 
 const styles = stylex.create({
   trigger: {
@@ -22,7 +22,7 @@ const styles = stylex.create({
     display: 'inline-flex',
     fontSize: fontSize.sm,
     fontFamily: 'CommitMono, ui-monospace, monospace',
-    fontWeight: 400,
+    fontWeight: fontWeight.normal,
     gap: spacing.sm,
     justifyContent: 'space-between',
     minHeight: 38,
@@ -30,10 +30,10 @@ const styles = stylex.create({
     paddingInline: spacing.sm,
     textAlign: 'left',
     width: '100%',
-    ':hover': { backgroundColor: colors.primarySoft },
+    ':hover': { backgroundColor: colors.secondaryMuted },
     ':focus-visible': {
       borderColor: colors.primary,
-      outline: `2px solid ${colors.primarySoft}`,
+      outline: `2px solid ${colors.secondaryMuted}`,
       outlineOffset: 1,
     },
   },
@@ -58,8 +58,8 @@ const styles = stylex.create({
     justifyContent: 'flex-end',
     paddingTop: spacing.sm,
   },
-  timeLabel: { color: colors.textMuted, fontSize: fontSize.xs, fontWeight: 700 },
-  timeSeparator: { color: colors.text, fontWeight: 700 },
+  timeLabel: { color: colors.textMuted, fontSize: fontSize.xs, fontWeight: fontWeight.semibold },
+  timeSeparator: { color: colors.text, fontWeight: fontWeight.semibold },
   timeControl: { position: 'relative' },
   timeToggle: {
     alignItems: 'center',
@@ -73,15 +73,15 @@ const styles = stylex.create({
     display: 'inline-flex',
     fontFamily: 'CommitMono, ui-monospace, monospace',
     fontSize: fontSize.sm,
-    fontWeight: 400,
+    fontWeight: fontWeight.normal,
     gap: spacing.xs,
     minHeight: 34,
     paddingBlock: spacing.xs,
     paddingInline: spacing.sm,
-    ':hover': { backgroundColor: colors.primarySoft },
+    ':hover': { backgroundColor: colors.secondaryMuted },
     ':focus-visible': {
       borderColor: colors.primary,
-      outline: `2px solid ${colors.primarySoft}`,
+      outline: `2px solid ${colors.secondaryMuted}`,
       outlineOffset: 1,
     },
   },
@@ -116,15 +116,15 @@ const styles = stylex.create({
     cursor: 'pointer',
     fontFamily: 'CommitMono, ui-monospace, monospace',
     fontSize: fontSize.sm,
-    fontWeight: 400,
+    fontWeight: fontWeight.normal,
     minHeight: 32,
     paddingInline: spacing.sm,
-    ':hover': { backgroundColor: colors.primarySoft },
+    ':hover': { backgroundColor: colors.secondaryMuted },
   },
   timeOptionSelected: {
     backgroundColor: colors.primary,
     color: colors.background,
-    fontWeight: 700,
+    fontWeight: fontWeight.semibold,
     ':hover': { backgroundColor: colors.primary },
   },
 });

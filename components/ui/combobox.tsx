@@ -23,12 +23,12 @@ const styles = stylex.create({
     width: '100%',
     ':focus-within': {
       borderColor: colors.primary,
-      boxShadow: `0 0 0 3px ${colors.primarySoft}`,
+      boxShadow: `0 0 0 3px ${colors.secondaryMuted}`,
     },
   },
   chip: {
     alignItems: 'center',
-    backgroundColor: colors.primarySoft,
+    backgroundColor: colors.secondaryMuted,
     borderRadius: radius.sm,
     color: colors.primary,
     display: 'inline-flex',
@@ -86,7 +86,7 @@ const styles = stylex.create({
     width: '100%',
     ':focus': {
       borderColor: colors.primary,
-      boxShadow: `0 0 0 3px ${colors.primarySoft}`,
+      boxShadow: `0 0 0 3px ${colors.secondaryMuted}`,
     },
   },
   trigger: {
@@ -102,7 +102,7 @@ const styles = stylex.create({
     margin: 0,
     padding: 0,
     position: 'absolute',
-    right: spacing.xs,
+    right: spacing.md,
     width: 18,
     height: 18,
     ':focus': { outline: 'none' },
@@ -136,13 +136,13 @@ const styles = stylex.create({
     paddingInline: spacing.md,
     textAlign: 'left',
     width: '100%',
-    ':hover': { backgroundColor: colors.primarySoft },
+    ':hover': { backgroundColor: colors.secondaryMuted },
     ':focus-visible': {
-      backgroundColor: colors.primarySoft,
+      backgroundColor: colors.secondaryMuted,
       outline: `2px solid ${colors.primary}`,
       outlineOffset: -2,
     },
-    ':where([data-highlighted])': { backgroundColor: colors.primarySoft },
+    ':where([data-highlighted])': { backgroundColor: colors.secondaryMuted },
   },
   itemIndicator: { color: colors.text, display: 'inline-flex' },
   empty: {
@@ -339,6 +339,6 @@ export const comboboxStyles = stylex.create({
     paddingInline: spacing.md,
     textAlign: 'left',
     width: '100%',
-    ':hover': { backgroundColor: colors.primarySoft },
+    ':hover': { backgroundColor: colors.secondaryMuted },
   },
 });

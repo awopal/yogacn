@@ -1,6 +1,8 @@
+@layer reset;
+
 @font-face {
-  font-family: 'CommitMono';
-  src: url('/fonts/CommitMono-400-Regular.otf') format('opentype');
+  font-family: "CommitMono";
+  src: url("/fonts/CommitMono-400-Regular.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -8,20 +10,22 @@
 
 @stylex;
 @font-face {
-  font-family: 'CommitMono';
-  src: url('/fonts/CommitMono-700-Regular.otf') format('opentype');
+  font-family: "CommitMono";
+  src: url("/fonts/CommitMono-700-Regular.otf") format("opentype");
   font-weight: 700 800;
   font-style: normal;
   font-display: swap;
 }
 
 :root {
-  --font-commit-mono: 'CommitMono', ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-family: var(--font-commit-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-commit-mono:
+    "CommitMono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-family:
+    var(--font-commit-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 :root {
-  --primary: '#463366';
+  --primary: "#463366";
 }
 
 * {
@@ -47,9 +51,11 @@ body {
   min-width: 320px;
 }
 
-a {
-  text-decoration: none;
-  color: var(--primary);
+@layer reset {
+  a {
+    text-decoration: none;
+    color: var(--primary);
+  }
 }
 
 button,
@@ -59,7 +65,74 @@ select {
   font: inherit;
 }
 
-[data-slot='date-picker-trigger'] {
+[data-slot="input"][type="search"] {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+[data-slot="input"][type="search"]::-webkit-search-cancel-button,
+[data-slot="input"][type="search"]::-webkit-search-decoration {
+  appearance: none;
+  -webkit-appearance: none;
+  display: none;
+}
+
+button[data-slot="tabs-trigger"]:hover {
+  font-weight: 600;
+  color: #463366;
+}
+
+button[data-slot="tabs-trigger"][data-state="active"] {
+  font-weight: 600;
+}
+
+.class-skeleton-copy {
+  display: grid;
+  gap: 8px;
+}
+
+.class-skeleton-title {
+  height: 18px;
+  width: min(240px, 70%);
+}
+
+.class-skeleton-meta {
+  height: 14px;
+  width: min(320px, 90%);
+}
+
+.class-skeleton-badge {
+  border-radius: 999px;
+  height: 28px;
+  width: 68px;
+}
+
+.class-skeleton-action {
+  height: 18px;
+  width: 76px;
+}
+
+.tab-loading-icon {
+  animation: tab-loading-spin 2s linear infinite;
+}
+
+@keyframes tab-loading-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes skeleton-pulse {
+  0%,
+  100% {
+    opacity: 0.58;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+[data-slot="date-picker-trigger"] {
   font-family: var(--font-commit-mono), ui-monospace, monospace !important;
   font-weight: 400 !important;
 }
