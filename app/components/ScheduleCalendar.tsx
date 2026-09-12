@@ -58,7 +58,6 @@ import {
 } from '@/lib/stores/schedule-store';
 import { colors } from '@/styles/tokens.stylex';
 import {
-  MoonDayIndicator,
   MoonDayIcon,
   type MoonDay,
   type MoonDayType,
@@ -128,19 +127,26 @@ export default function ScheduleCalendar() {
   );
 
   const loadMoonDays = async (arg: DatesSetArg) => {
-    if (arg.view.type !== 'dayGridMonth') return;
-    const selectedMonth = arg.view.currentStart;
-    const year = selectedMonth.getFullYear();
-    const month = String(selectedMonth.getMonth() + 1).padStart(2, '0');
-    const response = await fetch(`/api/moon-days?year=${year}&timezone=Asia%2FBangkok`);
-    const data = response.ok ? ((await response.json()) as { moonDays?: MoonDay[] }) : null;
+    const firstYear = arg.start.getFullYear();
+    const lastYear = new Date(arg.end.getTime() - 1).getFullYear();
+    const years = Array.from(
+      { length: lastYear - firstYear + 1 },
+      (_, index) => firstYear + index,
+    );
+    const responses = await Promise.all(
+      years.map((year) =>
+        fetch(`/api/moon-days?year=${year}&timezone=Asia%2FBangkok`).then((response) =>
+          response.ok ? (response.json() as Promise<{ moonDays?: MoonDay[] }>) : null,
+        ),
+      ),
+    );
     const nextMoonDays: Record<string, MoonDayType> = {};
-    data?.moonDays?.forEach((moonDay) => {
-      if (moonDay.localDate.startsWith(`${year}-${month}-`)) {
+    responses.forEach((data) => {
+      data?.moonDays?.forEach((moonDay) => {
         nextMoonDays[moonDay.localDate] = moonDay.type;
-      }
+      });
     });
-    setMoonDays(nextMoonDays);
+    setMoonDays((current) => ({ ...current, ...nextMoonDays }));
   };
 
   const summary = useMemo(() => {
@@ -467,15 +473,17 @@ export default function ScheduleCalendar() {
             }}
             dayHeaderContent={(arg) => {
               const isListView = arg.view.type.startsWith('list');
+              const dateKey = arg.date.toLocaleDateString('en-CA');
+              const moonDayType = moonDays[dateKey];
               const showMoonDayIcon =
-                arg.isToday &&
+                Boolean(moonDayType) &&
                 (isListView || arg.view.type === 'timeGridDay' || arg.view.type === 'timeGridWeek');
 
               if (isListView) {
                 return (
                   <span className="schedule-list-day-header">
                     <span className="schedule-list-day-title">
-                      {showMoonDayIcon && <MoonDayIndicator />}
+                      {showMoonDayIcon && <MoonDayIcon type={moonDayType} />}
                       <span>{arg.text}</span>
                     </span>
                     <span>{arg.sideText}</span>
@@ -485,7 +493,7 @@ export default function ScheduleCalendar() {
 
               return (
                 <span className="schedule-list-day-title">
-                  {showMoonDayIcon && <MoonDayIndicator />}
+                  {showMoonDayIcon && <MoonDayIcon type={moonDayType} />}
                   <span>{arg.text}</span>
                 </span>
               );

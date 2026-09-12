@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Moon } from 'lucide-react';
+import { Moon, Sun } from 'lucide-react';
 import * as stylex from '@stylexjs/stylex';
 import { layoutStyles } from '@/styles/layout.stylex';
 import { appStyles } from '@/styles/app.stylex';
@@ -30,7 +30,7 @@ function getTodayInTimezone() {
   return { localDate, year: Number(localDate.slice(0, 4)) };
 }
 
-export function MoonDayIndicator() {
+export function MoonDayIndicator({ hideWhenNotMoonDay = false }: { hideWhenNotMoonDay?: boolean }) {
   const [moonDayType, setMoonDayType] = useState<MoonDayType | null>(null);
 
   useEffect(() => {
@@ -81,13 +81,15 @@ export function MoonDayIndicator() {
         ? 'Full Moon Day'
         : null;
 
+  if (hideWhenNotMoonDay && !moonDayType) return null;
+
   return (
     <span
       {...stylex.props(layoutStyles.appHeaderMoonDay)}
       aria-label={moonDayLabel ?? undefined}
       title={moonDayLabel ?? undefined}
     >
-      <MoonDayIcon type={moonDayType} />
+      {moonDayType ? <MoonDayIcon type={moonDayType} /> : <Sun size={16} aria-hidden="true" />}
     </span>
   );
 }
