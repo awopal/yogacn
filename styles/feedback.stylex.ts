@@ -6,13 +6,13 @@ export const feedbackStyles = stylex.create({
     backgroundColor: colors.healthyMuted,
     borderRadius: radius.sm,
     marginBlock: 0,
-    padding: spacing.sm
+    padding: spacing.sm,
   },
   error: {
-    backgroundColor: colors.surface,
+    backgroundColor: colors.accentMuted,
     borderRadius: radius.sm,
     color: colors.danger,
     marginBlock: 0,
-    padding: spacing.sm
-  }
+    padding: spacing.sm,
+  },
 });

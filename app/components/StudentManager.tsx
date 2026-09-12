@@ -40,7 +40,7 @@ export default function StudentManager({ initialStudents }: { initialStudents: S
         ＋ Add student
       </Button>
       {open && (
-        <form {...stylex.props(ui.surface)} className="add-form" onSubmit={addStudent}>
+        <form {...stylex.props(ui.accentMuted)} className="add-form" onSubmit={addStudent}>
           <label {...stylex.props(formStyles.field)}>
             <span {...stylex.props(formStyles.label)}>Display name</span>
             <Input

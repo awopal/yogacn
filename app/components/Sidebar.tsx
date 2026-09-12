@@ -2,22 +2,21 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { CalendarDays, CalendarRange, Home, LogOut, UserRound, UsersRound } from 'lucide-react';
+import { CalendarDays, Home, LogOut, UserRound, UsersRound, LibraryBig } from 'lucide-react';
 import * as stylex from '@stylexjs/stylex';
-import { YogaLogoIcon } from '@/components/icons';
+import { BookIcon, YogaLogoIcon } from '@/components/icons';
 import { appStyles } from '@/styles/app.stylex';
 import { colors } from '@/styles/tokens.stylex';
-import ProfileMenu from './ProfileMenu';
 import { Button } from '@/components/ui/button';
 
 const items = [
   { href: '/dashboard', label: 'Dashboard', Icon: Home },
-  { href: '/schedule', label: 'Class Schedule', Icon: CalendarRange },
-  { href: '/classes', label: 'Classes', Icon: CalendarDays },
+  { href: '/schedule', label: 'Class Schedule', Icon: CalendarDays },
+  { href: '/classes', label: 'Classes', Icon: LibraryBig },
   { href: '/students', label: 'Student notes', Icon: UsersRound },
 ];
 
-export default function Sidebar({ logoutAction }: { logoutAction: () => Promise<void> }) {
+export default function Sidebar() {
   const pathname = usePathname();
 
   return (
@@ -47,7 +46,6 @@ export default function Sidebar({ logoutAction }: { logoutAction: () => Promise<
                 <Icon
                   {...stylex.props(isActive ? appStyles.sidebarIconActive : appStyles.sidebarIcon)}
                   size={24}
-                  stroke={isActive ? colors.primary : colors.onPrimaryMuted}
                   aria-hidden="true"
                 />
               </Link>

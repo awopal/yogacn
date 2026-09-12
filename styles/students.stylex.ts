@@ -3,7 +3,7 @@ import { colors, radius, spacing } from './tokens.stylex';
 
 export const studentsStyles = stylex.create({
   privacy: {
-    backgroundColor: colors.surface,
+    backgroundColor: colors.accentMuted,
     borderRadius: radius.lg,
     marginBottom: spacing.lg,
     paddingBlock: spacing.md,

@@ -1,14 +1,14 @@
-import Link from "next/link";
-import * as stylex from "@stylexjs/stylex";
-import type { ClassPlan } from "../../../lib/types";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { PencilLineIcon } from "@/components/icons";
-import { colors } from "@/styles/tokens.stylex";
-import { dashboardStyles } from "@/styles/dashboard.stylex";
-import { pageStyles } from "@/styles/page.stylex";
-import { typographyStyles } from "@/styles/typography.stylex";
-import { levelLabel, statusLabel } from "../../../lib/utils";
+import Link from 'next/link';
+import * as stylex from '@stylexjs/stylex';
+import type { ClassPlan } from '../../../lib/types';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { PencilLineIcon } from '@/components/icons';
+import { colors } from '@/styles/tokens.stylex';
+import { dashboardStyles } from '@/styles/dashboard.stylex';
+import { pageStyles } from '@/styles/page.stylex';
+import { typographyStyles } from '@/styles/typography.stylex';
+import { levelLabel, statusLabel } from '../../../lib/utils';
 
 export function RecentlyTaughtSection({ plans }: { plans: ClassPlan[] }) {
   return (
@@ -22,18 +22,14 @@ export function RecentlyTaughtSection({ plans }: { plans: ClassPlan[] }) {
             <div {...stylex.props(dashboardStyles.planTop)}>
               <Badge variant={plan.status}>{statusLabel[plan.status]}</Badge>
               <div {...stylex.props(dashboardStyles.taughtMeta)}>
-                <span {...stylex.props(typographyStyles.muted)}>
-                  Taught {plan.taughtCount} times
-                </span>
+                {plan.taughtCount >= 1 && (
+                  <span {...stylex.props(typographyStyles.muted)}>
+                    Taught {plan.taughtCount} times
+                  </span>
+                )}
                 <br />
-                <span
-                  {...stylex.props(
-                    typographyStyles.muted,
-                    typographyStyles.caption,
-                  )}
-                >
-                  last at{" "}
-                  {new Date(plan.lastTaughtAt).toLocaleDateString("en-US")}
+                <span {...stylex.props(typographyStyles.muted, typographyStyles.caption)}>
+                  last at {new Date(plan.lastTaughtAt).toLocaleDateString('en-US')}
                 </span>
               </div>
             </div>
@@ -44,13 +40,11 @@ export function RecentlyTaughtSection({ plans }: { plans: ClassPlan[] }) {
               <span>•</span>
               <span>{levelLabel[plan.level]}</span>
               <span>•</span>
-              <span>{plan.peakPose || "—"}</span>
+              <span>{plan.peakPose || '—'}</span>
             </div>
             {plan.latestAdjustment && (
               <div {...stylex.props(dashboardStyles.adjustment)}>
-                <strong {...stylex.props(dashboardStyles.adjustmentTitle)}>
-                  Adjust next time
-                </strong>
+                <strong {...stylex.props(dashboardStyles.adjustmentTitle)}>Adjust next time</strong>
                 <span>{plan.latestAdjustment}</span>
               </div>
             )}
@@ -65,9 +59,7 @@ export function RecentlyTaughtSection({ plans }: { plans: ClassPlan[] }) {
                 </Link>
               </Button>
               <Button variant="ghost" asChild>
-                <Link href={`/classes/${plan.id}/teach`}>
-                  Open Teaching Mode →
-                </Link>
+                <Link href={`/classes/${plan.id}/teach`}>Open Teaching Mode →</Link>
               </Button>
             </div>
           </article>

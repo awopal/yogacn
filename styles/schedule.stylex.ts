@@ -1,5 +1,5 @@
 import * as stylex from '@stylexjs/stylex';
-import { boxShadow, colors, fontSize, radius, spacing } from './tokens.stylex';
+import { boxShadow, colors, fontSize, fontWeight, radius, spacing } from './tokens.stylex';
 
 export const scheduleStyles = stylex.create({
   page: { padding: `0 ${spacing.page} ${spacing.page}`, minWidth: 0 },
@@ -19,7 +19,7 @@ export const scheduleStyles = stylex.create({
   },
   filters: {
     alignItems: 'end',
-    backgroundColor: colors.primarySoft,
+    backgroundColor: colors.secondaryMuted,
     borderRadius: radius.card,
     display: 'flex',
     flexWrap: 'wrap',
@@ -28,7 +28,7 @@ export const scheduleStyles = stylex.create({
     padding: spacing.md,
   },
   filter: { display: 'grid', gap: spacing.xs, minWidth: 140, flex: '1 1 140px' },
-  filterLabel: { color: colors.primary, fontSize: fontSize.xs, fontWeight: 800 },
+  filterLabel: { color: colors.primary, fontSize: fontSize.xs, fontWeight: fontWeight.bold },
   input: {
     backgroundColor: colors.background,
     borderColor: colors.secondary,
@@ -47,7 +47,7 @@ export const scheduleStyles = stylex.create({
     borderStyle: 'solid',
     borderWidth: 1,
     boxShadow: boxShadow.subtle,
-    minHeight: 600,
+    minHeight: fontWeight.semibold,
     overflow: 'hidden',
     padding: spacing.md,
     '@media (max-width: 640px)': { minHeight: 520, padding: spacing.sm },
@@ -82,7 +82,7 @@ export const scheduleStyles = stylex.create({
   formGridSpaced: { marginTop: spacing.sm },
   full: { gridColumn: '1 / -1' },
   field: { display: 'grid', gap: spacing.xs },
-  fieldLabel: { color: colors.textMuted, fontSize: fontSize.sm, fontWeight: 700 },
+  fieldLabel: { color: colors.textMuted, fontSize: fontSize.sm, fontWeight: fontWeight.semibold },
   modalActions: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -101,7 +101,7 @@ export const scheduleStyles = stylex.create({
     textAlign: 'center',
   },
   error: {
-    backgroundColor: colors.accentSoft,
+    backgroundColor: colors.accentMuted,
     borderRadius: radius.md,
     color: colors.danger,
     marginBottom: spacing.md,

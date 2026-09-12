@@ -27,14 +27,15 @@ export const layoutStyles = stylex.create({
   appHeader: {
     alignItems: 'center',
     display: 'flex',
-    padding: spacing.page,
+    paddingBlock: '24px 16px',
+    paddingInline: spacing.page,
   },
   appHeaderTitle: {
     alignItems: 'center',
     display: 'flex',
-    gap: spacing.xs,
+    gap: spacing.sm,
   },
-  appHeaderDivider: { color: colors.textSubtle },
+  appHeaderDivider: { color: colors.textMuted },
   appHeaderMoonDay: {
     alignItems: 'center',
     borderRadius: radius.pill,
@@ -84,6 +85,12 @@ export const layoutStyles = stylex.create({
     justifyContent: 'flex-end',
   },
   column: { display: 'flex', flexDirection: 'column', gap: spacing.sm },
+  columnEnd: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: spacing.sm,
+    alignItems: 'end',
+  },
   center: { alignItems: 'center', display: 'flex', justifyContent: 'center' },
   wrap: { flexWrap: 'wrap' },
 });

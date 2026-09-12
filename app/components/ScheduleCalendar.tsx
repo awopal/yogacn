@@ -57,11 +57,7 @@ import {
   useScheduleStore,
 } from '@/lib/stores/schedule-store';
 import { colors } from '@/styles/tokens.stylex';
-import {
-  MoonDayIcon,
-  type MoonDay,
-  type MoonDayType,
-} from '@/components/MoonDayIndicator';
+import { MoonDayIcon, type MoonDay, type MoonDayType } from '@/components/MoonDayIndicator';
 
 const statusLabels: Record<ClassStatus, string> = {
   scheduled: 'Scheduled',
@@ -129,10 +125,7 @@ export default function ScheduleCalendar() {
   const loadMoonDays = async (arg: DatesSetArg) => {
     const firstYear = arg.start.getFullYear();
     const lastYear = new Date(arg.end.getTime() - 1).getFullYear();
-    const years = Array.from(
-      { length: lastYear - firstYear + 1 },
-      (_, index) => firstYear + index,
-    );
+    const years = Array.from({ length: lastYear - firstYear + 1 }, (_, index) => firstYear + index);
     const responses = await Promise.all(
       years.map((year) =>
         fetch(`/api/moon-days?year=${year}&timezone=Asia%2FBangkok`).then((response) =>
@@ -244,6 +237,7 @@ export default function ScheduleCalendar() {
     if (editingId) persist(classes.filter((item) => item.id !== editingId));
     closeDraft();
   };
+
   const updateCalendarEvent = (arg: EventChangeArg) => {
     const event = arg.event;
     if (!event.start || !event.end) return;
@@ -606,7 +600,7 @@ function ClassForm({
             </h2>
           </div>
           <Button variant="ghost" size="sm" onClick={onClose} aria-label="Close">
-            <X />
+            <X size={18} strokeWidth={2} color={colors.primary} aria-hidden="true" />
           </Button>
         </div>
         <div {...stylex.props(scheduleStyles.formGrid, scheduleStyles.formGridSpaced)}>
@@ -819,7 +813,7 @@ function NewStudentDialog({
             </h2>
           </div>
           <Button variant="ghost" size="sm" onClick={onClose} aria-label="Close">
-            <X />
+            <X size={18} strokeWidth={2} color={colors.primary} aria-hidden="true" />
           </Button>
         </div>
         <div {...stylex.props(scheduleStyles.formGrid)}>
@@ -862,7 +856,6 @@ function NewStudentDialog({
 
 function AttendanceModal({
   item,
-  students,
   onClose,
   onSave,
 }: {
@@ -873,8 +866,7 @@ function AttendanceModal({
 }) {
   const [attendance, setAttendance] = useState(item.attendance);
   const [note, setNote] = useState(item.note);
-  const studentAnchor = useComboboxAnchor();
-  const presentStudentIds = item.students.filter((id) => attendance[id] !== 'absent');
+
   return (
     <div role="presentation" {...stylex.props(scheduleStyles.modalBackdrop)}>
       <div role="dialog" aria-modal="true" {...stylex.props(scheduleStyles.modal)}>
@@ -885,7 +877,7 @@ function AttendanceModal({
           </div>
 
           <Button variant="ghost" size="sm" onClick={onClose} aria-label="Close">
-            <X />
+            <X size={18} strokeWidth={2} color={colors.primary} aria-hidden="true" />
           </Button>
         </div>
 
