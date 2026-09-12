@@ -1,5 +1,5 @@
-export type PlanStatus = "draft" | "ready" | "taught";
-export type Level = "beginner" | "all_levels" | "intermediate" | "advanced";
+export type PlanStatus = 'draft' | 'ready' | 'taught';
+export type Level = 'beginner' | 'all_levels' | 'intermediate' | 'advanced';
 
 export type ClassPlan = {
   id: string;
@@ -13,13 +13,15 @@ export type ClassPlan = {
   taughtCount: number;
   latestAdjustment?: string;
   lastTaughtAt: Date;
+  description?: string;
+  sections?: import('@/lib/stores/class-builder-store').ClassBuilderSection[];
 };
 
 export type Student = {
   id: string;
   displayName: string;
   note: string;
-  status: "active" | "archived";
+  status: 'active' | 'archived';
 };
 
 export type SessionAttendance = {

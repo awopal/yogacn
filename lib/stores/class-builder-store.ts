@@ -11,11 +11,13 @@ export type ClassBuilderItem = {
 export type ClassBuilderSection = {
   id: string;
   name: string;
+  duration: number;
   items: ClassBuilderItem[];
 };
 
 export type ClassBuilderDraft = {
   title: string;
+  description: string;
   intention: string;
   level: Level;
   duration: number;
@@ -33,7 +35,9 @@ type ClassBuilderState = {
   ) => void;
   setSections: (sections: ClassBuilderSection[]) => void;
   addSection: () => void;
+  removeSection: (sectionId: string) => void;
   updateSection: (sectionId: string, name: string) => void;
+  updateSectionDuration: (sectionId: string, duration: number) => void;
   addItem: (sectionId: string) => void;
   updateItem: (sectionId: string, itemId: string, name: string) => void;
   removeItem: (sectionId: string, itemId: string) => void;
@@ -46,6 +50,7 @@ const initialSections: ClassBuilderSection[] = [
   {
     id: 'arrival',
     name: 'Arrival & Warm-up',
+    duration: 10,
     items: ['Seated breathing', 'Cat–Cow', 'Bird Dog'].map((name, index) => ({
       id: `arrival-${index}`,
       name,
@@ -54,6 +59,7 @@ const initialSections: ClassBuilderSection[] = [
   {
     id: 'sun',
     name: 'Sun A — Core Progression',
+    duration: 15,
     items: ['Round 1: Hold Plank', 'Round 2: Add 2 Low Planks', 'Round 3: Add Side Plank'].map(
       (name, index) => ({ id: `sun-${index}`, name }),
     ),
@@ -61,6 +67,7 @@ const initialSections: ClassBuilderSection[] = [
   {
     id: 'peak',
     name: 'Balance & Peak Focus',
+    duration: 20,
     items: ['High Lunge to Warrior III', 'Navasana', 'Core Compression'].map((name, index) => ({
       id: `peak-${index}`,
       name,
@@ -69,12 +76,14 @@ const initialSections: ClassBuilderSection[] = [
   {
     id: 'cool-down',
     name: 'Cool Down',
+    duration: 10,
     items: ['Supine Twist', 'Savasana'].map((name, index) => ({ id: `cool-down-${index}`, name })),
   },
 ];
 
 const defaultDraft: ClassBuilderDraft = {
   title: 'Core & Control',
+  description: '',
   intention: 'Steady from the center',
   level: 'intermediate',
   duration: 60,
@@ -98,8 +107,15 @@ export const useClassBuilderStore = create<ClassBuilderState>((set) => ({
         ...state.draft,
         sections: [
           ...state.draft.sections,
-          { id: makeId('section'), name: 'New section', items: [] },
+          { id: makeId('section'), name: 'New section', duration: 0, items: [] },
         ],
+      },
+    })),
+  removeSection: (sectionId) =>
+    set((state) => ({
+      draft: {
+        ...state.draft,
+        sections: state.draft.sections.filter((section) => section.id !== sectionId),
       },
     })),
   updateSection: (sectionId, name) =>
@@ -108,6 +124,15 @@ export const useClassBuilderStore = create<ClassBuilderState>((set) => ({
         ...state.draft,
         sections: state.draft.sections.map((section) =>
           section.id === sectionId ? { ...section, name } : section,
+        ),
+      },
+    })),
+  updateSectionDuration: (sectionId, duration) =>
+    set((state) => ({
+      draft: {
+        ...state.draft,
+        sections: state.draft.sections.map((section) =>
+          section.id === sectionId ? { ...section, duration } : section,
         ),
       },
     })),
