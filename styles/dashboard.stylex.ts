@@ -1,5 +1,5 @@
 import * as stylex from '@stylexjs/stylex';
-import { boxShadow, colors, fontSize, radius, spacing } from './tokens.stylex';
+import { boxShadow, colors, fontSize, fontWeight, radius, spacing } from './tokens.stylex';
 
 export const dashboardStyles = stylex.create({
   overviewGrid: {
@@ -31,8 +31,66 @@ export const dashboardStyles = stylex.create({
     boxShadow: boxShadow.subtle,
     padding: spacing.lg,
   },
-  overviewAccent: { backgroundColor: colors.accentSoft },
-  overviewLavender: { backgroundColor: colors.primarySoft },
+  classStatusEmpty: {
+    color: colors.textMuted,
+    marginBlock: 0,
+    paddingBlock: spacing.lg,
+  },
+  classSearch: {
+    flex: '0 1 320px',
+
+    maxWidth: 420,
+    position: 'relative',
+  },
+  classSearchInput: { paddingInlineEnd: spacing.xl },
+  classSearchClear: {
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    border: 0,
+    borderStyle: 'none',
+    boxShadow: 'none',
+    color: colors.textMuted,
+    cursor: 'pointer',
+    display: 'inline-flex',
+    justifyContent: 'center',
+    padding: spacing.xs,
+    position: 'absolute',
+    right: spacing.xs,
+    top: '50%',
+    transform: 'translateY(-50%)',
+    ':hover': { color: colors.primary },
+    ':focus-visible': {
+      borderRadius: radius.sm,
+      outline: `2px solid ${colors.primary}`,
+      outlineOffset: 1,
+    },
+  },
+  classLibraryToolbar: {
+    alignItems: 'flex-end',
+    display: 'flex',
+    gap: spacing.md,
+    marginBottom: spacing.md,
+    justifyContent: 'space-between',
+    '@media (max-width: 720px)': {
+      alignItems: 'stretch',
+      flexDirection: 'column-reverse',
+      gap: 0,
+    },
+  },
+  classLibrarySection: {
+    display: 'flex',
+    flex: '1 1 auto',
+    flexDirection: 'column',
+    minHeight: 0,
+  },
+  classPlanList: {
+    alignContent: 'start',
+    flex: '1 1 auto',
+    maxHeight: 'none',
+    minHeight: 0,
+  },
+  overviewAccent: { backgroundColor: colors.accentMuted },
+  overviewLavender: { backgroundColor: colors.secondaryMuted },
   previewHeader: {
     alignItems: 'flex-start',
     display: 'flex',
@@ -42,7 +100,7 @@ export const dashboardStyles = stylex.create({
   kicker: {
     color: colors.accent,
     fontSize: fontSize.xs,
-    fontWeight: 800,
+    fontWeight: fontWeight.bold,
     letterSpacing: '.08em',
     marginBlock: 0,
     textTransform: 'uppercase',
@@ -53,14 +111,20 @@ export const dashboardStyles = stylex.create({
     display: 'inline-flex',
     flexShrink: 0,
     fontSize: fontSize.sm,
-    fontWeight: 800,
+    fontWeight: fontWeight.bold,
     gap: spacing.xs,
     minHeight: 40,
-    ':hover': { color: colors.accent },
+  },
+  openPlanLink: {
+    transitionDuration: '150ms',
+    transitionProperty: 'transform',
+    transitionTimingFunction: 'ease-out',
+    ':hover': { transform: 'translateX(4px)' },
+    ':focus-visible': { transform: 'translateX(4px)' },
   },
   statYellow: { backgroundColor: colors.tertiaryMuted },
   statGreen: { backgroundColor: colors.healthyMuted },
-  statPink: { backgroundColor: colors.accentSoft },
+  statPink: { backgroundColor: colors.accentMuted },
   statPurple: { backgroundColor: colors.secondaryMuted },
   statValueWrapper: {
     display: 'flex',
@@ -84,7 +148,7 @@ export const dashboardStyles = stylex.create({
     minHeight: 64,
     padding: spacing.sm,
     textDecoration: 'none',
-    ':hover': { backgroundColor: colors.primarySoft },
+    ':hover': { backgroundColor: colors.secondaryMuted },
   },
   previewCopy: { display: 'grid', gap: 3, minWidth: 0 },
   previewIcon: {
@@ -93,7 +157,7 @@ export const dashboardStyles = stylex.create({
     borderRadius: radius.md,
     color: colors.primary,
     display: 'flex',
-    fontWeight: 800,
+    fontWeight: fontWeight.bold,
     height: 40,
     justifyContent: 'center',
     width: 40,
@@ -147,7 +211,7 @@ export const dashboardStyles = stylex.create({
   noteStatus: {
     color: colors.healthy,
     fontSize: fontSize.xs,
-    fontWeight: 800,
+    fontWeight: fontWeight.bold,
     textTransform: 'capitalize',
   },
   fullPlanList: {
@@ -163,12 +227,12 @@ export const dashboardStyles = stylex.create({
   },
   fullPlanRow: {
     alignItems: 'center',
-    backgroundColor: colors.primarySoft,
+    backgroundColor: colors.secondaryMuted,
     borderRadius: radius.md,
     display: 'grid',
     gap: spacing.md,
     gridTemplateColumns: 'minmax(0, 1fr) auto auto',
-    minHeight: 72,
+    height: 84,
     padding: spacing.md,
     '@media (max-width: 640px)': { gridTemplateColumns: 'minmax(0, 1fr) auto' },
   },
@@ -192,16 +256,16 @@ export const dashboardStyles = stylex.create({
   statLabel: {
     color: colors.primary,
     fontSize: fontSize.md,
-    fontWeight: 600,
+    fontWeight: fontWeight.semibold,
     textTransform: 'uppercase',
   },
   statValue: {
     color: colors.primary,
     fontSize: 'clamp(2rem, 4vw, 3.25rem)',
-    fontWeight: 800,
+    fontWeight: fontWeight.bold,
     lineHeight: 1,
   },
-  statMeta: { color: colors.textSubtle, fontSize: fontSize.xs },
+  statMeta: { color: colors.textMuted, fontSize: fontSize.xs },
   planList: {
     display: 'grid',
     gap: spacing.md,
@@ -276,10 +340,10 @@ export const dashboardStyles = stylex.create({
   allClassInfo: { display: 'grid', gap: spacing.xs, minWidth: 0 },
   allClassStatus: { justifySelf: 'center' },
   allClassAction: { justifySelf: 'end' },
-  allClassTitle: { color: colors.primary, fontWeight: 800 },
+  allClassTitle: { color: colors.primary, fontWeight: fontWeight.bold },
   allClassMeta: { color: colors.textMuted, fontSize: fontSize.sm },
   adjustment: {
-    backgroundColor: colors.surface,
+    backgroundColor: colors.accentMuted,
     borderLeftColor: colors.accent,
     borderLeftStyle: 'solid',
     borderLeftWidth: 3,
@@ -318,7 +382,7 @@ export const dashboardStyles = stylex.create({
   summaryCount: {
     color: colors.primary,
     fontSize: fontSize.heading,
-    fontWeight: 900,
+    fontWeight: fontWeight.bold,
   },
   summaryNote: { color: colors.textMuted, fontSize: fontSize.xs },
   summaryIcon: {
@@ -355,7 +419,7 @@ export const dashboardStyles = stylex.create({
     color: colors.primary,
     display: 'grid',
     fontSize: fontSize.xs,
-    fontWeight: 800,
+    fontWeight: fontWeight.bold,
     gridTemplateColumns: '72px repeat(7, minmax(130px, 1fr))',
     minWidth: 1000,
     padding: spacing.sm,
@@ -419,7 +483,7 @@ export const dashboardStyles = stylex.create({
     backgroundColor: colors.primary,
     borderRadius: radius.pill,
     display: 'grid',
-    fontWeight: 800,
+    fontWeight: fontWeight.bold,
     height: 38,
     justifyContent: 'center',
     width: 38,
@@ -455,7 +519,7 @@ export const dashboardStyles = stylex.create({
   dialogTitle: {
     color: colors.primary,
     fontSize: fontSize.lg,
-    fontWeight: 900,
+    fontWeight: fontWeight.bold,
   },
   dialogDescription: {
     color: colors.textMuted,

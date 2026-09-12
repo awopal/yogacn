@@ -1,25 +1,27 @@
 import * as stylex from '@stylexjs/stylex';
-import { colors, radius, spacing, fontSize } from './tokens.stylex';
+import { colors, radius, spacing, fontSize, fontWeight } from './tokens.stylex';
 
 export const formStyles = stylex.create({
   field: {
     display: 'grid',
     gap: spacing.xs,
-    marginBottom: spacing.sm
+    marginBottom: '12px',
   },
   label: {
-    color: colors.text,
-    fontSize: fontSize.sm,
-    fontWeight: 700
+    color: colors.primary,
+    fontSize: fontSize.md,
+    letterSpacing: '0.04em',
   },
+  requiredMark: { color: colors.danger },
   control: {
-    borderColor: colors.primary,
+    borderColor: colors.secondary,
     borderRadius: radius.sm,
     borderStyle: 'solid',
-    borderWidth: 2,
-    paddingBlock: 11,
+    borderWidth: 1,
+    minHeight: 38,
+    paddingBlock: 8,
     paddingInline: 12,
-    width: '100%'
+    width: '100%',
   },
-  textarea: { minHeight: 120, resize: 'vertical' }
+  textarea: { minHeight: 120 },
 });

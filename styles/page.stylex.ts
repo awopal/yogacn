@@ -1,5 +1,5 @@
 import * as stylex from '@stylexjs/stylex';
-import { colors, fontSize, spacing } from './tokens.stylex';
+import { colors, fontSize, fontWeight, spacing } from './tokens.stylex';
 
 export const pageStyles = stylex.create({
   page: {
@@ -8,12 +8,17 @@ export const pageStyles = stylex.create({
     paddingInline: spacing.page,
     width: '100%',
   },
+  fullHeight: {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100%',
+  },
   pageHead: {
-    alignItems: 'flex-end',
+    alignItems: 'center',
     display: 'flex',
     gap: spacing.md,
     justifyContent: 'space-between',
-    marginBottom: spacing.xl,
+    marginBottom: '28px',
     '@media (max-width: 640px)': {
       alignItems: 'flex-start',
       flexDirection: 'column',
@@ -29,17 +34,28 @@ export const pageStyles = stylex.create({
   eyebrow: {
     color: colors.primary,
     fontSize: fontSize.xs,
-    fontWeight: 700,
+    fontWeight: fontWeight.semibold,
     letterSpacing: '0.14em',
     marginBlock: 0,
     marginBottom: spacing.sm,
     textTransform: 'uppercase',
+  },
+  backLink: {
+    color: colors.primary,
+    textDecorationLine: 'none',
+    textUnderlineOffset: 3,
+    ':hover': { textDecorationLine: 'underline' },
+  },
+  titleWithStatus: {
+    alignItems: 'center',
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: spacing.md,
   },
   actions: {
     alignItems: 'center',
     display: 'flex',
     flexWrap: 'wrap',
     gap: spacing.md,
-    marginTop: spacing.sm,
   },
 });
