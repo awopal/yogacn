@@ -29,7 +29,7 @@ const styles = stylex.create({
     boxShadow: '0 8px 20px rgb(31 18 53 / 0.16)',
     color: colors.text,
     display: 'flex',
-    gap: spacing.sm,
+    gap: spacing.md,
     padding: spacing.md,
     width: '100%',
     ':focus-visible': {
@@ -48,8 +48,12 @@ const styles = stylex.create({
   warningIcon: { color: colors.text },
   errorIcon: { color: colors.danger },
   content: { display: 'grid', flex: '1 1 auto', gap: spacing.xs, minWidth: 0 },
-  title: { fontSize: fontSize.sm, fontWeight: 700, margin: 0 },
-  description: { color: colors.textMuted, fontSize: fontSize.sm, margin: 0 },
+  title: { fontSize: fontSize.sm, fontWeight: 700, margin: 0, color: colors.primary },
+  description: {
+    color: colors.textMuted,
+    fontSize: fontSize.sm,
+    margin: 0,
+  },
   close: {
     alignItems: 'center',
     appearance: 'none',
@@ -113,7 +117,7 @@ function getTypeStyles(type: string | undefined) {
 }
 
 function ToastIcon({ type }: { type: string | undefined }) {
-  const iconProps = { size: 18, 'aria-hidden': true } as const;
+  const iconProps = { size: 32, 'aria-hidden': true, color: colors.primary } as const;
   switch (type) {
     case 'success':
       return <CheckCircle2 {...iconProps} />;
@@ -168,7 +172,7 @@ export function Toaster() {
               )}
 
               <BaseToast.Close aria-label="Dismiss notification" {...stylex.props(styles.close)}>
-                <X size={16} aria-hidden="true" />
+                <X size={20} aria-hidden="true" />
               </BaseToast.Close>
             </BaseToast.Root>
           );
