@@ -260,7 +260,13 @@ export const dashboardStyles = stylex.create({
     gridTemplateColumns: 'minmax(0, 1fr) auto auto',
     height: 84,
     padding: spacing.md,
+    cursor: 'pointer',
+    textDecoration: 'none',
+    transitionDuration: '150ms',
+    transitionProperty: 'background-color, transform',
+    transitionTimingFunction: 'ease-out',
     ':nth-child(odd)': { backgroundColor: colors.secondaryMutedLight },
+    ':hover': { backgroundColor: colors.secondaryMuted, transform: 'translateX(2px)' },
     '@media (max-width: 640px)': { gridTemplateColumns: 'minmax(0, 1fr) auto' },
   },
   dashboardWelcome: {

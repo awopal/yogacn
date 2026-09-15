@@ -134,23 +134,28 @@ export default function ClassLibrary({
       ) : plans.length > 0 ? (
         <ul {...stylex.props(dashboardStyles.fullPlanList, dashboardStyles.classPlanList)}>
           {plans.map((plan) => (
-            <li key={plan.id} {...stylex.props(dashboardStyles.fullPlanRow)}>
-              <div {...stylex.props(dashboardStyles.previewCopy)}>
-                <strong>{plan.title}</strong>
-                <span {...stylex.props(layoutStyles.row)}>
-                  <span>{plan.plannedDurationMinutes} min ·</span>
-                  <span>{levelLabel[plan.level]}</span>
-                  {plan.taughtCount > 0 && <span> · taught {plan.taughtCount} times</span>}
-                </span>
-              </div>
-
-              <Badge variant={plan.status}>{statusLabel[plan.status]}</Badge>
-
+            <li key={plan.id}>
               <Link
                 href={`/classes/${plan.id}/edit`}
-                {...stylex.props(dashboardStyles.viewAllLink, dashboardStyles.openPlanLink)}
+                {...stylex.props(dashboardStyles.fullPlanRow)}
               >
-                <ArrowRightIcon size={18} />
+                <div {...stylex.props(dashboardStyles.previewCopy)}>
+                  <strong>{plan.title}</strong>
+                  <span {...stylex.props(layoutStyles.row)}>
+                    <span>{plan.plannedDurationMinutes} min ·</span>
+                    <span>{levelLabel[plan.level]}</span>
+                    {plan.taughtCount > 0 && <span> · taught {plan.taughtCount} times</span>}
+                  </span>
+                </div>
+
+                <Badge variant={plan.status}>{statusLabel[plan.status]}</Badge>
+
+                <span
+                  aria-hidden="true"
+                  {...stylex.props(dashboardStyles.viewAllLink, dashboardStyles.openPlanLink)}
+                >
+                  <ArrowRightIcon size={18} />
+                </span>
               </Link>
             </li>
           ))}

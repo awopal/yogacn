@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { CalendarDays, Home, LogOut, UserRound, UsersRound, LibraryBig } from 'lucide-react';
 import * as stylex from '@stylexjs/stylex';
-import { BookIcon, YogaLogoIcon } from '@/components/icons';
+import { YogaLogoIcon } from '@/components/icons';
 import { appStyles } from '@/styles/app.stylex';
 import { colors } from '@/styles/tokens.stylex';
 import { Button } from '@/components/ui/button';
@@ -16,7 +16,7 @@ const items = [
   { href: '/students', label: 'Student notes', Icon: UsersRound },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ logoutAction }: { logoutAction: () => Promise<void> }) {
   const pathname = usePathname();
 
   return (
@@ -61,9 +61,11 @@ export default function Sidebar() {
             <UserRound color={colors.secondaryMuted} aria-hidden="true" />
           </Link>
         </Button>
-        <Button type="submit" form="profile-logout-form" variant="ghost" size="sm">
-          <LogOut color={colors.secondaryMuted} aria-hidden="true" />
-        </Button>
+        <form id="profile-logout-form" action={logoutAction}>
+          <Button type="submit" variant="ghost" size="sm">
+            <LogOut color={colors.secondaryMuted} aria-hidden="true" />
+          </Button>
+        </form>
       </div>
     </aside>
   );
