@@ -57,7 +57,7 @@ describe('class setup goals', () => {
       status: 'not-started',
       detail: 'Not ready',
     });
-    expect(getSaveProgress('ready', true).detail).toBe('Ready');
+    expect(getSaveProgress('ready', true)).toMatchObject({ detail: 'Ready', percent: 100 });
     expect(getSaveProgress('saving')).toMatchObject({ status: 'in-progress', detail: 'Saving…' });
     expect(getSaveProgress('error').status).toBe('in-progress');
     expect(getSaveProgress('saved')).toMatchObject({ status: 'completed', percent: 100 });

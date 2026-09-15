@@ -102,14 +102,18 @@ export function ClassSetupGoals({
         {goals.map((goal) => {
           const Icon = goal.icon;
           const completed = goal.progress.status === 'completed';
+          const ready = goal.id === 'save' && goal.progress.detail === 'Ready';
           const statusLabel =
             goal.progress.detail === 'Not ready'
               ? 'Not ready'
-              : completed
-                ? 'Completed'
-                : goal.progress.status === 'in-progress'
-                  ? 'In progress'
-                  : 'Not started';
+              : ready
+                ? 'Ready'
+                : completed
+                  ? 'Completed'
+                  : goal.progress.status === 'in-progress'
+                    ? 'In progress'
+                    : 'Not started';
+
           return (
             <button
               key={goal.id}
@@ -117,6 +121,7 @@ export function ClassSetupGoals({
               {...stylex.props(
                 plannerStyles.goalCard,
                 completed && plannerStyles.goalCardCompleted,
+                ready && plannerStyles.goalCardReady,
               )}
               onClick={() => focusGoal(goal.targetId)}
               aria-label={`${goal.title}. ${statusLabel}. ${goal.progress.accessibleValue}. Jump to related section.`}
@@ -125,6 +130,7 @@ export function ClassSetupGoals({
                 {...stylex.props(
                   plannerStyles.goalIcon,
                   completed && plannerStyles.goalIconCompleted,
+                  ready && plannerStyles.goalIconReady,
                 )}
               >
                 <Icon size={20} aria-hidden="true" />
@@ -132,8 +138,11 @@ export function ClassSetupGoals({
               <span {...stylex.props(plannerStyles.goalCopy)}>
                 <span {...stylex.props(plannerStyles.goalTitleRow)}>
                   <span {...stylex.props(plannerStyles.goalTitle)}>{goal.title}</span>
-                  {completed && (
-                    <span {...stylex.props(plannerStyles.goalCheck)} aria-label="Completed">
+                  {(completed || ready) && (
+                    <span
+                      {...stylex.props(plannerStyles.goalCheck)}
+                      aria-label={completed ? 'Completed' : 'Ready to save'}
+                    >
                       <Check size={14} strokeWidth={3} aria-hidden="true" />
                     </span>
                   )}
@@ -154,6 +163,7 @@ export function ClassSetupGoals({
                     {...stylex.props(
                       plannerStyles.goalProgressBar,
                       completed && plannerStyles.goalProgressBarCompleted,
+                      ready && plannerStyles.goalProgressBarReady,
                     )}
                     style={{ width: `${goal.progress.percent}%` }}
                   />
@@ -162,6 +172,7 @@ export function ClassSetupGoals({
                   {...stylex.props(
                     plannerStyles.goalStatus,
                     completed && plannerStyles.goalStatusCompleted,
+                    ready && plannerStyles.goalStatusReady,
                   )}
                 >
                   {saveState === 'saving' && goal.id === 'save' ? 'Saving' : statusLabel}

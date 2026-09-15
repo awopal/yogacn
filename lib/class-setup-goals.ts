@@ -83,7 +83,7 @@ export function getSaveProgress(saveState: SaveGoalState, setupReady = true): Se
   const failed = saveState === 'error';
   return {
     status: completed ? 'completed' : saving || failed ? 'in-progress' : 'not-started',
-    percent: completed ? 100 : 0,
+    percent: completed || (setupReady && saveState === 'ready') ? 100 : 0,
     detail: saving
       ? 'Saving…'
       : completed

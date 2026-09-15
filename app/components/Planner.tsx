@@ -204,6 +204,13 @@ export default function Planner({
     getTimeProgress(draft.duration, total),
   ].every((goal) => goal.status === 'completed');
 
+  const requiredFieldsComplete =
+    draft.title.trim().length >= 2 &&
+    draft.intention.trim().length >= 2 &&
+    Number.isInteger(draft.duration) &&
+    draft.duration >= 10 &&
+    draft.duration <= 240;
+
   const hasDraftContent = Boolean(
     draft.title.trim() ||
     draft.intention.trim() ||
@@ -223,6 +230,20 @@ export default function Planner({
     applySelectedTemplate();
   }
 
+  function focusField(fieldId: string) {
+    const field = document.getElementById(fieldId);
+    if (!field) return;
+
+    const control = field.querySelector<HTMLElement>('input, textarea') ?? field;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Defer this until after a possible confirmation dialog has restored focus.
+    window.setTimeout(() => {
+      field.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+      window.setTimeout(() => control.focus({ preventScroll: true }), reduceMotion ? 0 : 250);
+    }, 0);
+  }
+
   async function save() {
     if (saveState === 'saving') return;
 
@@ -232,16 +253,19 @@ export default function Planner({
       Number.isInteger(draft.duration) && draft.duration >= 10 && draft.duration <= 240;
 
     if (title.length < 2 || intention.length < 2 || !validDuration) {
+      const invalidFieldId =
+        title.length < 2 ? 'class-basics' : intention.length < 2 ? 'intention' : 'duration';
       const message =
         title.length < 2
-          ? 'กรุณาระบุชื่อคลาสอย่างน้อย 2 ตัวอักษร'
+          ? 'Please enter a class name with at least 2 characters'
           : intention.length < 2
-            ? 'กรุณาระบุ intention'
-            : 'ระยะเวลาต้องอยู่ระหว่าง 10 ถึง 240 นาที';
-      setError(message);
+            ? 'Please enter an intention'
+            : 'Duration must be between 10 and 240 minutes';
+      setError('');
+      focusField(invalidFieldId);
 
       toastManager.add({
-        title: 'ตรวจสอบข้อมูลก่อนบันทึก',
+        title: 'Please check the information before saving',
         description: message,
         type: 'warning',
       });
@@ -250,11 +274,11 @@ export default function Planner({
     }
 
     if (total > draft.duration) {
-      const message = `ไม่สามารถบันทึกได้: เนื้อหาใช้เวลาเกินกำหนด ${total - draft.duration} นาที`;
+      const message = `Unable to save: content exceeds the allotted time by ${total - draft.duration} minutes`;
       setError(message);
 
       toastManager.add({
-        title: 'เวลาเนื้อหาเกินกำหนด',
+        title: 'Content exceeds the class time',
         description: message,
         type: 'warning',
       });
@@ -272,7 +296,7 @@ export default function Planner({
       setError(message);
 
       toastManager.add({
-        title: 'บันทึกแผนไม่สำเร็จ',
+        title: 'Failed to save the class plan',
         description: message,
         type: 'error',
       });
@@ -282,8 +306,10 @@ export default function Planner({
 
     setSaveState('saved');
     toastManager.add({
-      title: planId ? 'อัปเดตแผนสำเร็จ' : 'บันทึกแผนสำเร็จ',
-      description: planId ? 'อัปเดตแผนการสอนเรียบร้อยแล้ว' : 'สร้างแผนการสอนเรียบร้อยแล้ว',
+      title: planId ? 'Plan updated successfully' : 'Plan saved successfully',
+      description: planId
+        ? 'The class plan was updated successfully'
+        : 'The class plan was created successfully',
       type: 'success',
     });
 
@@ -394,7 +420,7 @@ export default function Planner({
             />
           </label>
 
-          <label {...stylex.props(formStyles.field, plannerStyles.secondHalfField)}>
+          <label id="intention" {...stylex.props(formStyles.field, plannerStyles.secondHalfField)}>
             <span {...stylex.props(formStyles.label)}>
               Intention{' '}
               <span {...stylex.props(formStyles.requiredMark)} aria-hidden="true">
@@ -431,7 +457,7 @@ export default function Planner({
             </Combobox>
           </label>
 
-          <label {...stylex.props(formStyles.field)}>
+          <label id="duration" {...stylex.props(formStyles.field)}>
             <span {...stylex.props(formStyles.label)}>
               Duration (minutes){' '}
               <span {...stylex.props(formStyles.requiredMark)} aria-hidden="true">
@@ -628,7 +654,7 @@ export default function Planner({
           )}
 
           <div {...stylex.props(plannerStyles.saveActionGroup)}>
-            {!planId && !setupGoalsComplete ? (
+            {!planId && !setupGoalsComplete && requiredFieldsComplete ? (
               <ConfirmDialog
                 trigger={
                   <Button
@@ -649,7 +675,11 @@ export default function Planner({
             ) : (
               <Button id="save-plan" type="button" onClick={save} disabled={saveState === 'saving'}>
                 <PencilSparkles size={20} />
-                {saveState === 'saving' ? 'Saving…' : 'Save plan'}
+                {saveState === 'saving'
+                  ? 'Saving…'
+                  : !planId && !setupGoalsComplete
+                    ? 'Save draft'
+                    : 'Save plan'}
               </Button>
             )}
           </div>
@@ -658,7 +688,7 @@ export default function Planner({
         {error && (
           <p
             {...stylex.props(
-              error.includes('บันทึก') ? feedbackStyles.success : feedbackStyles.error,
+              error.includes('saved') ? feedbackStyles.success : feedbackStyles.error,
             )}
             role="status"
           >

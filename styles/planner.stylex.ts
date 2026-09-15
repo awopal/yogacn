@@ -51,6 +51,7 @@ export const plannerStyles = stylex.create({
     ':focus-visible': { outline: `3px solid ${colors.tertiary}`, outlineOffset: 2 },
   },
   goalCardCompleted: { borderColor: colors.healthy },
+  goalCardReady: { borderColor: colors.healthy },
   goalIcon: {
     alignItems: 'center',
     backgroundColor: colors.tertiaryMuted,
@@ -63,6 +64,7 @@ export const plannerStyles = stylex.create({
     width: 34,
   },
   goalIconCompleted: { backgroundColor: colors.healthyMuted, color: colors.healthy },
+  goalIconReady: { backgroundColor: colors.healthyMuted, color: colors.healthy },
   goalCopy: { display: 'grid', gap: 4, minWidth: 0 },
   goalTitleRow: {
     alignItems: 'center',
@@ -105,8 +107,10 @@ export const plannerStyles = stylex.create({
     '@media (prefers-reduced-motion: reduce)': { transitionDuration: '0ms' },
   },
   goalProgressBarCompleted: { backgroundColor: colors.healthy },
+  goalProgressBarReady: { backgroundColor: colors.healthy },
   goalStatus: { color: colors.textMuted, fontSize: '0.72rem', fontWeight: fontWeight.semibold },
   goalStatusCompleted: { color: colors.healthy },
+  goalStatusReady: { color: colors.healthy },
   actionStatusGroup: {
     alignItems: 'center',
     display: 'flex',
