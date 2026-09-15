@@ -38,6 +38,15 @@ const styles = stylex.create({
   outline: { backgroundColor: 'transparent', borderColor: colors.primary },
   secondary: { backgroundColor: colors.secondaryMuted },
   ghost: { backgroundColor: 'transparent', borderColor: 'transparent' },
+  calendarCell: {
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+    display: 'grid',
+    gap: spacing.xs,
+    gridTemplateRows: '1fr auto',
+    justifyItems: 'center',
+  },
   destructive: { backgroundColor: colors.danger, color: colors.background },
   link: {
     backgroundColor: 'transparent',
@@ -65,10 +74,26 @@ const styles = stylex.create({
     paddingInline: spacing.md,
   },
   lg: { minHeight: 46, paddingBlock: spacing.sm, paddingInline: spacing.lg },
+  calendar: {
+    borderRadius: radius.sm,
+    fontFamily: 'inherit',
+    fontSize: fontSize.sm,
+    minHeight: 42,
+    paddingBlock: spacing.xs,
+    paddingInline: spacing.xs,
+  },
 });
 
-export type ButtonVariant = 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
-export type ButtonSize = 'default' | 'xs' | 'sm' | 'md' | 'lg';
+export type ButtonVariant =
+  | 'default'
+  | 'destructive'
+  | 'outline'
+  | 'secondary'
+  | 'ghost'
+  | 'link'
+  | 'calendar'
+  | 'calendarCell';
+export type ButtonSize = 'default' | 'xs' | 'sm' | 'md' | 'lg' | 'calendar';
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   size?: ButtonSize;

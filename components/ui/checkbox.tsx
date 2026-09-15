@@ -27,7 +27,6 @@ const styles = stylex.create({
     width: 18,
     ':hover': {
       backgroundColor: colors.secondaryMuted,
-      borderColor: colors.primary,
     },
     ':focus-visible': {
       borderColor: colors.primary,
