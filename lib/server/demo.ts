@@ -196,11 +196,25 @@ export const demoStudents: Student[] = [
 
 export const demoAttendance: SessionAttendance[] = [
   {
-    id: 'visit-ann',
+    id: 'visit-ann-core-control',
     studentId: 'ann',
     studentName: 'Ann',
     classTitle: 'Core & Control',
     attendedAt: daysAgo(1, 10),
+  },
+  {
+    id: 'visit-ann-gentle-balance',
+    studentId: 'ann',
+    studentName: 'Ann',
+    classTitle: 'Gentle Balance',
+    attendedAt: daysAgo(5, 18),
+  },
+  {
+    id: 'visit-ann-morning-mobility',
+    studentId: 'ann',
+    studentName: 'Ann',
+    classTitle: 'Morning Mobility',
+    attendedAt: daysAgo(9, 8),
   },
   {
     id: 'visit-mali',

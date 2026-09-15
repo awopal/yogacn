@@ -22,6 +22,23 @@ export type Student = {
   displayName: string;
   note: string;
   status: 'active' | 'archived';
+  email?: string;
+  phoneNumber?: string;
+  gender?: 'female' | 'male' | 'non_binary' | 'prefer_not_to_say';
+  preferredClassLevel?: Level;
+  preferredYogaType?: string;
+  preferredClassTiming?: string[];
+  specificTimingNotes?: string;
+  primaryGoals?: string[];
+  fitnessLevel?: 'beginner' | 'intermediate' | 'advanced';
+};
+
+export type StudentObservation = {
+  id: string;
+  studentId: string;
+  observation: string;
+  createdAt: string;
+  createdBy: string;
 };
 
 export type SessionAttendance = {
