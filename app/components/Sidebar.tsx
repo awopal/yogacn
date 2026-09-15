@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { CalendarDays, Home, LogOut, UserRound, UsersRound, LibraryBig } from 'lucide-react';
@@ -18,6 +19,8 @@ const items = [
 
 export default function Sidebar({ logoutAction }: { logoutAction: () => Promise<void> }) {
   const pathname = usePathname();
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+  const [focusedItem, setFocusedItem] = useState<string | null>(null);
 
   return (
     <aside {...stylex.props(appStyles.sidebar)} aria-label="Workspace navigation">
@@ -32,16 +35,25 @@ export default function Sidebar({ logoutAction }: { logoutAction: () => Promise<
       </Link>
 
       <nav {...stylex.props(appStyles.sidebarNav)} aria-label="Main navigation">
-        {items.map(({ href, Icon }) =>
-          (() => {
-            const isActive =
-              pathname === href || (href !== '/dashboard' && pathname.startsWith(`${href}/`));
-            return (
+        {items.map(({ href, label, Icon }) => {
+          const isActive =
+            pathname === href || (href !== '/dashboard' && pathname.startsWith(`${href}/`));
+          const isLabelVisible = hoveredItem === href || focusedItem === href;
+
+          return (
+            <div
+              key={href}
+              {...stylex.props(appStyles.sidebarMenuItem)}
+              onMouseEnter={() => setHoveredItem(href)}
+              onMouseLeave={() => setHoveredItem(null)}
+              onFocus={() => setFocusedItem(href)}
+              onBlur={() => setFocusedItem(null)}
+            >
               <Link
-                key={href}
                 href={href}
                 {...stylex.props(appStyles.sidebarLink, isActive && appStyles.sidebarLinkActive)}
                 aria-current={isActive ? 'page' : undefined}
+                aria-label={label}
               >
                 <Icon
                   {...stylex.props(isActive ? appStyles.sidebarIconActive : appStyles.sidebarIcon)}
@@ -49,20 +61,30 @@ export default function Sidebar({ logoutAction }: { logoutAction: () => Promise<
                   aria-hidden="true"
                 />
               </Link>
-            );
-          })(),
-        )}
+              <span
+                {...stylex.props(
+                  appStyles.sidebarMenuLabel,
+                  isLabelVisible && appStyles.sidebarMenuLabelVisible,
+                )}
+                aria-hidden="true"
+              >
+                {label}
+              </span>
+            </div>
+          );
+        })}
       </nav>
 
       <div {...stylex.props(appStyles.sidebarBottom)}>
         <p {...stylex.props(appStyles.sidebarHint)}>A calm space to plan, teach and reflect.</p>
         <Button asChild variant="ghost" size="sm">
-          <Link href="/profile">
+          <Link href="/profile" aria-label="Profile">
             <UserRound color={colors.secondaryMuted} aria-hidden="true" />
           </Link>
         </Button>
+
         <form id="profile-logout-form" action={logoutAction}>
-          <Button type="submit" variant="ghost" size="sm">
+          <Button type="submit" variant="ghost" size="sm" aria-label="Log out">
             <LogOut color={colors.secondaryMuted} aria-hidden="true" />
           </Button>
         </form>

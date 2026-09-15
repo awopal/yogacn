@@ -49,6 +49,11 @@ export const appStyles = stylex.create({
     gap: spacing.sm,
     width: '100%',
   },
+  sidebarMenuItem: {
+    height: 54,
+    position: 'relative',
+    width: 54,
+  },
   sidebarLink: {
     alignItems: 'center',
     borderRadius: radius.pill,
@@ -61,10 +66,8 @@ export const appStyles = stylex.create({
     flexShrink: 0,
     padding: spacing.sm,
     position: 'relative',
+    zIndex: 9999999,
     justifyContent: 'center',
-    transitionDuration: '200ms',
-    transitionProperty: 'background-color, color, transform, border-radius',
-    transitionTimingFunction: 'cubic-bezier(.22, 1, .36, 1)',
     '@media (hover: hover) and (pointer: fine)': {
       ':hover': {
         backgroundColor: colors.secondaryMuted,
@@ -91,6 +94,7 @@ export const appStyles = stylex.create({
     color: colors.primary,
     fontWeight: fontWeight.bold,
     borderRadius: radius.pill,
+    zIndex: 9999999,
     '@media (hover: hover) and (pointer: fine)': {
       ':hover': {
         backgroundColor: colors.secondaryMuted,
@@ -102,6 +106,32 @@ export const appStyles = stylex.create({
   },
   sidebarIcon: { color: 'inherit' },
   sidebarIconActive: { color: colors.primary },
+  sidebarMenuLabel: {
+    alignItems: 'center',
+    backgroundColor: colors.secondaryMuted,
+    borderRadius: radius.pill,
+    boxShadow: boxShadow.md,
+    color: colors.primary,
+    display: 'flex',
+    fontSize: fontSize.sm,
+    fontWeight: fontWeight.bold,
+    insetInlineStart: `calc(100% - ${spacing.md})`,
+    minHeight: 55,
+    opacity: 0,
+    paddingInlineEnd: spacing.lg,
+    paddingInlineStart: spacing.xxxl,
+    pointerEvents: 'none',
+    position: 'absolute',
+    top: '50%',
+    transform: 'translate(-32px, -50.5%)',
+    visibility: 'hidden',
+    whiteSpace: 'nowrap',
+    zIndex: 99999,
+  },
+  sidebarMenuLabelVisible: {
+    opacity: 1,
+    visibility: 'visible',
+  },
   sidebarBottom: {
     alignItems: 'start',
     display: 'flex',
