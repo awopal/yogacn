@@ -19,7 +19,7 @@ import type { ClassPlan } from '@/lib/types';
 import type { ClassPlanCounts, ClassPlanFilter } from '@/lib/class-plan-api';
 import { levelLabel, statusLabel } from '@/lib/utils';
 import { dashboardStyles } from '@/styles/dashboard.stylex';
-import { Loader, X } from 'lucide-react';
+import { LibraryBig, Loader, X } from 'lucide-react';
 import { ArrowRightIcon } from '@/components/icons';
 import { layoutStyles } from '@/styles/layout.stylex';
 
@@ -156,7 +156,23 @@ export default function ClassLibrary({
           ))}
         </ul>
       ) : (
-        <p {...stylex.props(dashboardStyles.classStatusEmpty)}>No class plans in this status.</p>
+        <section
+          aria-label="Empty class plans"
+          {...stylex.props(dashboardStyles.classEmptySection)}
+        >
+          <LibraryBig
+            {...stylex.props(dashboardStyles.classEmptyIcon)}
+            size={84}
+            strokeWidth={1.5}
+            aria-hidden="true"
+          />
+          <div>
+            <p {...stylex.props(dashboardStyles.classEmptyTitle)}>No class plans in this status.</p>
+            <p {...stylex.props(dashboardStyles.classEmptyDescription)}>
+              Try another status or create a new class plan to get started.
+            </p>
+          </div>
+        </section>
       )}
 
       {totalPages > 1 ? (

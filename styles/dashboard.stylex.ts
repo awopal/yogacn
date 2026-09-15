@@ -36,6 +36,32 @@ export const dashboardStyles = stylex.create({
     marginBlock: 0,
     paddingBlock: spacing.lg,
   },
+  classEmptySection: {
+    alignItems: 'center',
+    backgroundColor: colors.secondaryMutedLight,
+    borderColor: colors.secondaryMuted,
+    borderRadius: radius.md,
+    borderStyle: 'dashed',
+    borderWidth: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: spacing.xs,
+    justifyContent: 'center',
+    minHeight: 180,
+    textAlign: 'center',
+    padding: spacing.lg,
+  },
+  classEmptyIcon: { color: colors.primary, paddingBottom: spacing.lg },
+  classEmptyTitle: {
+    color: colors.primary,
+    fontWeight: fontWeight.bold,
+    marginBlock: 0,
+  },
+  classEmptyDescription: {
+    color: colors.textMuted,
+    fontSize: fontSize.sm,
+    marginBlock: `${spacing.xs} 0`,
+  },
   classSearch: {
     flex: '0 1 320px',
 
