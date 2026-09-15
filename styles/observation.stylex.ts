@@ -1,0 +1,85 @@
+import * as stylex from '@stylexjs/stylex';
+import { colors, radius, spacing, fontSize, fontWeight } from './tokens.stylex';
+
+export const observationStyles = stylex.create({
+  section: { display: 'grid', gap: spacing.md, marginBottom: spacing.xl },
+  list: {
+    display: 'grid',
+    gap: spacing.sm,
+    listStyle: 'none',
+    margin: 0,
+    padding: 0,
+  },
+  item: {
+    backgroundColor: colors.secondaryMutedLight,
+    borderColor: colors.secondaryMuted,
+    borderRadius: radius.md,
+    borderStyle: 'solid',
+    borderWidth: 1,
+    display: 'grid',
+    gap: spacing.sm,
+    padding: spacing.md,
+  },
+  itemMeta: {
+    alignItems: 'center',
+    color: colors.textMuted,
+    display: 'flex',
+    flexWrap: 'wrap',
+    fontSize: fontSize.xs,
+    gap: spacing.xs,
+    justifyContent: 'space-between',
+  },
+  itemText: { marginBlock: 0, whiteSpace: 'pre-wrap' },
+  itemActions: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: spacing.sm,
+    justifyContent: 'flex-end',
+  },
+  itemGrid: {
+    display: 'grid',
+    gridRow: '1fr, 20px',
+  },
+  empty: {
+    backgroundColor: colors.secondaryMutedLight,
+    borderColor: colors.secondaryMuted,
+    borderRadius: radius.md,
+    borderStyle: 'dashed',
+    borderWidth: 1,
+    color: colors.textMuted,
+    margin: 0,
+    padding: spacing.lg,
+    textAlign: 'center',
+  },
+  form: {
+    backgroundColor: colors.secondaryMutedLight,
+    borderColor: colors.secondaryMuted,
+    borderRadius: radius.md,
+    borderStyle: 'solid',
+    borderWidth: 1,
+    display: 'grid',
+    gap: spacing.md,
+    padding: spacing.md,
+  },
+  inlineForm: {
+    display: 'grid',
+    gap: spacing.md,
+  },
+  formActions: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: spacing.sm,
+    justifyContent: 'flex-end',
+  },
+  formTitle: {
+    color: colors.primary,
+    fontSize: fontSize.lg,
+    fontWeight: fontWeight.bold,
+    marginBlock: 0,
+  },
+  formRow: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+});

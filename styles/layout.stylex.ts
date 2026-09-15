@@ -91,6 +91,13 @@ export const layoutStyles = stylex.create({
     gap: spacing.sm,
     alignItems: 'end',
   },
+  columnCenter: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: spacing.sm,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   center: { alignItems: 'center', display: 'flex', justifyContent: 'center' },
   wrap: { flexWrap: 'wrap' },
 });
