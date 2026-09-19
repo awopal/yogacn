@@ -5,6 +5,7 @@ import { Toast as BaseToast } from '@base-ui/react/toast';
 import { AlertTriangle, CheckCircle2, CircleX, Info, Loader2, X } from 'lucide-react';
 import * as stylex from '@stylexjs/stylex';
 import { colors, fontSize, radius, spacing } from '../../styles/tokens.stylex';
+import { configureHttpToastNotifier } from '@/lib/http/toast-middleware';
 
 const styles = stylex.create({
   viewport: {
@@ -94,9 +95,21 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   return (
     <BaseToast.Provider>
       {children}
+      <HttpToastRegistration />
       <Toaster />
     </BaseToast.Provider>
   );
+}
+
+function HttpToastRegistration() {
+  const toastManager = BaseToast.useToastManager();
+
+  React.useEffect(() => {
+    configureHttpToastNotifier((message) => toastManager.add(message));
+    return () => configureHttpToastNotifier(undefined);
+  }, [toastManager]);
+
+  return null;
 }
 
 function getTypeStyles(type: string | undefined) {

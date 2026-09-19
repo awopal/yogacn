@@ -5,6 +5,7 @@ import { Moon, Sun } from 'lucide-react';
 import * as stylex from '@stylexjs/stylex';
 import { layoutStyles } from '@/styles/layout.stylex';
 import { appStyles } from '@/styles/app.stylex';
+import { httpClient } from '@/lib/http/client';
 
 const MOON_DAYS_TIMEZONE = 'Asia/Bangkok';
 const MOON_DAY_CACHE_KEY = 'yogacn:moon-day-today';
@@ -51,17 +52,23 @@ export function MoonDayIndicator({ hideWhenNotMoonDay = false }: { hideWhenNotMo
       // Continue with the API request if localStorage is unavailable or corrupted.
     }
 
-    fetch(`/api/moon-days?year=${year}&timezone=${encodeURIComponent(MOON_DAYS_TIMEZONE)}`, {
-      signal: controller.signal,
-    })
-      .then((response) => (response.ok ? response.json() : null))
+    httpClient
+      .request<{ moonDays?: MoonDay[] }>(
+        `/api/moon-days?year=${year}&timezone=${encodeURIComponent(MOON_DAYS_TIMEZONE)}`,
+        { signal: controller.signal, errorToast: false },
+      )
       .then((data: { moonDays?: MoonDay[] } | null) => {
-        const nextMoonDayType = data?.moonDays?.find((event) => event.localDate === localDate)?.type ?? null;
+        const nextMoonDayType =
+          data?.moonDays?.find((event) => event.localDate === localDate)?.type ?? null;
         setMoonDayType(nextMoonDayType);
         try {
           window.localStorage.setItem(
             MOON_DAY_CACHE_KEY,
-            JSON.stringify({ localDate, moonDayType: nextMoonDayType, timezone: MOON_DAYS_TIMEZONE } satisfies MoonDayCache),
+            JSON.stringify({
+              localDate,
+              moonDayType: nextMoonDayType,
+              timezone: MOON_DAYS_TIMEZONE,
+            } satisfies MoonDayCache),
           );
         } catch {
           // The icon still works when localStorage is unavailable.

@@ -295,23 +295,10 @@ export default function Planner({
       setSaveState('error');
       setError(message);
 
-      toastManager.add({
-        title: 'Failed to save the class plan',
-        description: message,
-        type: 'error',
-      });
-
       return;
     }
 
     setSaveState('saved');
-    toastManager.add({
-      title: planId ? 'Plan updated successfully' : 'Plan saved successfully',
-      description: planId
-        ? 'The class plan was updated successfully'
-        : 'The class plan was created successfully',
-      type: 'success',
-    });
 
     router.push('/classes');
   }

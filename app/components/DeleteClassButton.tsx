@@ -5,14 +5,23 @@ import { ConfirmDialog } from '@/components/ui/confirm-dialog';
 import { Button } from '@/components/ui/button';
 import { TrashIcon } from '@/components/icons';
 import { colors } from '@/styles/tokens.stylex';
+import { httpClientWithToast } from '@/lib/http/client';
 
 export function DeleteClassButton({ planId, planTitle }: { planId: string; planTitle: string }) {
   const router = useRouter();
 
   async function deleteClass() {
-    const response = await fetch(`/api/classes/${planId}`, { method: 'DELETE' });
-    if (!response.ok) return;
-    router.push('/classes');
+    try {
+      await httpClientWithToast.request(`/api/classes/${planId}`, {
+        method: 'DELETE',
+        successToast: { title: 'Class deleted successfully' },
+        errorToast: { title: 'Failed to delete the class' },
+      });
+      router.push('/classes');
+    } catch (error) {
+      // User feedback is handled by the HTTP toast middleware.
+      console.error('Failed to delete class plan', { planId, error });
+    }
   }
 
   return (
