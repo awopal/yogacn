@@ -30,7 +30,7 @@ const inputStyles = stylex.create({
       opacity: 0.65,
     },
     ':read-only': { backgroundColor: colors.pageBackground },
-    ':invalid': { borderColor: colors.danger },
+    ':user-invalid': { borderColor: colors.danger },
     '@media (prefers-reduced-motion: reduce)': { transitionDuration: '0ms' },
   },
   invalid: {

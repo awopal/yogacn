@@ -9,7 +9,8 @@ export const formStyles = stylex.create({
   },
   label: {
     color: colors.primary,
-    fontSize: fontSize.md,
+    fontSize: fontSize.sm,
+    fontWeight: fontWeight.semibold,
     letterSpacing: '0.04em',
   },
   requiredMark: { color: colors.danger },
