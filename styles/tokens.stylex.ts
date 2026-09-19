@@ -25,7 +25,7 @@ export const fontSize = stylex.defineVars({
   md: '16px',
   lg: '20px',
   xl: '24px',
-  heading: '32px',
+  heading: '48px',
 });
 
 export const spacing = stylex.defineVars({
@@ -34,8 +34,11 @@ export const spacing = stylex.defineVars({
   md: '16px',
   lg: '24px',
   xl: '32px',
+  xxl: '48px',
+  xxxl: '52px',
   page: 'clamp(14px, 2vw, 28px)',
   grid: 'clamp(14px, 2vw, 20px)',
+  landing: '108px',
 });
 
 export const radius = stylex.defineVars({
