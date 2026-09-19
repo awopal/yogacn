@@ -4,18 +4,63 @@ export interface IconProps extends React.SVGProps<SVGSVGElement> {
   size?: number | string;
 }
 
-export function YogaLogoIcon({ size = 32, ...props }: IconProps) {
+export interface YogaLogoIconProps extends IconProps {
+  strokeWidth?: number;
+}
+
+export function YogaLogoIcon({ size = 32, strokeWidth = 0, ...props }: YogaLogoIconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={size}
       height={size}
-      viewBox="0 0 256 256"
+      viewBox="28 12 208 216"
       fill="currentColor"
       aria-hidden={props['aria-label'] ? undefined : true}
       {...props}
     >
-      <path d="M128 80a32 32 0 1 0-32-32 32 32 0 0 0 32 32Zm0-48a16 16 0 1 1-16 16 16 16 0 0 1 16-16Zm96 72a8 8 0 0 1-8 8h-80v26.72l51.15 21.93A8 8 0 0 1 192 168v48a8 8 0 0 1-16 0v-42.72l-46.45-19.91L53.35 222a8 8 0 1 1-10.7-11.9L120 140.44V112H40a8 8 0 0 1 0-16h176a8 8 0 0 1 8 8Z" />
+      <path
+        d="M128 80a32 32 0 1 0-32-32 32 32 0 0 0 32 32Zm0-48a16 16 0 1 1-16 16 16 16 0 0 1 16-16Zm96 72a8 8 0 0 1-8 8h-80v26.72l51.15 21.93A8 8 0 0 1 192 168v48a8 8 0 0 1-16 0v-42.72l-46.45-19.91L53.35 222a8 8 0 1 1-10.7-11.9L120 140.44V112H40a8 8 0 0 1 0-16h176a8 8 0 0 1 8 8Z"
+        stroke="currentColor"
+        strokeWidth={strokeWidth}
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+export function FacebookIcon({ size = 32, ...props }: IconProps) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      aria-hidden={props['aria-label'] ? undefined : true}
+      {...props}
+    >
+      <path
+        fill="currentColor"
+        d="M13.5 21v-8h2.7l.4-3h-3.1V8.08c0-.87.24-1.46 1.5-1.46h1.7V3.94c-.3-.04-1.32-.14-2.51-.14-2.48 0-4.18 1.51-4.18 4.29V10H7.2v3h2.81v8h3.49Z"
+      />
+    </svg>
+  );
+}
+
+export function LineIcon({ size = 32, ...props }: IconProps) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      aria-hidden={props['aria-label'] ? undefined : true}
+      {...props}
+    >
+      <path
+        fill="currentColor"
+        d="M20.2 10.1c0-3.92-3.58-7.1-8-7.1s-8 3.18-8 7.1c0 3.5 2.85 6.43 6.7 6.98.26.06.62.18.71.42.08.22.05.57.03.8l-.12.76c-.04.22-.16.87.68.47.84-.35 4.52-2.66 6.17-4.56 1.14-1.25 1.83-2.76 1.83-4.87ZM8.1 12.02H6.52c-.23 0-.42-.19-.42-.42V8.44c0-.23.19-.42.42-.42s.42.19.42.42v2.74H8.1c.23 0 .42.19.42.42s-.19.42-.42.42Zm1.64-.42c0 .23-.19.42-.42.42s-.42-.19-.42-.42V8.44c0-.23.19-.42.42-.42s.42.19.42.42v3.16Zm3.52 0c0 .18-.12.34-.29.4a.42.42 0 0 1-.48-.14l-1.62-2.15v1.89c0 .23-.19.42-.42.42s-.42-.19-.42-.42V8.44c0-.18.12-.34.29-.4.17-.06.36 0 .47.14l1.63 2.15V8.44c0-.23.19-.42.42-.42s.42.19.42.42v3.16Zm2.56.42h-1.72c-.23 0-.42-.19-.42-.42V8.44c0-.23.19-.42.42-.42h1.72c.23 0 .42.19.42.42s-.19.42-.42.42h-1.3v.74h1.3c.23 0 .42.19.42.42s-.19.42-.42.42h-1.3v.74h1.3c.23 0 .42.19.42.42s-.19.42-.42.42Z"
+      />
     </svg>
   );
 }
@@ -132,6 +177,43 @@ export function ArrowRightIcon({ size = 32, ...props }: IconProps) {
   );
 }
 
+export function GoogleIcon({ size = 32, strokeWidth = 0, ...props }: IconProps) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 256 256"
+      fill="currentColor"
+      aria-hidden={props['aria-label'] ? undefined : true}
+      {...props}
+    >
+      <path
+        d="M224 128a96 96 0 1 1-21.95-61.09 8 8 0 1 1-12.33 10.18A80 80 0 1 0 207.6 136H128a8 8 0 0 1 0-16h88a8 8 0 0 1 8 8Z"
+        stroke="currentColor"
+        strokeWidth={strokeWidth}
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+export function YinYangIcon({ size = 32, ...props }: IconProps) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 256 256"
+      fill="currentColor"
+      aria-hidden={props['aria-label'] ? undefined : true}
+      {...props}
+    >
+      <path d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24ZM40 128a88.1 88.1 0 0 1 88-88 40 40 0 0 1 0 80 56 56 0 0 0-50.61 79.95A88 88 0 0 1 40 128Zm88 88a40 40 0 0 1 0-80 56 56 0 0 0 50.61-79.95A88 88 0 0 1 128 216Zm12-40a12 12 0 1 1-12-12 12 12 0 0 1 12 12ZM116 80a12 12 0 1 1 12 12 12 12 0 0 1-12-12Z" />
+    </svg>
+  );
+}
+
 export function FunnelXIcon({ size = 32, ...props }: IconProps) {
   return (
     <svg
@@ -221,6 +303,8 @@ export const Icons = {
   calendarCheck: CalendarCheckIcon,
   book: BookIcon,
   arrowRight: ArrowRightIcon,
+  google: GoogleIcon,
+  yinYang: YinYangIcon,
   funnelX: FunnelXIcon,
   sealCheck: SealCheckIcon,
   lock: LockIcon,
