@@ -10,6 +10,7 @@ export const typographyStyles = stylex.create({
     paddingInline: spacing.md,
     paddingBlock: spacing.xs,
     borderRadius: radius.pill,
+    width: 'fit-content',
   },
   muted: { color: colors.textMuted, marginBlock: 0 },
   caption: { fontSize: fontSize.xs, lineHeight: 1.3 },
