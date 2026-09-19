@@ -1,13 +1,12 @@
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import * as stylex from "@stylexjs/stylex";
-import AppShell from "../components/AppShell";
-import { pageStyles } from "@/styles/page.stylex";
-import { typographyStyles } from "@/styles/typography.stylex";
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
+import * as stylex from '@stylexjs/stylex';
+import AppShell from '../components/AppShell';
+import { pageStyles } from '@/styles/page.stylex';
+import { typographyStyles } from '@/styles/typography.stylex';
 
 export default async function ProfilePage() {
-  if ((await cookies()).get("yoga_demo_auth")?.value !== "1")
-    redirect("/login");
+  if ((await cookies()).get('yoga_demo_auth')?.value !== '1') redirect('/');
 
   return (
     <AppShell>
@@ -15,8 +14,7 @@ export default async function ProfilePage() {
         <p {...stylex.props(pageStyles.eyebrow)}>Account</p>
         <h1 {...stylex.props(typographyStyles.h1)}>Profile</h1>
         <p {...stylex.props(typographyStyles.body)}>
-          Profile settings will be available here when account data is
-          connected.
+          Profile settings will be available here when account data is connected.
         </p>
       </main>
     </AppShell>

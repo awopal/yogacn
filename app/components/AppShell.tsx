@@ -9,7 +9,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   async function logout() {
     'use server';
     (await cookies()).delete('yoga_demo_auth');
-    redirect('/login');
+    redirect('/');
   }
 
   return (

@@ -14,7 +14,7 @@ import { ActivitySummaryCard } from '../components/dashboard/ActivitySummaryCard
 import { RecentNotesPreview } from '../components/dashboard/RecentNotesPreview';
 
 export default async function DashboardPage() {
-  if ((await cookies()).get('yoga_demo_auth')?.value !== '1') redirect('/login');
+  if ((await cookies()).get('yoga_demo_auth')?.value !== '1') redirect('/');
   const attendanceSummary = getAttendanceSummary(demoStudents, demoAttendance);
   // const currentWeekday = new Intl.DateTimeFormat('en-US', {
   //   timeZone: 'Asia/Bangkok',
