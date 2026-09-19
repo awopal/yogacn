@@ -497,6 +497,7 @@ export const studentStyles = stylex.create({
   },
   search: {
     maxWidth: 420,
+    marginInlineStart: 'auto',
     position: 'relative',
     width: '100%',
     marginBottom: spacing.md,
