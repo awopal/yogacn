@@ -10,7 +10,7 @@ The migration is intentionally incremental: server/API data remains outside Zust
 
 | Domain | Local UI | Zustand | Server state | URL state |
 | --- | --- | --- | --- | --- |
-| Auth/session | login form pending state | session identity/role UI model; reset on logout | Supabase session, permissions, onboarding authority | optional return URL |
+| Auth/session | login form pending state | session identity/role UI model; reset on logout | backend API session, permissions, onboarding authority | optional return URL |
 | Teacher profile | edit form fields | shared profile editor/availability draft | teacher profile and availability records | optional profile section |
 | Students | add-student modal/input | search/filter, selected student | student records, notes, mutations | search/page/filter when shareable |
 | Classes | modal/input details | selected class, class builder draft, Asana sequence | class list/details and saves | class id, mode, tab |

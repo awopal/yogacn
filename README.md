@@ -12,25 +12,18 @@ cp .env.example .env
 pnpm dev
 ```
 
-When the Supabase variables are empty, yogacn displays a clear demo-mode notice and provides sample plans such as Core & Control, Hanumanasana Flow, Gentle Balance, and Weekend Reset. Demo data lives in server memory, resets when the development server restarts, and is never mixed with production data.
+When the API URL is empty, yogacn runs against its local demo mode and provides sample plans such as Core & Control, Hanumanasana Flow, Gentle Balance, and Weekend Reset. Demo data lives in server memory, resets when the development server restarts, and is never mixed with production data.
 
-## Supabase setup
+## API setup
 
-1. Create a Supabase project and open its SQL Editor.
-2. Run `supabase/migrations/202608310001_initial_schema.sql`, or use `supabase db push` with a linked Supabase CLI project.
-3. Copy `.env.example` to `.env` and set:
+1. Start the backend API from its own repository.
+2. Copy `.env.example` to `.env` and set:
 
 ```env
-PUBLIC_SUPABASE_URL=https://PROJECT.supabase.co
-PUBLIC_SUPABASE_ANON_KEY=...
-SUPABASE_SERVICE_ROLE_KEY=...
+NEXT_PUBLIC_API_URL=http://localhost:4000
 ```
 
-4. Create the initial teacher account under Supabase Dashboard → Authentication → Users, then sign in with email and password.
-
-`SUPABASE_SERVICE_ROLE_KEY` is imported only from `src/lib/server/admin.ts`; it is never exposed to browser code or used in the standard request flow. Cookie-bound requests use the anonymous key and rely on RLS as the authorization boundary.
-
-The migration includes UUID keys, foreign keys and cascades, enums, indexes, `updated_at` triggers, and RLS for every user-owned table. Child-table policies verify ownership through their parent plan or student. Student observations have no public-read policy.
+When the API URL is not configured, the frontend uses its local demo data and cookie-based demo role session.
 
 ## Commands
 
@@ -50,14 +43,12 @@ pnpm build     # Create a production build
 
 ## Architecture
 
-- `src/hooks.server.ts` creates the Supabase SSR client and validates the current user with the Auth server.
-- `src/routes/+layout.server.ts` protects every route except `/login`.
-- SvelteKit page loads and form actions provide the backend; there is no separate server or ORM.
-- `src/lib/schemas.ts` contains shared Zod validation for plans, sections, items, reflections, students, and observations.
-- `src/lib/server/demo.ts` keeps explicit demo data separate from database operations.
-- `supabase/migrations` contains the deployable schema and RLS policies.
-- `tailwind.config.ts` defines semantic design-system colors for light and dark surfaces.
-- `static/fonts` contains the locally served CommitMono 400/700 regular and italic faces used by the interface.
+- `app/` contains the Next.js App Router pages, route handlers, and UI components.
+- `lib/http/client.ts` is the shared boundary for requests to the backend API.
+- `lib/auth/session.ts` owns the local demo session until the backend API auth flow is connected.
+- `lib/server/demo.ts` keeps explicit demo data separate from API operations.
+- `styles/` contains the StyleX design-system styles and tokens.
+- `public/fonts` contains the locally served CommitMono 400/700 regular and italic faces used by the interface.
 
 The primary action color is available through `bg-primary`, `text-primary`, and related Tailwind utilities. Its value is `#57bc68`.
 
@@ -98,4 +89,4 @@ The API returns astronomical event dates only. Which dates count as Ashtanga pra
 
 ## Intentional MVP limitations
 
-The planner uses accessible move-up and move-down controls instead of drag-and-drop. Wake lock depends on browser support. Nested Supabase plan writes currently use multiple statements; a production phase should move them into a database transaction/RPC and add end-to-end tests against local Supabase. Full duplication works in demo mode, while Supabase duplication is reserved for the next phase. Booking, payments, memberships, marketplaces, and AI-generated sequences remain out of scope.
+The planner uses accessible move-up and move-down controls instead of drag-and-drop. Wake lock depends on browser support. API mutations and authorization are owned by the separate backend repository. Booking, payments, memberships, marketplaces, and AI-generated sequences remain out of scope.
