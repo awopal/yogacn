@@ -1,0 +1,35 @@
+.connector {
+  /* Both states share y coordinates and commands; only x moves.
+     Aligned handles preserve tangent continuity throughout interpolation
+     and reversals. Shoulders follow the radius-30 node at full inset. */
+  d: path(
+    'M0 0 C0 12.71349 0 24.046441 0 28.284271 C0 29.698485 0 34.301515 0 35.715729 C0 39.953559 0 51.28651 0 64 L60 64 C60 51.28651 60 39.953559 60 35.715729 C60 34.301515 60 29.698485 60 28.284271 C60 24.046441 60 12.71349 60 0 Z'
+  );
+  transition: d 280ms cubic-bezier(0.22, 1, 0.36, 1) 80ms;
+}
+
+div:has(> a[aria-current='page']) > svg > .connector,
+div:has(+ div > a[aria-current='page']) > svg > .connector,
+div:has(> a:focus-visible) > svg > .connector,
+div:has(+ div > a:focus-visible) > svg > .connector {
+  d: path(
+    'M0 0 C0 12.71349 8.013607 24.046441 20 28.284271 C24 29.698485 24 34.301515 20 35.715729 C8.013607 39.953559 0 51.28651 0 64 L60 64 C60 51.28651 51.986393 39.953559 40 35.715729 C36 34.301515 36 29.698485 40 28.284271 C51.986393 24.046441 60 12.71349 60 0 Z'
+  );
+  transition-delay: 0ms;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  div:has(> a:hover) > svg > .connector,
+  div:has(+ div > a:hover) > svg > .connector {
+    d: path(
+      'M0 0 C0 12.71349 8.013607 24.046441 20 28.284271 C24 29.698485 24 34.301515 20 35.715729 C8.013607 39.953559 0 51.28651 0 64 L60 64 C60 51.28651 51.986393 39.953559 40 35.715729 C36 34.301515 36 29.698485 40 28.284271 C51.986393 24.046441 60 12.71349 60 0 Z'
+    );
+    transition-delay: 40ms;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .connector {
+    transition: none;
+  }
+}

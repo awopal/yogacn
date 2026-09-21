@@ -3,17 +3,17 @@ import { colors, radius, spacing } from './tokens.stylex';
 
 export const layoutStyles = stylex.create({
   appFrame: {
-    backgroundColor: colors.pageBackground,
     display: 'grid',
-    gridTemplateColumns: '88px minmax(0, 1fr)',
+    gridTemplateColumns: '72px minmax(0, 1fr)',
+    backgroundColor: colors.pageBackground,
     height: '100dvh',
     minHeight: '100dvh',
     maxHeight: '100dvh',
     overflow: 'hidden',
-    padding: spacing.page,
     gap: spacing.md,
+    paddingLeft: spacing.md,
     '@media (max-width: 640px)': {
-      gridTemplateColumns: '88px minmax(0, 1fr)',
+      gridTemplateColumns: '72px minmax(0, 1fr)',
       padding: spacing.sm,
     },
   },
@@ -27,7 +27,7 @@ export const layoutStyles = stylex.create({
   appHeader: {
     alignItems: 'center',
     display: 'flex',
-    paddingBlock: '24px 16px',
+    paddingBlock: spacing.page,
     paddingInline: spacing.page,
   },
   appHeaderTitle: {
@@ -50,7 +50,6 @@ export const layoutStyles = stylex.create({
     flexDirection: 'column',
     height: '100%',
     minHeight: 0,
-    borderRadius: radius.shell,
     overflow: 'hidden',
   },
   contentArea: {

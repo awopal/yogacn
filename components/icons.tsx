@@ -113,22 +113,6 @@ export function UserCircleCheckIcon({ size = 32, ...props }: IconProps) {
   );
 }
 
-export function HouseSimpleIcon({ size = 32, ...props }: IconProps) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 256 256"
-      fill="currentColor"
-      aria-hidden={props['aria-label'] ? undefined : true}
-      {...props}
-    >
-      <path d="M219.31 108.68 139.31 28.69a16 16 0 0 0-22.62 0l-80 80A15.87 15.87 0 0 0 32 120v96a8 8 0 0 0 8 8h176a8 8 0 0 0 8-8v-96a15.87 15.87 0 0 0-4.69-11.32ZM208 208H48v-88l80-80 80 80Z" />
-    </svg>
-  );
-}
-
 export function CalendarCheckIcon({ size = 32, ...props }: IconProps) {
   return (
     <svg
@@ -299,7 +283,6 @@ export const Icons = {
   pencilLine: PencilLineIcon,
   eye: EyeIcon,
   userCircleCheck: UserCircleCheckIcon,
-  houseSimple: HouseSimpleIcon,
   calendarCheck: CalendarCheckIcon,
   book: BookIcon,
   arrowRight: ArrowRightIcon,
