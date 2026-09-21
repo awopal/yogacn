@@ -36,9 +36,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DatePicker } from '@/components/ui/date-picker';
 import { SummaryCard as DashboardSummaryCard } from './dashboard/SummaryCard';
-import { demoPlans, demoStudents } from '@/lib/server/demo';
-import type { Student } from '@/lib/types';
-import { studentService } from '@/lib/student-service';
+import { demoPlans, demoYogis } from '@/lib/server/demo';
+import type { Yogi } from '@/lib/types';
+import { yogiService } from '@/lib/yogi-service';
 import {
   classTypeColors,
   type ClassStatus,
@@ -81,13 +81,13 @@ const oneHourAfter = (value: string) => {
 export default function ScheduleCalendar() {
   const calendarRef = useRef<FullCalendar>(null);
   const [classes, setClasses] = useState<ScheduleClass[]>([]);
-  const [studentOptions, setStudentOptions] = useState<Student[]>([]);
+  const [yogiOptions, setYogiOptions] = useState<Yogi[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [moonDays, setMoonDays] = useState<Record<string, MoonDayType>>({});
   const typeFilter = useScheduleStore((state) => state.typeFilter);
   const statusFilter = useScheduleStore((state) => state.statusFilter);
-  const studentFilter = useScheduleStore((state) => state.studentFilter);
+  const yogiFilter = useScheduleStore((state) => state.yogiFilter);
   const dateFilter = useScheduleStore((state) => state.dateFilter);
   const form = useScheduleStore((state) => state.draft);
   const editingId = useScheduleStore((state) => state.editingId);
@@ -103,7 +103,7 @@ export default function ScheduleCalendar() {
   useEffect(() => {
     try {
       setClasses(scheduleService.load());
-      setStudentOptions(studentService.load(demoStudents));
+      setYogiOptions(yogiService.load(demoYogis));
     } catch {
       setError('Unable to load your class schedule.');
     }
@@ -116,10 +116,10 @@ export default function ScheduleCalendar() {
         (item) =>
           (typeFilter === 'all' || item.type === typeFilter) &&
           (statusFilter === 'all' || item.status === statusFilter) &&
-          (studentFilter === 'all' || item.students.includes(studentFilter)) &&
+          (yogiFilter === 'all' || item.yogis.includes(yogiFilter)) &&
           (!dateFilter || item.start.slice(0, 10) === dateFilter),
       ),
-    [classes, dateFilter, statusFilter, studentFilter, typeFilter],
+    [classes, dateFilter, statusFilter, yogiFilter, typeFilter],
   );
 
   const loadMoonDays = async (arg: DatesSetArg) => {
@@ -147,7 +147,7 @@ export default function ScheduleCalendar() {
       (item) => item.status === 'scheduled' && new Date(item.start) >= new Date(),
     ).length;
     const completed = classes.filter((item) => item.status === 'completed').length;
-    const studentCount = new Set(classes.flatMap((item) => item.students)).size;
+    const yogiCount = new Set(classes.flatMap((item) => item.yogis)).size;
     const hours = classes
       .filter((item) => item.status !== 'cancelled')
       .reduce(
@@ -155,7 +155,7 @@ export default function ScheduleCalendar() {
           total + (new Date(item.end).getTime() - new Date(item.start).getTime()) / 3_600_000,
         0,
       );
-    return { upcoming, completed, studentCount, hours: hours.toFixed(1) };
+    return { upcoming, completed, yogiCount, hours: hours.toFixed(1) };
   }, [classes]);
 
   const openNew = (start?: Date, end?: Date) => {
@@ -173,7 +173,7 @@ export default function ScheduleCalendar() {
       status: item.status,
       start: localInput(new Date(item.start)),
       end: localInput(new Date(item.end)),
-      studentIds: item.students,
+      yogiIds: item.yogis,
       note: item.note,
       recurring: Boolean(item.recurring),
     });
@@ -182,9 +182,9 @@ export default function ScheduleCalendar() {
     setClasses(next);
     scheduleService.save(next);
   };
-  const persistStudents = (next: Student[]) => {
-    setStudentOptions(next);
-    studentService.save(next);
+  const persistYogis = (next: Yogi[]) => {
+    setYogiOptions(next);
+    yogiService.save(next);
   };
 
   const saveForm = () => {
@@ -198,7 +198,7 @@ export default function ScheduleCalendar() {
       status: form.status,
       start: new Date(form.start).toISOString(),
       end: new Date(form.end).toISOString(),
-      students: form.studentIds,
+      yogis: form.yogiIds,
       note: form.note,
       attendance: existing?.attendance ?? {},
       color: classTypeColors[form.type],
@@ -256,11 +256,11 @@ export default function ScheduleCalendar() {
       <div className="schedule-event-meta">
         <span>{arg.timeText}</span>
         <span
-          className="schedule-event-student-count"
-          aria-label={`${arg.event.extendedProps.studentCount} students`}
+          className="schedule-event-yogi-count"
+          aria-label={`${arg.event.extendedProps.yogiCount} yogis`}
         >
           <UsersRound size={12} aria-hidden="true" />
-          {arg.event.extendedProps.studentCount}
+          {arg.event.extendedProps.yogiCount}
         </span>
       </div>
     </div>
@@ -294,8 +294,8 @@ export default function ScheduleCalendar() {
           tone="green"
         />
         <DashboardSummaryCard
-          label="Total students"
-          value={summary.studentCount}
+          label="Total yogis"
+          value={summary.yogiCount}
           detail="Across your classes"
           tone="purple"
         />
@@ -369,26 +369,26 @@ export default function ScheduleCalendar() {
           </Combobox>
         </label>
         <label {...stylex.props(scheduleStyles.filter)}>
-          <span {...stylex.props(scheduleStyles.filterLabel)}>Student</span>
+          <span {...stylex.props(scheduleStyles.filterLabel)}>Yogi</span>
           <Combobox
-            items={['all', ...demoStudents.map((student) => student.id)]}
-            value={studentFilter}
+            items={['all', ...demoYogis.map((yogi) => yogi.id)]}
+            value={yogiFilter}
             itemToStringLabel={(item) =>
               item === 'all'
-                ? 'All students'
-                : (demoStudents.find((student) => student.id === item)?.displayName ?? item)
+                ? 'All yogis'
+                : (demoYogis.find((yogi) => yogi.id === item)?.displayName ?? item)
             }
-            onValueChange={(value) => setFilter('studentFilter', value ?? 'all')}
+            onValueChange={(value) => setFilter('yogiFilter', value ?? 'all')}
           >
             <ComboboxInput className={stylex.props(scheduleStyles.input).className} />
             <ComboboxContent>
-              <ComboboxEmpty>No students found.</ComboboxEmpty>
+              <ComboboxEmpty>No yogis found.</ComboboxEmpty>
               <ComboboxList>
                 {(item) => (
                   <ComboboxItem key={item} value={item}>
                     {item === 'all'
-                      ? 'All students'
-                      : (demoStudents.find((student) => student.id === item)?.displayName ?? item)}
+                      ? 'All yogis'
+                      : (demoYogis.find((yogi) => yogi.id === item)?.displayName ?? item)}
                   </ComboboxItem>
                 )}
               </ComboboxList>
@@ -500,7 +500,7 @@ export default function ScheduleCalendar() {
               backgroundColor: colors.secondaryMuted,
               borderColor: item.color,
               classNames: [`status-${item.status}`],
-              extendedProps: { studentCount: item.students.length },
+              extendedProps: { yogiCount: item.yogis.length },
             }))}
           />
         )}
@@ -510,10 +510,10 @@ export default function ScheduleCalendar() {
         <ClassForm
           form={form}
           setForm={setDraft}
-          students={studentOptions}
-          onAddStudent={(student) => {
-            persistStudents([...studentOptions, student]);
-            setDraft({ ...form, studentIds: [...form.studentIds, student.id] });
+          yogis={yogiOptions}
+          onAddYogi={(yogi) => {
+            persistYogis([...yogiOptions, yogi]);
+            setDraft({ ...form, yogiIds: [...form.yogiIds, yogi.id] });
           }}
           onClose={closeDraft}
           onSave={saveForm}
@@ -525,7 +525,7 @@ export default function ScheduleCalendar() {
       {attendanceId && (
         <AttendanceModal
           item={classes.find((item) => item.id === attendanceId)!}
-          students={studentOptions}
+          yogis={yogiOptions}
           onClose={() => setAttendanceId(null)}
           onSave={(attendance, note) => {
             persist(
@@ -551,8 +551,8 @@ function CalendarRangeIcon() {
 function ClassForm({
   form,
   setForm,
-  students,
-  onAddStudent,
+  yogis,
+  onAddYogi,
   onClose,
   onSave,
   onDelete,
@@ -561,16 +561,16 @@ function ClassForm({
 }: {
   form: ScheduleForm;
   setForm: (value: ScheduleForm) => void;
-  students: Student[];
-  onAddStudent: (student: Student) => void;
+  yogis: Yogi[];
+  onAddYogi: (yogi: Yogi) => void;
   onClose: () => void;
   onSave: () => void;
   onDelete: () => void;
   isEditing: boolean;
   onAttendance: () => void;
 }) {
-  const [newStudentOpen, setNewStudentOpen] = useState(false);
-  const studentAnchor = useComboboxAnchor();
+  const [newYogiOpen, setNewYogiOpen] = useState(false);
+  const yogiAnchor = useComboboxAnchor();
   const update = <K extends keyof ScheduleForm>(key: K, value: ScheduleForm[K]) => {
     if (key === 'start' && typeof value === 'string') {
       setForm({ ...form, start: value, end: oneHourAfter(value) });
@@ -667,48 +667,46 @@ function ClassForm({
             />
           </label>
           <div {...stylex.props(scheduleStyles.field, scheduleStyles.full)}>
-            <span {...stylex.props(scheduleStyles.fieldLabel)}>Students</span>
+            <span {...stylex.props(scheduleStyles.fieldLabel)}>Yogis</span>
             <Combobox
               multiple
               autoHighlight
-              items={students.map((student) => student.id)}
-              value={form.studentIds}
+              items={yogis.map((yogi) => yogi.id)}
+              value={form.yogiIds}
               onValueChange={(value, details) => {
                 // Keep blur/outside-press state changes internal to Base UI. Only
-                // persist changes caused by selecting or explicitly removing a student.
+                // persist changes caused by selecting or explicitly removing a yogi.
                 if (details.reason === 'item-press' || details.reason === 'chip-remove-press') {
-                  update('studentIds', value);
+                  update('yogiIds', value);
                 }
               }}
-              itemToStringLabel={(studentId) =>
-                students.find((student) => student.id === studentId)?.displayName ?? studentId
+              itemToStringLabel={(yogiId) =>
+                yogis.find((yogi) => yogi.id === yogiId)?.displayName ?? yogiId
               }
             >
-              <ComboboxChips ref={studentAnchor}>
+              <ComboboxChips ref={yogiAnchor}>
                 <ComboboxValue>
                   {(values) => (
                     <>
-                      {values.map((studentId: string) => (
-                        <ComboboxChip key={studentId}>
-                          {students.find((student) => student.id === studentId)?.displayName ??
-                            studentId}
+                      {values.map((yogiId: string) => (
+                        <ComboboxChip key={yogiId}>
+                          {yogis.find((yogi) => yogi.id === yogiId)?.displayName ?? yogiId}
                         </ComboboxChip>
                       ))}
                       <ComboboxChipsInput
-                        placeholder={values.length ? undefined : 'Search students…'}
-                        aria-label="Students"
+                        placeholder={values.length ? undefined : 'Search yogis…'}
+                        aria-label="Yogis"
                       />
                     </>
                   )}
                 </ComboboxValue>
               </ComboboxChips>
-              <ComboboxContent anchor={studentAnchor}>
-                <ComboboxEmpty>No matching students</ComboboxEmpty>
+              <ComboboxContent anchor={yogiAnchor}>
+                <ComboboxEmpty>No matching yogis</ComboboxEmpty>
                 <ComboboxList>
-                  {(studentId) => (
-                    <ComboboxItem key={studentId} value={studentId}>
-                      {students.find((student) => student.id === studentId)?.displayName ??
-                        studentId}
+                  {(yogiId) => (
+                    <ComboboxItem key={yogiId} value={yogiId}>
+                      {yogis.find((yogi) => yogi.id === yogiId)?.displayName ?? yogiId}
                     </ComboboxItem>
                   )}
                 </ComboboxList>
@@ -758,12 +756,12 @@ function ClassForm({
             </Button>
           </div>
         </div>
-        {newStudentOpen && (
-          <NewStudentDialog
-            onClose={() => setNewStudentOpen(false)}
-            onSave={(student) => {
-              onAddStudent(student);
-              setNewStudentOpen(false);
+        {newYogiOpen && (
+          <NewYogiDialog
+            onClose={() => setNewYogiOpen(false)}
+            onSave={(yogi) => {
+              onAddYogi(yogi);
+              setNewYogiOpen(false);
             }}
           />
         )}
@@ -772,19 +770,13 @@ function ClassForm({
   );
 }
 
-function NewStudentDialog({
-  onClose,
-  onSave,
-}: {
-  onClose: () => void;
-  onSave: (student: Student) => void;
-}) {
+function NewYogiDialog({ onClose, onSave }: { onClose: () => void; onSave: (yogi: Yogi) => void }) {
   const [name, setName] = useState('');
   const [note, setNote] = useState('');
   const save = () => {
     if (!name.trim()) return;
     onSave({
-      id: `student-${Date.now()}`,
+      id: `yogi-${Date.now()}`,
       displayName: name.trim(),
       note: note.trim(),
       status: 'active',
@@ -802,14 +794,14 @@ function NewStudentDialog({
       <div
         role="dialog"
         aria-modal="true"
-        aria-labelledby="new-student-title"
+        aria-labelledby="new-yogi-title"
         {...stylex.props(scheduleStyles.modal)}
       >
         <div {...stylex.props(scheduleStyles.modalHead)}>
           <div>
-            <p {...stylex.props(pageStyles.eyebrow)}>Students</p>
-            <h2 id="new-student-title" {...stylex.props(typographyStyles.h2)}>
-              Add new student
+            <p {...stylex.props(pageStyles.eyebrow)}>Yogis</p>
+            <h2 id="new-yogi-title" {...stylex.props(typographyStyles.h2)}>
+              Add new yogi
             </h2>
           </div>
           <Button variant="ghost" size="sm" onClick={onClose} aria-label="Close">
@@ -845,7 +837,7 @@ function NewStudentDialog({
               Cancel
             </Button>
             <Button size="sm" onClick={save} disabled={!name.trim()}>
-              Add student
+              Add yogi
             </Button>
           </div>
         </div>
@@ -860,7 +852,7 @@ function AttendanceModal({
   onSave,
 }: {
   item: ScheduleClass;
-  students: Student[];
+  yogis: Yogi[];
   onClose: () => void;
   onSave: (attendance: Record<string, 'present' | 'absent'>, note: string) => void;
 }) {

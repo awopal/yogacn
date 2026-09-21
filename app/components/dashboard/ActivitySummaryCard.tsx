@@ -19,11 +19,11 @@ export function ActivitySummaryCard({ summary }: { summary: AttendanceSummary })
       </div>
       <div {...stylex.props(dashboardStyles.activityMetrics)}>
         <div>
-          <strong>{summary.activeStudents}</strong>
-          <span>active students</span>
+          <strong>{summary.activeYogis}</strong>
+          <span>active yogis</span>
         </div>
         <div>
-          <strong>{summary.uniqueStudents}</strong>
+          <strong>{summary.uniqueYogis}</strong>
           <span>attended recently</span>
         </div>
         <div>
@@ -31,7 +31,7 @@ export function ActivitySummaryCard({ summary }: { summary: AttendanceSummary })
           <span>total visits</span>
         </div>
       </div>
-      <Link href="/students" {...stylex.props(dashboardStyles.activityPreview)}>
+      <Link href="/instructors/yogis" {...stylex.props(dashboardStyles.activityPreview)}>
         <span>Attendance is building steadily</span>
         <progress
           value={summary.totalVisits}
@@ -39,7 +39,7 @@ export function ActivitySummaryCard({ summary }: { summary: AttendanceSummary })
           {...stylex.props(dashboardStyles.activityBar)}
           aria-label="Attendance progress"
         />
-        <span>View student notes →</span>
+        <span>View yogi notes →</span>
       </Link>
     </section>
   );

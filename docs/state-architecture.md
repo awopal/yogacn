@@ -2,7 +2,7 @@
 
 ## Current baseline
 
-This is a Next.js 16.3.4 App Router application. There was no Redux, Context, React Query, SWR, or Zustand before this migration. Existing server components read demo data directly, while `ScheduleCalendar` and `StudentManager` read/write browser `localStorage` through small services.
+This is a Next.js 16.3.4 App Router application. There was no Redux, Context, React Query, SWR, or Zustand before this migration. Existing server components read demo data directly, while `ScheduleCalendar` and `YogiManager` read/write browser `localStorage` through small services.
 
 The migration is intentionally incremental: server/API data remains outside Zustand, and small component-only interactions remain local `useState`.
 
@@ -11,15 +11,15 @@ The migration is intentionally incremental: server/API data remains outside Zust
 | Domain | Local UI | Zustand | Server state | URL state |
 | --- | --- | --- | --- | --- |
 | Auth/session | login form pending state | session identity/role UI model; reset on logout | backend API session, permissions, onboarding authority | optional return URL |
-| Teacher profile | edit form fields | shared profile editor/availability draft | teacher profile and availability records | optional profile section |
-| Students | add-student modal/input | search/filter, selected student | student records, notes, mutations | search/page/filter when shareable |
+| Instructor profile | edit form fields | shared profile editor/availability draft | instructor profile and availability records | optional profile section |
+| Yogis | add-yogi modal/input | search/filter, selected yogi | yogi records, notes, mutations | search/page/filter when shareable |
 | Classes | modal/input details | selected class, class builder draft, Asana sequence | class list/details and saves | class id, mode, tab |
 | Schedule | combo-box and attendance modal internals | date/view, filters, schedule draft, selected/editing/conflict UI | schedule records and conflict authority | date/week/view/filters |
 | Dashboard | chart hover state | metric/date-range preferences only if shared | statistics and counts | date range/metric |
 | Video/content | player controls and upload widget state | selected video and upload progress shared by widgets | videos, entitlements, access checks | video id |
 | Purchase/enrollment | checkout steps/cart UI | cart and payment-step UI | purchase status, enrollment, entitlements | checkout/class id |
 
-Do not copy student, class, schedule, purchase, statistics, permission, or access data into a global client store just to make it available. Those are authoritative server data and should be fetched with the eventual React Query/SWR/server-action layer, then invalidated after mutations. The current demo `localStorage` services are a temporary data boundary, not a reason to create a second cache.
+Do not copy yogi, class, schedule, purchase, statistics, permission, or access data into a global client store just to make it available. Those are authoritative server data and should be fetched with the eventual React Query/SWR/server-action layer, then invalidated after mutations. The current demo `localStorage` services are a temporary data boundary, not a reason to create a second cache.
 
 ## Stores
 
@@ -43,10 +43,10 @@ Avoid selecting a freshly-created object unless using `useShallow`. Stores are c
 1. Validate a builder/schedule payload at the client boundary with Zod.
 2. Submit through an API route or server action.
 3. Re-check authorization and schedule conflicts on the server.
-4. Invalidate/refetch the affected server queries (`classes`, `schedules`, `students`, or `statistics`).
-5. Reset the draft after a confirmed success; keep it after an error so the teacher can retry.
+4. Invalidate/refetch the affected server queries (`classes`, `schedules`, `yogis`, or `statistics`).
+5. Reset the draft after a confirmed success; keep it after an error so the instructor can retry.
 
-Recommended next schemas: `classSchema`, `scheduleSchema`, `studentSchema`, and `purchaseSchema`, shared only where server and client validation truly have the same contract.
+Recommended next schemas: `classSchema`, `scheduleSchema`, `yogiSchema`, and `purchaseSchema`, shared only where server and client validation truly have the same contract.
 
 ## Future domains
 
@@ -72,7 +72,7 @@ app/
 
 - [x] Add typed Zustand stores without persisting sensitive state.
 - [x] Move class-builder draft and schedule UI state out of page components.
-- [x] Keep student/class/schedule records at their existing data boundary.
+- [x] Keep yogi/class/schedule records at their existing data boundary.
 - [ ] Add server query/mutation layer and cache invalidation.
 - [ ] Add auth provider/session hydration and role guards.
 - [ ] Add Zod schemas and server-side conflict/permission checks.

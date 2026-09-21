@@ -5,10 +5,10 @@ import * as stylex from '@stylexjs/stylex';
 import { landingStyles } from '@/styles/landing.stylex';
 import { colors } from '@/styles/tokens.stylex';
 
-type Role = 'teacher' | 'student';
+type Role = 'instructor' | 'yogi';
 
 export function RoleSelector() {
-  const [role, setRole] = useState<Role>('student');
+  const [role, setRole] = useState<Role>('yogi');
 
   return (
     <div
@@ -19,19 +19,19 @@ export function RoleSelector() {
       <label
         {...stylex.props(
           landingStyles.roleButtonBase,
-          landingStyles.roleTeacherButton,
-          role === 'teacher' && landingStyles.roleTeacherButtonActive,
+          landingStyles.roleInstructorButton,
+          role === 'instructor' && landingStyles.roleInstructorButtonActive,
         )}
       >
         <input
           {...stylex.props(landingStyles.roleOptionInput)}
           type="radio"
           name="role"
-          value="teacher"
-          checked={role === 'teacher'}
-          onChange={() => setRole('teacher')}
+          value="instructor"
+          checked={role === 'instructor'}
+          onChange={() => setRole('instructor')}
         />
-        I&apos;m a teacher
+        I&apos;m an instructor
       </label>
 
       <span {...stylex.props(landingStyles.yinYangCenter)} aria-hidden="true">
@@ -44,7 +44,7 @@ export function RoleSelector() {
           <svg
             {...stylex.props(
               landingStyles.yinYangGraphic,
-              role === 'student' && landingStyles.yinYangGraphicStudent,
+              role === 'yogi' && landingStyles.yinYangGraphicYogi,
             )}
             viewBox="0 0 100 100"
           >
@@ -61,20 +61,20 @@ export function RoleSelector() {
       <label
         {...stylex.props(
           landingStyles.roleButtonBase,
-          landingStyles.roleStudentButton,
-          landingStyles.roleButtonStudent,
-          role === 'student' && landingStyles.roleStudentButtonActive,
+          landingStyles.roleYogiButton,
+          landingStyles.roleButtonYogi,
+          role === 'yogi' && landingStyles.roleYogiButtonActive,
         )}
       >
         <input
           {...stylex.props(landingStyles.roleOptionInput)}
           type="radio"
           name="role"
-          value="student"
-          checked={role === 'student'}
-          onChange={() => setRole('student')}
+          value="yogi"
+          checked={role === 'yogi'}
+          onChange={() => setRole('yogi')}
         />
-        I&apos;m a student
+        I&apos;m a yogi
       </label>
     </div>
   );

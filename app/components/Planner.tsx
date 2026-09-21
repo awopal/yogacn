@@ -468,7 +468,7 @@ export default function Planner({
               className={stylex.props(formStyles.control, formStyles.textarea).className}
               value={draft.description}
               onChange={(event) => setField('description', event.target.value)}
-              placeholder="What should students feel or focus on?"
+              placeholder="What should yogis feel or focus on?"
               maxLength={140}
               showCount
             />

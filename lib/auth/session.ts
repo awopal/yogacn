@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers';
 
-export type DemoRole = 'student' | 'teacher';
+export type DemoRole = 'yogi' | 'instructor';
 
 const AUTH_COOKIE = 'yoga_demo_auth';
 const ROLE_COOKIE = 'yoga_demo_role';
@@ -20,4 +20,3 @@ export async function createSession(role: DemoRole) {
     path: '/',
   });
 }
-

@@ -218,11 +218,11 @@ export const landingStyles = stylex.create({
     '@media (max-width: 560px)': { flexDirection: 'column', gap: spacing.lg },
   },
   roleButtonBase,
-  roleTeacherButton: {
+  roleInstructorButton: {
     borderTopLeftRadius: radius.pill,
     borderBottomLeftRadius: radius.pill,
   },
-  roleStudentButton: {
+  roleYogiButton: {
     borderTopRightRadius: radius.pill,
     borderBottomRightRadius: radius.pill,
   },
@@ -234,17 +234,17 @@ export const landingStyles = stylex.create({
     whiteSpace: 'nowrap',
     width: '1px',
   },
-  roleButtonStudent: {
+  roleButtonYogi: {
     backgroundColor: colors.tertiary,
     color: colors.primary,
     ':hover': { filter: 'brightness(1.04)' },
   },
-  roleTeacherButtonActive: {
+  roleInstructorButtonActive: {
     fontSize: fontSize.sm,
     fontWeight: fontWeight.bold,
     boxShadow: `inset 0 -4px 10px ${colors.secondary}`,
   },
-  roleStudentButtonActive: {
+  roleYogiButtonActive: {
     fontSize: fontSize.sm,
     fontWeight: fontWeight.bold,
     boxShadow: `inset 0 -4px 20px ${colors.tertiaryMuted}`,
@@ -318,7 +318,7 @@ export const landingStyles = stylex.create({
     width: '30px',
     '@media (prefers-reduced-motion: reduce)': { transitionDuration: '120ms' },
   },
-  yinYangGraphicStudent: { transform: 'rotate(180deg)' },
+  yinYangGraphicYogi: { transform: 'rotate(180deg)' },
   note: {
     color: colors.text,
     fontSize: fontSize.xs,

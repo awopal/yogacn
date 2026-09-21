@@ -23,13 +23,13 @@ import {
 } from '@/components/ui/pagination';
 import { Textarea } from '@/components/ui/textarea';
 import * as stylex from '@stylexjs/stylex';
-import { studentStyles } from '@/styles/student.stylex';
+import { yogiStyles } from '@/styles/yogi.stylex';
 import { typographyStyles } from '@/styles/typography.stylex';
 import { layoutStyles } from '@/styles/layout.stylex';
 import { colors } from '@/styles/tokens.stylex';
 import { useToast } from '@/components/ui/toast';
 
-const storageKey = (studentId: string) => `student-class-notes:${studentId}`;
+const storageKey = (yogiId: string) => `yogi-class-notes:${yogiId}`;
 type ClassHistoryVisit = SessionAttendance & {
   level?: string;
 };
@@ -59,11 +59,11 @@ const formatTime = (value: string) =>
 const rangeLabel = (start: Date, end: Date) =>
   `${formatDate(start, { month: 'short', day: 'numeric' })}–${formatDate(end, { month: 'short', day: 'numeric', year: 'numeric' })}`;
 
-export default function StudentClassHistory({
-  studentId,
+export default function YogiClassHistory({
+  yogiId,
   attendance,
 }: {
-  studentId: string;
+  yogiId: string;
   attendance: ClassHistoryVisit[];
 }) {
   const initialWeek = startOfWeek(new Date());
@@ -97,14 +97,14 @@ export default function StudentClassHistory({
   }
 
   useEffect(() => {
-    const stored = window.localStorage.getItem(storageKey(studentId));
+    const stored = window.localStorage.getItem(storageKey(yogiId));
     if (!stored) return;
     try {
       setNotes(JSON.parse(stored) as Record<string, string>);
     } catch {
-      window.localStorage.removeItem(storageKey(studentId));
+      window.localStorage.removeItem(storageKey(yogiId));
     }
-  }, [studentId]);
+  }, [yogiId]);
 
   const weekDays = useMemo(
     () => Array.from({ length: 7 }, (_, index) => addDays(weekStart, index)),
@@ -160,7 +160,7 @@ export default function StudentClassHistory({
   }
 
   function saveNote() {
-    window.localStorage.setItem(storageKey(studentId), JSON.stringify(notes));
+    window.localStorage.setItem(storageKey(yogiId), JSON.stringify(notes));
     setSelectedId(null);
     toastManager.add({
       title: 'Teaching note saved',
@@ -176,18 +176,18 @@ export default function StudentClassHistory({
   function renderNoteEditor(visit: ClassHistoryVisit) {
     if (selectedId !== visit.id) return null;
     return (
-      <div {...stylex.props(studentStyles.historyEditor)}>
-        <label {...stylex.props(studentStyles.historyNote)}>
-          <span {...stylex.props(studentStyles.historyNoteLabel)}>Teaching note</span>
+      <div {...stylex.props(yogiStyles.historyEditor)}>
+        <label {...stylex.props(yogiStyles.historyNote)}>
+          <span {...stylex.props(yogiStyles.historyNoteLabel)}>Teaching note</span>
           <Textarea
             value={notes[visit.id] ?? ''}
             onChange={(event) => updateNote(visit.id, event.target.value)}
-            placeholder="What should you remember for this student?"
+            placeholder="What should you remember for this yogi?"
             rows={3}
           />
         </label>
 
-        <div {...stylex.props(studentStyles.historyEditorActions)}>
+        <div {...stylex.props(yogiStyles.historyEditorActions)}>
           <Button type="button" size="sm" onClick={saveNote}>
             <ArrowDownToLine size={18} color={colors.primary} />
             Save note
@@ -201,10 +201,10 @@ export default function StudentClassHistory({
     return (
       <li
         key={visit.id}
-        {...stylex.props(compact ? studentStyles.historyRow : studentStyles.visitListItem)}
+        {...stylex.props(compact ? yogiStyles.historyRow : yogiStyles.visitListItem)}
       >
         <div
-          {...stylex.props(compact ? studentStyles.historyRowCard : studentStyles.visitCard)}
+          {...stylex.props(compact ? yogiStyles.historyRowCard : yogiStyles.visitCard)}
           onClick={
             compact
               ? undefined
@@ -222,8 +222,8 @@ export default function StudentClassHistory({
               size="xs"
               className={
                 stylex.props(
-                  studentStyles.noteToggle,
-                  selectedId === visit.id && studentStyles.noteToggleOpen,
+                  yogiStyles.noteToggle,
+                  selectedId === visit.id && yogiStyles.noteToggleOpen,
                 ).className
               }
               aria-expanded={selectedId === visit.id}
@@ -238,10 +238,10 @@ export default function StudentClassHistory({
             </Button>
           )}
 
-          <div {...stylex.props(studentStyles.visitTopline)}>
-            <div {...stylex.props(studentStyles.visitSummary)}>
+          <div {...stylex.props(yogiStyles.visitTopline)}>
+            <div {...stylex.props(yogiStyles.visitSummary)}>
               {showDate ? (
-                <time {...stylex.props(studentStyles.visitDate)} dateTime={visit.attendedAt}>
+                <time {...stylex.props(yogiStyles.visitDate)} dateTime={visit.attendedAt}>
                   {formatDate(visitDate(visit), {
                     weekday: 'short',
                     month: 'short',
@@ -252,14 +252,14 @@ export default function StudentClassHistory({
                   {formatTime(visit.attendedAt)}
                 </time>
               ) : (
-                <time {...stylex.props(studentStyles.visitTime)} dateTime={visit.attendedAt}>
+                <time {...stylex.props(yogiStyles.visitTime)} dateTime={visit.attendedAt}>
                   {formatTime(visit.attendedAt)}
                 </time>
               )}
               <div {...stylex.props(layoutStyles.row)}>
-                <p {...stylex.props(studentStyles.visitTitle)}>{visit.classTitle}</p>
+                <p {...stylex.props(yogiStyles.visitTitle)}>{visit.classTitle}</p>
                 {visit.level && (
-                  <span {...stylex.props(studentStyles.historyLevel)}>{visit.level}</span>
+                  <span {...stylex.props(yogiStyles.historyLevel)}>{visit.level}</span>
                 )}
               </div>
             </div>
@@ -268,7 +268,7 @@ export default function StudentClassHistory({
           {!compact && (
             <>
               {notes[visit.id] && selectedId !== visit.id && (
-                <p {...stylex.props(studentStyles.visitNote)}>Teaching note: {notes[visit.id]}</p>
+                <p {...stylex.props(yogiStyles.visitNote)}>Teaching note: {notes[visit.id]}</p>
               )}
               {renderNoteEditor(visit)}
             </>
@@ -279,13 +279,13 @@ export default function StudentClassHistory({
   }
 
   return (
-    <section {...stylex.props(studentStyles.history)} aria-labelledby="class-attendance-title">
+    <section {...stylex.props(yogiStyles.history)} aria-labelledby="class-attendance-title">
       <SectionHeader
         titleId="class-attendance-title"
         title="Class attendance"
-        description="Classes this student has joined"
+        description="Classes this yogi has joined"
         action={
-          <div {...stylex.props(studentStyles.historyHeading)}>
+          <div {...stylex.props(yogiStyles.historyHeading)}>
             {view === 'week' ? (
               <Button
                 type="button"
@@ -309,26 +309,23 @@ export default function StudentClassHistory({
 
       <div
         {...stylex.props(
-          studentStyles.historyDashboard,
-          view === 'all' && studentStyles.historyDashboardAll,
+          yogiStyles.historyDashboard,
+          view === 'all' && yogiStyles.historyDashboardAll,
         )}
       >
         {view === 'week' && (
-          <aside
-            {...stylex.props(studentStyles.calendarPanel)}
-            aria-label="Class attendance calendar"
-          >
+          <aside {...stylex.props(yogiStyles.calendarPanel)} aria-label="Class attendance calendar">
             <div {...stylex.props(layoutStyles.rowBetween)}>
               <h3 {...stylex.props(typographyStyles.h3)}>
                 {formatDate(calendarMonth, { month: 'long', year: 'numeric' })}
               </h3>
 
-              <div {...stylex.props(studentStyles.calendarNav)}>
+              <div {...stylex.props(yogiStyles.calendarNav)}>
                 <Button
                   type="button"
                   variant="ghost"
                   size="xs"
-                  {...stylex.props(studentStyles.today)}
+                  {...stylex.props(yogiStyles.today)}
                   onClick={() => {
                     const today = dayStart(new Date());
                     setWeekStart(startOfWeek(today));
@@ -370,13 +367,13 @@ export default function StudentClassHistory({
               </div>
             </div>
 
-            <div {...stylex.props(studentStyles.calendarWeekdays)} aria-hidden="true">
+            <div {...stylex.props(yogiStyles.calendarWeekdays)} aria-hidden="true">
               {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((day, index) => (
                 <span key={`${day}-${index}`}>{day}</span>
               ))}
             </div>
 
-            <div {...stylex.props(studentStyles.calendarGrid)}>
+            <div {...stylex.props(yogiStyles.calendarGrid)}>
               {calendarDays.map((date) => {
                 const key = dateKey(date);
                 const isCurrentMonth = date.getMonth() === calendarMonth.getMonth();
@@ -390,10 +387,10 @@ export default function StudentClassHistory({
                     size="calendar"
                     className={
                       stylex.props(
-                        studentStyles.calendarDay,
-                        !isCurrentMonth && studentStyles.calendarDayOutside,
-                        key === selectedKey && studentStyles.calendarDayActive,
-                        key === todayKey && key !== selectedKey && studentStyles.calendarDayToday,
+                        yogiStyles.calendarDay,
+                        !isCurrentMonth && yogiStyles.calendarDayOutside,
+                        key === selectedKey && yogiStyles.calendarDayActive,
+                        key === todayKey && key !== selectedKey && yogiStyles.calendarDayToday,
                       ).className
                     }
                     style={{
@@ -413,12 +410,10 @@ export default function StudentClassHistory({
                       changeView('week');
                     }}
                   >
-                    <span {...stylex.props(studentStyles.calendarDateNumber)}>
-                      {date.getDate()}
-                    </span>
+                    <span {...stylex.props(yogiStyles.calendarDateNumber)}>{date.getDate()}</span>
 
                     {hasClasses && (
-                      <i {...stylex.props(studentStyles.calendarDayIndicator)} aria-hidden="true" />
+                      <i {...stylex.props(yogiStyles.calendarDayIndicator)} aria-hidden="true" />
                     )}
                   </Button>
                 );
@@ -426,18 +421,18 @@ export default function StudentClassHistory({
             </div>
 
             <div {...stylex.props(layoutStyles.rowStart)}>
-              <div {...stylex.props(studentStyles.calendarDayIndicator)} aria-hidden="true" />
+              <div {...stylex.props(yogiStyles.calendarDayIndicator)} aria-hidden="true" />
               <span {...stylex.props(typographyStyles.caption)}>
-                is mark days this student joined a class.
+                is mark days this yogi joined a class.
               </span>
             </div>
           </aside>
         )}
 
-        <div {...stylex.props(studentStyles.historyMain)}>
+        <div {...stylex.props(yogiStyles.historyMain)}>
           {view === 'week' ? (
             <>
-              <div {...stylex.props(studentStyles.weekToolbar)}>
+              <div {...stylex.props(yogiStyles.weekToolbar)}>
                 <Button
                   type="button"
                   variant="ghost"
@@ -447,7 +442,7 @@ export default function StudentClassHistory({
                   <ChevronLeft size={28} aria-hidden="true" color={colors.primary} />
                 </Button>
 
-                <strong {...stylex.props(studentStyles.weekLabel)}>
+                <strong {...stylex.props(yogiStyles.weekLabel)}>
                   {rangeLabel(weekStart, addDays(weekStart, 6))}
                 </strong>
 
@@ -461,8 +456,8 @@ export default function StudentClassHistory({
                 </Button>
               </div>
 
-              <div {...stylex.props(studentStyles.dayScroller)}>
-                <div {...stylex.props(studentStyles.daySelector)} aria-label="Select a day">
+              <div {...stylex.props(yogiStyles.dayScroller)}>
+                <div {...stylex.props(yogiStyles.daySelector)} aria-label="Select a day">
                   {weekDays.map((date) => {
                     const key = dateKey(date);
                     const hasClasses = attendance.some(
@@ -477,9 +472,9 @@ export default function StudentClassHistory({
                         size="calendar"
                         className={
                           stylex.props(
-                            studentStyles.dayButton,
-                            key === selectedKey && studentStyles.dayButtonActive,
-                            key === todayKey && key !== selectedKey && studentStyles.dayButtonToday,
+                            yogiStyles.dayButton,
+                            key === selectedKey && yogiStyles.dayButtonActive,
+                            key === todayKey && key !== selectedKey && yogiStyles.dayButtonToday,
                           ).className
                         }
                         style={{
@@ -499,10 +494,7 @@ export default function StudentClassHistory({
                         <span>{formatDate(date, { weekday: 'short' })}</span>
                         <strong>{date.getDate()}</strong>
                         {hasClasses && (
-                          <i
-                            {...stylex.props(studentStyles.dayIndicator)}
-                            aria-label="Has classes"
-                          />
+                          <i {...stylex.props(yogiStyles.dayIndicator)} aria-label="Has classes" />
                         )}
                         {key === todayKey && <small>Today</small>}
                       </Button>
@@ -511,7 +503,7 @@ export default function StudentClassHistory({
                 </div>
               </div>
 
-              <div {...stylex.props(studentStyles.selectedDayHeading)}>
+              <div {...stylex.props(yogiStyles.selectedDayHeading)}>
                 <h3 {...stylex.props(typographyStyles.h3)}>
                   {formatDate(selectedDate, {
                     weekday: 'long',
@@ -521,13 +513,13 @@ export default function StudentClassHistory({
                   })}
                 </h3>
                 {selectedVisits.length < 0 && (
-                  <span {...stylex.props(studentStyles.countPill)}>
+                  <span {...stylex.props(yogiStyles.countPill)}>
                     {selectedVisits.length} {selectedVisits.length === 1 ? 'class' : 'classes'}
                   </span>
                 )}
               </div>
               {selectedVisits.length === 0 ? (
-                <div {...stylex.props(studentStyles.emptyState)}>
+                <div {...stylex.props(yogiStyles.emptyState)}>
                   <div {...stylex.props(layoutStyles.columnCenter)}>
                     <strong>No class history for this day</strong>
                     <span>Choose another day or view all history.</span>
@@ -545,28 +537,28 @@ export default function StudentClassHistory({
                   </Button>
                 </div>
               ) : (
-                <ul {...stylex.props(studentStyles.visitList)}>
+                <ul {...stylex.props(yogiStyles.visitList)}>
                   {selectedVisits.map((visit) => renderVisitCard(visit))}
                 </ul>
               )}
             </>
           ) : (
-            <div {...stylex.props(studentStyles.allHistory)}>
-              <div {...stylex.props(studentStyles.allHistoryMeta)}>
+            <div {...stylex.props(yogiStyles.allHistory)}>
+              <div {...stylex.props(yogiStyles.allHistoryMeta)}>
                 <strong>All classes joined</strong>
                 {allHistory.length < 0 && (
-                  <span {...stylex.props(studentStyles.countPill)}>
+                  <span {...stylex.props(yogiStyles.countPill)}>
                     {allHistory.length} {allHistory.length === 1 ? 'class' : 'classes'}
                   </span>
                 )}
               </div>
               {allHistorySorted.length === 0 ? (
-                <div {...stylex.props(studentStyles.emptyState)}>
+                <div {...stylex.props(yogiStyles.emptyState)}>
                   <strong>No classes found in this date range</strong>
                   <span>Try another date range or class filter.</span>
                   <Button
                     size="sm"
-                    className={stylex.props(studentStyles.emptyStateButton).className}
+                    className={stylex.props(yogiStyles.emptyStateButton).className}
                     type="button"
                     onClick={() => setAllHistoryPage(1)}
                   >
@@ -575,7 +567,7 @@ export default function StudentClassHistory({
                 </div>
               ) : (
                 <>
-                  <ul {...stylex.props(studentStyles.visitList)}>
+                  <ul {...stylex.props(yogiStyles.visitList)}>
                     {visibleHistory.map((visit) => renderVisitCard(visit, false, true))}
                   </ul>
                   {allHistoryPageCount > 1 && (

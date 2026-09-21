@@ -17,7 +17,7 @@ export default async function ReflectPage({ params }: { params: Promise<{ id: st
           <h1 {...stylex.props(typographyStyles.h1)}>{plan.title}</h1>
         </div>
         <Button variant="outline" asChild>
-          <a href="/dashboard">Dashboard</a>
+          <a href="/instructors">Dashboard</a>
         </Button>
       </div>
       <ReflectionForm planned={plan.plannedDurationMinutes} />

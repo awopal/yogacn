@@ -11,7 +11,7 @@ function getMenuLabel(pathname: string) {
   if (pathname.startsWith('/classes/')) return 'Classes';
   if (pathname.startsWith('/classes')) return 'Classes';
   if (pathname.startsWith('/schedule')) return 'Class Schedule';
-  if (pathname.startsWith('/students')) return 'Student notes';
+  if (pathname.startsWith('/instructors/yogis')) return 'Yogi notes';
   if (pathname.startsWith('/profile')) return 'Profile';
   return 'Dashboard';
 }

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Pencil, Plus, Trash2 } from 'lucide-react';
 import { z } from 'zod';
 import * as stylex from '@stylexjs/stylex';
-import type { StudentObservation } from '@/lib/types';
+import type { YogiObservation } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { SectionHeader } from '@/components/ui/section-header';
 import {
@@ -23,11 +23,11 @@ import { observationStyles } from '@/styles/observation.stylex';
 import { typographyStyles } from '@/styles/typography.stylex';
 import { colors } from '@/styles/tokens.stylex';
 
-const CURRENT_USER = 'Teacher';
+const CURRENT_USER = 'Instructor';
 const schema = z.object({
   observation: z.string().trim().min(2, 'Please enter an observation.'),
 });
-const storageKey = (studentId: string) => `student-observations:${studentId}`;
+const storageKey = (yogiId: string) => `yogi-observations:${yogiId}`;
 
 function formatDateTime(value: string) {
   return new Date(value).toLocaleString('en-US', {
@@ -36,8 +36,8 @@ function formatDateTime(value: string) {
   });
 }
 
-export default function StudentObservationTimeline({ studentId }: { studentId: string }) {
-  const [observations, setObservations] = useState<StudentObservation[]>([]);
+export default function YogiObservationTimeline({ yogiId }: { yogiId: string }) {
+  const [observations, setObservations] = useState<YogiObservation[]>([]);
   const [observation, setObservation] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isAdding, setIsAdding] = useState(false);
@@ -45,11 +45,11 @@ export default function StudentObservationTimeline({ studentId }: { studentId: s
   const toastManager = useToast();
 
   useEffect(() => {
-    const stored = window.localStorage.getItem(storageKey(studentId));
+    const stored = window.localStorage.getItem(storageKey(yogiId));
     if (!stored) return;
     try {
       setObservations(
-        (JSON.parse(stored) as StudentObservation[]).sort((a, b) =>
+        (JSON.parse(stored) as YogiObservation[]).sort((a, b) =>
           b.createdAt.localeCompare(a.createdAt),
         ),
       );
@@ -60,7 +60,7 @@ export default function StudentObservationTimeline({ studentId }: { studentId: s
         type: 'error',
       });
     }
-  }, [studentId, toastManager]);
+  }, [yogiId, toastManager]);
 
   const observationPageSize = 5;
   const observationPageCount = Math.max(1, Math.ceil(observations.length / observationPageSize));
@@ -69,8 +69,8 @@ export default function StudentObservationTimeline({ studentId }: { studentId: s
     observationPage * observationPageSize,
   );
 
-  function persist(next: StudentObservation[]) {
-    window.localStorage.setItem(storageKey(studentId), JSON.stringify(next));
+  function persist(next: YogiObservation[]) {
+    window.localStorage.setItem(storageKey(yogiId), JSON.stringify(next));
     setObservations(next);
     setObservationPage((page) =>
       Math.min(page, Math.max(1, Math.ceil(next.length / observationPageSize))),
@@ -83,7 +83,7 @@ export default function StudentObservationTimeline({ studentId }: { studentId: s
     setIsAdding(true);
   }
 
-  function startEdit(item: StudentObservation) {
+  function startEdit(item: YogiObservation) {
     setEditingId(item.id);
     setObservation(item.observation);
     setIsAdding(true);
@@ -116,14 +116,14 @@ export default function StudentObservationTimeline({ studentId }: { studentId: s
       persist(next);
       toastManager.add({
         title: 'Observation updated',
-        description: 'The student timeline has been updated.',
+        description: 'The yogi timeline has been updated.',
         type: 'success',
       });
     } else {
-      const next: StudentObservation[] = [
+      const next: YogiObservation[] = [
         {
           id: `observation-${Date.now()}`,
-          studentId,
+          yogiId,
           observation: result.data.observation,
           createdAt: new Date().toISOString(),
           createdBy: CURRENT_USER,
@@ -134,7 +134,7 @@ export default function StudentObservationTimeline({ studentId }: { studentId: s
       setObservationPage(1);
       toastManager.add({
         title: 'Observation saved',
-        description: 'The observation was added to the student timeline.',
+        description: 'The observation was added to the yogi timeline.',
         type: 'success',
       });
     }
@@ -147,7 +147,7 @@ export default function StudentObservationTimeline({ studentId }: { studentId: s
     persist(observations.filter((item) => item.id !== id));
     toastManager.add({
       title: 'Observation deleted',
-      description: 'The observation was removed from the student timeline.',
+      description: 'The observation was removed from the yogi timeline.',
       type: 'success',
     });
   }
@@ -193,12 +193,12 @@ export default function StudentObservationTimeline({ studentId }: { studentId: s
   return (
     <section
       {...stylex.props(observationStyles.section)}
-      aria-labelledby="teacher-observations-title"
+      aria-labelledby="instructor-observations-title"
     >
       <SectionHeader
-        titleId="teacher-observations-title"
-        title="Teacher observations"
-        description="General, non-medical teaching observations about this student."
+        titleId="instructor-observations-title"
+        title="Instructor observations"
+        description="General, non-medical teaching observations about this yogi."
         disclaimer="(This is not diagnostic information or a medical history.)"
         action={
           !isAdding ? (
@@ -254,7 +254,7 @@ export default function StudentObservationTimeline({ studentId }: { studentId: s
                         </Button>
                       }
                       title="Delete observation?"
-                      description="This observation will be removed from the student timeline."
+                      description="This observation will be removed from the yogi timeline."
                       confirmLabel="Delete"
                       confirmVariant="destructive"
                       onConfirm={() => remove(item.id)}

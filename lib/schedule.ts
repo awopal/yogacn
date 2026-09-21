@@ -9,7 +9,7 @@ export type ScheduleClass = {
   status: ClassStatus;
   start: string;
   end: string;
-  students: string[];
+  yogis: string[];
   note: string;
   attendance: Record<string, 'present' | 'absent'>;
   color: string;
@@ -54,7 +54,7 @@ export const demoScheduleClasses: ScheduleClass[] = [
     type: 'Vinyasa',
     status: 'scheduled',
     ...monday,
-    students: ['ann', 'mali'],
+    yogis: ['ann', 'mali'],
     note: '',
     attendance: {},
     color: colors.Vinyasa,
@@ -66,7 +66,7 @@ export const demoScheduleClasses: ScheduleClass[] = [
     type: 'Gentle',
     status: 'scheduled',
     ...wednesday,
-    students: ['mali'],
+    yogis: ['mali'],
     note: '',
     attendance: {},
     color: colors.Gentle,
@@ -77,7 +77,7 @@ export const demoScheduleClasses: ScheduleClass[] = [
     type: 'Workshop',
     status: 'scheduled',
     ...saturday,
-    students: ['ann', 'mali'],
+    yogis: ['ann', 'mali'],
     note: '',
     attendance: {},
     color: colors.Workshop,

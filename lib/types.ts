@@ -17,7 +17,7 @@ export type ClassPlan = {
   sections?: import('@/lib/stores/class-builder-store').ClassBuilderSection[];
 };
 
-export type Student = {
+export type Yogi = {
   id: string;
   displayName: string;
   note: string;
@@ -33,9 +33,9 @@ export type Student = {
   fitnessLevel?: 'beginner' | 'intermediate' | 'advanced';
 };
 
-export type StudentObservation = {
+export type YogiObservation = {
   id: string;
-  studentId: string;
+  yogiId: string;
   observation: string;
   createdAt: string;
   createdBy: string;
@@ -43,8 +43,8 @@ export type StudentObservation = {
 
 export type SessionAttendance = {
   id: string;
-  studentId: string;
-  studentName: string;
+  yogiId: string;
+  yogiName: string;
   classTitle: string;
   attendedAt: string;
 };

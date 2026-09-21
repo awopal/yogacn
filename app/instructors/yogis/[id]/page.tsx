@@ -1,22 +1,22 @@
 import { notFound } from 'next/navigation';
-import { demoAttendance, demoPlans, demoStudents } from '../../../lib/server/demo';
-import AppShell from '../../components/AppShell';
-import StudentDetailTabs from '../../components/StudentDetailTabs';
+import { demoAttendance, demoPlans, demoYogis } from '../../../../lib/server/demo';
+import AppShell from '../../../components/AppShell';
+import YogiDetailTabs from '../../../components/YogiDetailTabs';
 import * as stylex from '@stylexjs/stylex';
 import { pageStyles } from '@/styles/page.stylex';
 import { levelLabel } from '@/lib/utils';
 
-export default async function StudentDetailPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function YogiDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const student = demoStudents.find((item) => item.id === id);
-  if (!student) notFound();
+  const yogi = demoYogis.find((item) => item.id === id);
+  if (!yogi) notFound();
   return (
     <AppShell>
       <div {...stylex.props(pageStyles.page)}>
-        <StudentDetailTabs
-          student={student}
+        <YogiDetailTabs
+          yogi={yogi}
           attendance={demoAttendance
-            .filter((entry) => entry.studentId === student.id)
+            .filter((entry) => entry.yogiId === yogi.id)
             .sort((a, b) => b.attendedAt.localeCompare(a.attendedAt))
             .map((entry) => ({
               ...entry,

@@ -65,7 +65,7 @@ export default function ReflectionForm({ planned }: { planned: number }) {
       <div {...stylex.props(pageStyles.actions)}>
         <Button type="submit">Save reflection</Button>
         <Button variant="outline" asChild>
-          <a href="/dashboard">Cancel</a>
+          <a href="/instructors">Cancel</a>
         </Button>
       </div>
       {message && (

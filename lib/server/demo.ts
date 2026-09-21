@@ -1,4 +1,4 @@
-import type { ClassPlan, SessionAttendance, Student } from '../types';
+import type { ClassPlan, SessionAttendance, Yogi } from '../types';
 
 const daysAgo = (days: number, hour: number) => {
   const date = new Date();
@@ -179,7 +179,7 @@ export const demoPlans: ClassPlan[] = [
   },
 ];
 
-export const demoStudents: Student[] = [
+export const demoYogis: Yogi[] = [
   {
     id: 'ann',
     displayName: 'Ann',
@@ -197,29 +197,29 @@ export const demoStudents: Student[] = [
 export const demoAttendance: SessionAttendance[] = [
   {
     id: 'visit-ann-core-control',
-    studentId: 'ann',
-    studentName: 'Ann',
+    yogiId: 'ann',
+    yogiName: 'Ann',
     classTitle: 'Core & Control',
     attendedAt: daysAgo(1, 10),
   },
   {
     id: 'visit-ann-gentle-balance',
-    studentId: 'ann',
-    studentName: 'Ann',
+    yogiId: 'ann',
+    yogiName: 'Ann',
     classTitle: 'Gentle Balance',
     attendedAt: daysAgo(5, 18),
   },
   {
     id: 'visit-ann-morning-mobility',
-    studentId: 'ann',
-    studentName: 'Ann',
+    yogiId: 'ann',
+    yogiName: 'Ann',
     classTitle: 'Morning Mobility',
     attendedAt: daysAgo(9, 8),
   },
   {
     id: 'visit-mali',
-    studentId: 'mali',
-    studentName: 'Mali',
+    yogiId: 'mali',
+    yogiName: 'Mali',
     classTitle: 'Core & Control',
     attendedAt: daysAgo(1, 10),
   },

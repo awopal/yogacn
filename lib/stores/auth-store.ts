@@ -2,7 +2,7 @@
 
 import { create } from 'zustand';
 
-export type UserRole = 'teacher' | 'student' | 'admin';
+export type UserRole = 'instructor' | 'yogi' | 'admin';
 type AuthState = {
   userId: string | null;
   role: UserRole | null;

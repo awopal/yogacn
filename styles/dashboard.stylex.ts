@@ -286,18 +286,21 @@ export const dashboardStyles = stylex.create({
     gap: spacing.sm,
     padding: spacing.md,
   },
+  statCardCompact: { borderRadius: radius.lg, minHeight: 112 },
   statLabel: {
     color: colors.primary,
     fontSize: fontSize.md,
     fontWeight: fontWeight.semibold,
     textTransform: 'uppercase',
   },
+  statLabelCompact: { fontSize: fontSize.xs },
   statValue: {
     color: colors.primary,
     fontSize: 'clamp(2rem, 4vw, 3.25rem)',
     fontWeight: fontWeight.bold,
     lineHeight: 1,
   },
+  statValueCompact: { fontSize: 'clamp(1.5rem, 2.4vw, 2.25rem)' },
   statMeta: { color: colors.textMuted, fontSize: fontSize.xs },
   planList: {
     display: 'grid',
@@ -506,7 +509,7 @@ export const dashboardStyles = stylex.create({
     position: 'relative',
     zIndex: 1,
   },
-  teachingStudents: {
+  teachingYogis: {
     display: 'flex',
     gap: 2,
     marginTop: spacing.xs,

@@ -12,7 +12,7 @@ export default function TeachingMode({ title }: { title: string }) {
     <main {...stylex.props(teachingStyles.mode)}>
       <p {...stylex.props(pageStyles.eyebrow)}>Teaching Mode · {title}</p>
       <p {...stylex.props(typographyStyles.muted)}>
-        2 students may need modifications · เปิดรายละเอียดนักเรียนโดยตั้งใจ
+        2 yogis may need modifications · เปิดรายละเอียดนักเรียนโดยตั้งใจ
       </p>
       <div {...stylex.props(teachingStyles.card)}>
         <span>

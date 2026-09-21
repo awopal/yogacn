@@ -9,7 +9,7 @@ import { typographyStyles } from '@/styles/typography.stylex';
 import { CalendarCheckIcon, SealCheckIcon, UserCircleCheckIcon } from '@/components/icons';
 import { colors } from '@/styles/tokens.stylex';
 
-export function StudentAttendanceSection({
+export function YogiAttendanceSection({
   attendance,
   plans,
   summary,
@@ -78,10 +78,8 @@ export function StudentAttendanceSection({
       <div {...stylex.props(dashboardStyles.summaryGrid)}>
         <article {...stylex.props(dashboardStyles.summaryCard, dashboardStyles.summaryGreen)}>
           <div {...stylex.props(dashboardStyles.summaryTop)}>
-            <span {...stylex.props(dashboardStyles.summaryLabel)}>Active students</span>
-            <strong {...stylex.props(dashboardStyles.summaryCount)}>
-              {summary.activeStudents}
-            </strong>
+            <span {...stylex.props(dashboardStyles.summaryLabel)}>Active yogis</span>
+            <strong {...stylex.props(dashboardStyles.summaryCount)}>{summary.activeYogis}</strong>
             <span {...stylex.props(dashboardStyles.summaryNote)}>Currently active</span>
           </div>
           <span {...stylex.props(dashboardStyles.summaryIcon)} aria-hidden="true">
@@ -90,10 +88,8 @@ export function StudentAttendanceSection({
         </article>
         <article {...stylex.props(dashboardStyles.summaryCard, dashboardStyles.summaryPink)}>
           <div {...stylex.props(dashboardStyles.summaryTop)}>
-            <span {...stylex.props(dashboardStyles.summaryLabel)}>Students attended</span>
-            <strong {...stylex.props(dashboardStyles.summaryCount)}>
-              {summary.uniqueStudents}
-            </strong>
+            <span {...stylex.props(dashboardStyles.summaryLabel)}>Yogis attended</span>
+            <strong {...stylex.props(dashboardStyles.summaryCount)}>{summary.uniqueYogis}</strong>
             <span {...stylex.props(dashboardStyles.summaryNote)}>This month</span>
           </div>
           <span {...stylex.props(dashboardStyles.summaryIcon)} aria-hidden="true">
@@ -149,19 +145,17 @@ export function StudentAttendanceSection({
                     }}
                   >
                     <strong>{session.classTitle}</strong>
-                    <span>{session.entries.length} students</span>
-                    <div {...stylex.props(dashboardStyles.teachingStudents)}>
+                    <span>{session.entries.length} yogis</span>
+                    <div {...stylex.props(dashboardStyles.teachingYogis)}>
                       {session.entries.slice(0, 4).map((entry) => (
                         <Link
                           key={entry.id}
-                          href={`/students/${entry.studentId}`}
-                          aria-label={`${entry.studentName}, ${session.classTitle}`}
-                          title={entry.studentName}
+                          href={`/instructors/yogis/${entry.yogiId}`}
+                          aria-label={`${entry.yogiName}, ${session.classTitle}`}
+                          title={entry.yogiName}
                           {...stylex.props(dashboardStyles.weeklyAvatarLink)}
                         >
-                          <span {...stylex.props(dashboardStyles.avatar)}>
-                            {entry.studentName[0]}
-                          </span>
+                          <span {...stylex.props(dashboardStyles.avatar)}>{entry.yogiName[0]}</span>
                         </Link>
                       ))}
                     </div>

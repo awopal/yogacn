@@ -4,30 +4,30 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import * as stylex from '@stylexjs/stylex';
-import type { SessionAttendance, Student } from '@/lib/types';
+import type { SessionAttendance, Yogi } from '@/lib/types';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsList, TabsTrigger, TabStyles } from '@/components/ui/tabs';
-import StudentClassHistory from './StudentClassHistory';
-import StudentObservationTimeline from './StudentObservationTimeline';
-import StudentManager from './StudentManager';
-import StudentProfile from './StudentProfile';
+import YogiClassHistory from './YogiClassHistory';
+import YogiObservationTimeline from './YogiObservationTimeline';
+import YogiManager from './YogiManager';
+import YogiProfile from './YogiProfile';
 import { dashboardStyles } from '@/styles/dashboard.stylex';
 import { pageStyles } from '@/styles/page.stylex';
-import { studentStyles } from '@/styles/student.stylex';
+import { yogiStyles } from '@/styles/yogi.stylex';
 import { typographyStyles } from '@/styles/typography.stylex';
 
 type AttendanceVisit = SessionAttendance & { level?: string };
-type StudentTab = 'profile' | 'attendance' | 'observations';
+type YogiTab = 'profile' | 'attendance' | 'observations';
 
-function isStudentTab(value: string | null): value is StudentTab {
+function isYogiTab(value: string | null): value is YogiTab {
   return value === 'profile' || value === 'attendance' || value === 'observations';
 }
 
-export default function StudentDetailTabs({
-  student,
+export default function YogiDetailTabs({
+  yogi,
   attendance,
 }: {
-  student: Student;
+  yogi: Yogi;
   attendance: AttendanceVisit[];
 }) {
   const router = useRouter();
@@ -35,18 +35,18 @@ export default function StudentDetailTabs({
   const searchParams = useSearchParams();
   const tabFromUrl = searchParams.get('tab');
   const modeFromUrl = searchParams.get('mode');
-  const [activeTab, setActiveTab] = useState<StudentTab>(
-    isStudentTab(tabFromUrl) ? tabFromUrl : 'profile',
+  const [activeTab, setActiveTab] = useState<YogiTab>(
+    isYogiTab(tabFromUrl) ? tabFromUrl : 'profile',
   );
-  const [profile, setProfile] = useState(student);
+  const [profile, setProfile] = useState(yogi);
   const [isProfileEditing, setIsProfileEditing] = useState(false);
 
   useEffect(() => {
-    setProfile(student);
-  }, [student]);
+    setProfile(yogi);
+  }, [yogi]);
 
   useEffect(() => {
-    setActiveTab(isStudentTab(tabFromUrl) ? tabFromUrl : 'profile');
+    setActiveTab(isYogiTab(tabFromUrl) ? tabFromUrl : 'profile');
     setIsProfileEditing(
       modeFromUrl === 'edit' && !tabFromUrl
         ? true
@@ -68,7 +68,7 @@ export default function StudentDetailTabs({
   }
 
   function changeTab(value: string) {
-    if (!isStudentTab(value)) return;
+    if (!isYogiTab(value)) return;
 
     setActiveTab(value);
     const params = new URLSearchParams(searchParams.toString());
@@ -92,8 +92,8 @@ export default function StudentDetailTabs({
       <header {...stylex.props(dashboardStyles.dashboardWelcome)}>
         <div>
           <p {...stylex.props(pageStyles.eyebrow)}>
-            <Link href="/students" {...stylex.props(pageStyles.backLink)}>
-              STUDENTS
+            <Link href="/instructors/yogis" {...stylex.props(pageStyles.backLink)}>
+              YOGIS
             </Link>
             <span aria-hidden="true">&nbsp;•&nbsp;</span>
             {profile.displayName}
@@ -109,13 +109,13 @@ export default function StudentDetailTabs({
         </div>
       </header>
 
-      <Tabs value={activeTab} onValueChange={changeTab} aria-label="Student details">
-        <TabsList className={stylex.props(studentStyles.studentTabsList).className}>
+      <Tabs value={activeTab} onValueChange={changeTab} aria-label="Yogi details">
+        <TabsList className={stylex.props(yogiStyles.yogiTabsList).className}>
           <TabsTrigger
             value="profile"
             className={stylex.props(activeTab === 'profile' ? TabStyles.active : null).className}
           >
-            Student Profile
+            Yogi Profile
           </TabsTrigger>
           <TabsTrigger
             value="attendance"
@@ -132,39 +132,39 @@ export default function StudentDetailTabs({
               stylex.props(activeTab === 'observations' ? TabStyles.active : null).className
             }
           >
-            Teacher observations
+            Instructor observations
           </TabsTrigger>
         </TabsList>
 
         {activeTab === 'profile' && (
-          <div role="tabpanel" aria-label="Student profile">
+          <div role="tabpanel" aria-label="Yogi profile">
             {isProfileEditing ? (
-              <StudentManager
-                initialStudents={[profile]}
+              <YogiManager
+                initialYogis={[profile]}
                 open
                 onOpenChange={() => undefined}
-                profileStudent={profile}
-                onProfileSaved={(updatedStudent) => {
-                  setProfile(updatedStudent);
+                profileYogi={profile}
+                onProfileSaved={(updatedYogi) => {
+                  setProfile(updatedYogi);
                   updateProfileMode(false);
                 }}
                 onProfileCancel={() => updateProfileMode(false)}
               />
             ) : (
-              <StudentProfile student={profile} onEdit={() => updateProfileMode(true)} />
+              <YogiProfile yogi={profile} onEdit={() => updateProfileMode(true)} />
             )}
           </div>
         )}
 
         {activeTab === 'attendance' && (
           <div role="tabpanel" aria-label="Class attendance">
-            <StudentClassHistory studentId={student.id} attendance={attendance} />
+            <YogiClassHistory yogiId={yogi.id} attendance={attendance} />
           </div>
         )}
 
         {activeTab === 'observations' && (
-          <div role="tabpanel" aria-label="Teacher observations">
-            <StudentObservationTimeline studentId={student.id} />
+          <div role="tabpanel" aria-label="Instructor observations">
+            <YogiObservationTimeline yogiId={yogi.id} />
           </div>
         )}
       </Tabs>

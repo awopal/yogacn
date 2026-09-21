@@ -1,7 +1,7 @@
 import * as stylex from '@stylexjs/stylex';
 import { colors, fontSize, fontWeight, radius, spacing } from './tokens.stylex';
 
-export const studentsStyles = stylex.create({
+export const yogisStyles = stylex.create({
   privacy: {
     fontSize: fontSize.sm,
     color: colors.primary,

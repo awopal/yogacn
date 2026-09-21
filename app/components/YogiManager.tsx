@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import type { Student } from '../../lib/types';
+import type { Yogi } from '../../lib/types';
 import * as stylex from '@stylexjs/stylex';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -24,24 +24,24 @@ import { cardStyles } from '@/components/ui/card';
 import { pageStyles } from '../../styles/page.stylex';
 import { dashboardStyles } from '../../styles/dashboard.stylex';
 import { formStyles } from '../../styles/form.stylex';
-import { studentStyles } from '../../styles/student.stylex';
-import { studentsStyles } from '../../styles/students.stylex';
-import { studentService, type StudentRepository } from '../../lib/student-service';
+import { yogiStyles } from '../../styles/yogi.stylex';
+import { yogisStyles } from '../../styles/yogis.stylex';
+import { yogiService, type YogiRepository } from '../../lib/yogi-service';
 import { ArrowRightIcon, UserCircleCheckIcon } from '@/components/icons';
 import { UserShield, X } from 'lucide-react';
 import { colors } from '@/styles/tokens.stylex';
 import {
-  emptyStudentForm,
-  formToStudent,
+  emptyYogiForm,
+  formToYogi,
   goals,
-  studentToForm,
+  yogiToForm,
   timings,
-  validateStudentForm,
-  type StudentFormErrors,
-  type StudentFormValues,
-} from '../../lib/student-form';
+  validateYogiForm,
+  type YogiFormErrors,
+  type YogiFormValues,
+} from '../../lib/yogi-form';
 
-function StudentCombobox({
+function YogiCombobox({
   value,
   placeholder,
   options,
@@ -89,55 +89,55 @@ function Field({
   full?: boolean;
 }) {
   return (
-    <label {...stylex.props(formStyles.field, full && studentsStyles.fullField)}>
+    <label {...stylex.props(formStyles.field, full && yogisStyles.fullField)}>
       <span {...stylex.props(formStyles.label)}>
         {label}
         {required && <span {...stylex.props(formStyles.requiredMark)}> *</span>}
       </span>
       {children}
-      {error && <span {...stylex.props(studentsStyles.error)}>{error}</span>}
+      {error && <span {...stylex.props(yogisStyles.error)}>{error}</span>}
     </label>
   );
 }
 
-export default function StudentManager({
-  initialStudents,
+export default function YogiManager({
+  initialYogis,
   open,
   onOpenChange,
-  profileStudent,
+  profileYogi,
   onProfileSaved,
   onProfileCancel,
-  repository = studentService,
+  repository = yogiService,
 }: {
-  initialStudents: Student[];
+  initialYogis: Yogi[];
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  profileStudent?: Student;
-  onProfileSaved?: (student: Student) => void;
+  profileYogi?: Yogi;
+  onProfileSaved?: (yogi: Yogi) => void;
   onProfileCancel?: () => void;
-  repository?: StudentRepository;
+  repository?: YogiRepository;
 }) {
-  const [students, setStudents] = useState(initialStudents);
+  const [yogis, setYogis] = useState(initialYogis);
   const [isLoading, setIsLoading] = useState(true);
-  const [form, setForm] = useState<StudentFormValues>(emptyStudentForm);
-  const [errors, setErrors] = useState<StudentFormErrors>({});
+  const [form, setForm] = useState<YogiFormValues>(emptyYogiForm);
+  const [errors, setErrors] = useState<YogiFormErrors>({});
   const [isSaving, setIsSaving] = useState(false);
   const [search, setSearch] = useState('');
   const toastManager = useToast();
 
   useEffect(() => {
     setIsLoading(true);
-    setStudents(repository.load(initialStudents));
+    setYogis(repository.load(initialYogis));
     setIsLoading(false);
-  }, [initialStudents, repository]);
+  }, [initialYogis, repository]);
 
   useEffect(() => {
-    if (profileStudent) {
-      setForm(studentToForm(profileStudent));
+    if (profileYogi) {
+      setForm(yogiToForm(profileYogi));
     }
-  }, [profileStudent]);
+  }, [profileYogi]);
 
-  function update<K extends keyof StudentFormValues>(key: K, value: StudentFormValues[K]) {
+  function update<K extends keyof YogiFormValues>(key: K, value: YogiFormValues[K]) {
     setForm((current) => ({ ...current, [key]: value }));
     setErrors((current) => ({
       ...current,
@@ -153,12 +153,12 @@ export default function StudentManager({
     );
   }
 
-  async function addStudent(event: React.FormEvent<HTMLFormElement>) {
+  async function addYogi(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     if (isSaving) return;
 
-    const nextErrors = validateStudentForm(form);
+    const nextErrors = validateYogiForm(form);
     setErrors(nextErrors);
 
     if (Object.keys(nextErrors).length) return;
@@ -167,56 +167,54 @@ export default function StudentManager({
 
     await new Promise((resolve) => setTimeout(resolve, 350));
 
-    const student = formToStudent(form, profileStudent);
+    const yogi = formToYogi(form, profileYogi);
 
-    const nextStudents = profileStudent
-      ? students.map((item) => (item.id === profileStudent.id ? student : item))
-      : [...students, student];
-    setStudents(nextStudents);
+    const nextYogis = profileYogi
+      ? yogis.map((item) => (item.id === profileYogi.id ? yogi : item))
+      : [...yogis, yogi];
+    setYogis(nextYogis);
 
-    repository.save(nextStudents);
-    if (profileStudent) {
-      onProfileSaved?.(student);
+    repository.save(nextYogis);
+    if (profileYogi) {
+      onProfileSaved?.(yogi);
       toastManager.add({
         title: 'Profile saved',
-        description: 'The student profile has been updated.',
+        description: 'The yogi profile has been updated.',
         type: 'success',
       });
     }
 
-    setForm(profileStudent ? studentToForm(student) : emptyStudentForm);
+    setForm(profileYogi ? yogiToForm(yogi) : emptyYogiForm);
     setErrors({});
     setIsSaving(false);
     onOpenChange(false);
   }
 
-  const filteredStudents = students.filter((student) =>
-    student.displayName.toLowerCase().includes(search.trim().toLowerCase()),
+  const filteredYogis = yogis.filter((yogi) =>
+    yogi.displayName.toLowerCase().includes(search.trim().toLowerCase()),
   );
-  const profileOnly = Boolean(profileStudent);
+  const profileOnly = Boolean(profileYogi);
 
   return (
     <>
       {open && (
         <div
           role="presentation"
-          {...stylex.props(
-            profileOnly ? studentsStyles.profileFormShell : studentsStyles.modalBackdrop,
-          )}
+          {...stylex.props(profileOnly ? yogisStyles.profileFormShell : yogisStyles.modalBackdrop)}
         >
           <div
             role={profileOnly ? 'region' : 'dialog'}
             aria-modal={profileOnly ? undefined : true}
-            aria-label={profileOnly ? 'Edit student profile' : undefined}
-            aria-labelledby={profileOnly ? undefined : 'add-student-title'}
-            {...stylex.props(profileOnly ? studentsStyles.profileForm : studentsStyles.modal)}
+            aria-label={profileOnly ? 'Edit yogi profile' : undefined}
+            aria-labelledby={profileOnly ? undefined : 'add-yogi-title'}
+            {...stylex.props(profileOnly ? yogisStyles.profileForm : yogisStyles.modal)}
           >
             {!profileOnly && (
-              <div {...stylex.props(studentsStyles.modalHead)}>
+              <div {...stylex.props(yogisStyles.modalHead)}>
                 <div>
-                  <p {...stylex.props(pageStyles.eyebrow)}>Students</p>
-                  <h2 id="add-student-title" {...stylex.props(studentsStyles.sectionTitle)}>
-                    Add student
+                  <p {...stylex.props(pageStyles.eyebrow)}>Yogis</p>
+                  <h2 id="add-yogi-title" {...stylex.props(yogisStyles.sectionTitle)}>
+                    Add yogi
                   </h2>
                 </div>
                 <Button
@@ -233,17 +231,17 @@ export default function StudentManager({
             )}
 
             {!profileOnly && (
-              <aside {...stylex.props(studentsStyles.privacy, studentsStyles.modalPrivacy)}>
+              <aside {...stylex.props(yogisStyles.privacy, yogisStyles.modalPrivacy)}>
                 <strong>Privacy-minded note taking</strong>
-                <ul {...stylex.props(studentsStyles.privacyList)}>
+                <ul {...stylex.props(yogisStyles.privacyList)}>
                   <li>Record only information necessary for safe teaching</li>
                   <li>Avoid medical diagnoses</li>
-                  <li>Obtain student consent when appropriate</li>
+                  <li>Obtain yogi consent when appropriate</li>
                   <li>Delete information when it is no longer needed</li>
                 </ul>
 
                 <UserShield
-                  {...stylex.props(studentsStyles.privacyWatermark)}
+                  {...stylex.props(yogisStyles.privacyWatermark)}
                   size={72}
                   strokeWidth={1.25}
                   aria-hidden="true"
@@ -253,20 +251,20 @@ export default function StudentManager({
 
             <form
               {...stylex.props(
-                studentsStyles.form,
-                studentsStyles.modalForm,
-                profileOnly && studentsStyles.profileFormFields,
+                yogisStyles.form,
+                yogisStyles.modalForm,
+                profileOnly && yogisStyles.profileFormFields,
               )}
-              onSubmit={addStudent}
+              onSubmit={addYogi}
               noValidate
             >
-              <div {...stylex.props(studentsStyles.section, studentsStyles.sectionFirst)}>
+              <div {...stylex.props(yogisStyles.section, yogisStyles.sectionFirst)}>
                 <SectionHeader
-                  title="Student Information"
-                  description="Information needed to create a profile and contact the student."
+                  title="Yogi Information"
+                  description="Information needed to create a profile and contact the yogi."
                 />
 
-                <div {...stylex.props(studentsStyles.fieldGrid)}>
+                <div {...stylex.props(yogisStyles.fieldGrid)}>
                   <Field label="Name" required error={errors.name} full>
                     <Input
                       value={form.name}
@@ -294,7 +292,7 @@ export default function StudentManager({
                     />
                   </Field>
                   <Field label="Gender">
-                    <StudentCombobox
+                    <YogiCombobox
                       value={form.gender}
                       onChange={(value) => update('gender', value)}
                       placeholder="Select gender"
@@ -319,15 +317,15 @@ export default function StudentManager({
                 </div>
               </div>
 
-              <div {...stylex.props(studentsStyles.section)}>
+              <div {...stylex.props(yogisStyles.section)}>
                 <SectionHeader
                   title="Class Preferences"
-                  description="Help tailor classes to this student."
+                  description="Help tailor classes to this yogi."
                 />
 
-                <div {...stylex.props(studentsStyles.fieldGrid)}>
+                <div {...stylex.props(yogisStyles.fieldGrid)}>
                   <Field label="Preferred Class Level">
-                    <StudentCombobox
+                    <YogiCombobox
                       value={form.preferredClassLevel}
                       onChange={(value) => update('preferredClassLevel', value)}
                       placeholder="Select level"
@@ -347,11 +345,11 @@ export default function StudentManager({
                     />
                   </Field>
                   <Field label="Preferred Class Timing" full>
-                    <div {...stylex.props(studentsStyles.optionGrid)}>
+                    <div {...stylex.props(yogisStyles.optionGrid)}>
                       {timings.map((timing, index) => (
                         <label
                           key={`timing-${timing}-${index}`}
-                          {...stylex.props(studentsStyles.option)}
+                          {...stylex.props(yogisStyles.option)}
                         >
                           <Checkbox
                             id={`timing-${timing}-${index}`}
@@ -373,20 +371,17 @@ export default function StudentManager({
                 </div>
               </div>
 
-              <div {...stylex.props(studentsStyles.section)}>
+              <div {...stylex.props(yogisStyles.section)}>
                 <SectionHeader
                   title="Goals & Practice Background"
                   description="Brief information to help plan teaching."
                 />
 
-                <div {...stylex.props(studentsStyles.fieldGrid)}>
+                <div {...stylex.props(yogisStyles.fieldGrid)}>
                   <Field label="Primary Goals" full>
-                    <div {...stylex.props(studentsStyles.optionGrid)}>
+                    <div {...stylex.props(yogisStyles.optionGrid)}>
                       {goals.map((goal, index) => (
-                        <label
-                          key={`goal-${goal}-${index}`}
-                          {...stylex.props(studentsStyles.option)}
-                        >
+                        <label key={`goal-${goal}-${index}`} {...stylex.props(yogisStyles.option)}>
                           <Checkbox
                             id={`goal-${goal}-${index}`}
                             checked={form.primaryGoals.includes(goal)}
@@ -398,7 +393,7 @@ export default function StudentManager({
                     </div>
                   </Field>
                   <Field label="Fitness Level">
-                    <StudentCombobox
+                    <YogiCombobox
                       value={form.fitnessLevel}
                       onChange={(value) => update('fitnessLevel', value)}
                       placeholder="Select fitness level"
@@ -412,13 +407,13 @@ export default function StudentManager({
                 </div>
               </div>
 
-              <div {...stylex.props(studentsStyles.formActions)}>
+              <div {...stylex.props(yogisStyles.formActions)}>
                 <Button
                   variant="ghost"
                   type="button"
                   onClick={() => {
-                    if (profileStudent) {
-                      setForm(studentToForm(profileStudent));
+                    if (profileYogi) {
+                      setForm(yogiToForm(profileYogi));
                       onProfileCancel?.();
                     } else {
                       onOpenChange(false);
@@ -430,7 +425,7 @@ export default function StudentManager({
                   Cancel
                 </Button>
                 <Button type="submit" disabled={isSaving}>
-                  {isSaving ? 'Saving…' : profileOnly ? 'Save changes' : 'Add student'}
+                  {isSaving ? 'Saving…' : profileOnly ? 'Save changes' : 'Add yogi'}
                 </Button>
               </div>
             </form>
@@ -440,23 +435,23 @@ export default function StudentManager({
 
       {!profileOnly && (
         <>
-          <div {...stylex.props(studentStyles.search)}>
+          <div {...stylex.props(yogiStyles.search)}>
             <Input
               type="search"
               role="searchbox"
-              aria-label="Search students"
-              placeholder="Search students…"
+              aria-label="Search yogis"
+              placeholder="Search yogis…"
               value={search}
               onChange={(event) => setSearch(event.target.value)}
-              {...stylex.props(studentStyles.searchInput)}
+              {...stylex.props(yogiStyles.searchInput)}
             />
 
             {search && (
               <button
                 type="button"
-                aria-label="Clear student search"
+                aria-label="Clear yogi search"
                 onClick={() => setSearch('')}
-                {...stylex.props(studentStyles.searchClear)}
+                {...stylex.props(yogiStyles.searchClear)}
               >
                 <X size={16} strokeWidth={2} aria-hidden="true" />
               </button>
@@ -465,54 +460,48 @@ export default function StudentManager({
 
           {isLoading ? (
             <div
-              {...stylex.props(studentStyles.list)}
+              {...stylex.props(yogiStyles.list)}
               aria-busy="true"
-              aria-label="Loading students"
+              aria-label="Loading yogis"
               role="status"
             >
               {Array.from({ length: 3 }, (_, index) => (
-                <div
-                  key={`student-skeleton-${index}`}
-                  {...stylex.props(studentStyles.skeletonItem)}
-                >
-                  <Skeleton {...stylex.props(studentStyles.skeletonAvatar)} />
-                  <div {...stylex.props(studentStyles.skeletonCopy)}>
-                    <Skeleton {...stylex.props(studentStyles.skeletonTitle)} />
-                    <Skeleton {...stylex.props(studentStyles.skeletonDescription)} />
+                <div key={`yogi-skeleton-${index}`} {...stylex.props(yogiStyles.skeletonItem)}>
+                  <Skeleton {...stylex.props(yogiStyles.skeletonAvatar)} />
+                  <div {...stylex.props(yogiStyles.skeletonCopy)}>
+                    <Skeleton {...stylex.props(yogiStyles.skeletonTitle)} />
+                    <Skeleton {...stylex.props(yogiStyles.skeletonDescription)} />
                   </div>
-                  <Skeleton {...stylex.props(studentStyles.skeletonBadge)} />
-                  <Skeleton {...stylex.props(studentStyles.skeletonAction)} />
+                  <Skeleton {...stylex.props(yogiStyles.skeletonBadge)} />
+                  <Skeleton {...stylex.props(yogiStyles.skeletonAction)} />
                 </div>
               ))}
             </div>
-          ) : filteredStudents.length > 0 ? (
-            <div {...stylex.props(studentStyles.list)}>
-              {filteredStudents.map((student, index) => (
+          ) : filteredYogis.length > 0 ? (
+            <div {...stylex.props(yogiStyles.list)}>
+              {filteredYogis.map((yogi, index) => (
                 <Link
-                  key={`${student.id || student.displayName}-${index}`}
+                  key={`${yogi.id || yogi.displayName}-${index}`}
                   {...stylex.props(cardStyles.card)}
-                  className={stylex.props(studentStyles.item).className}
-                  href={`/students/${student.id}`}
+                  className={stylex.props(yogiStyles.item).className}
+                  href={`/instructors/yogis/${yogi.id}`}
                 >
-                  <div {...stylex.props(studentStyles.avatar)}>{student.displayName[0]}</div>
-                  <div {...stylex.props(studentStyles.content)}>
-                    <h3 {...stylex.props(studentStyles.title)}>{student.displayName}</h3>
-                    <p {...stylex.props(studentStyles.description)}>
-                      {student.note || 'No general note yet'}
+                  <div {...stylex.props(yogiStyles.avatar)}>{yogi.displayName[0]}</div>
+                  <div {...stylex.props(yogiStyles.content)}>
+                    <h3 {...stylex.props(yogiStyles.title)}>{yogi.displayName}</h3>
+                    <p {...stylex.props(yogiStyles.description)}>
+                      {yogi.note || 'No general note yet'}
                     </p>
                   </div>
-                  <Badge>{student.status === 'active' ? 'Active' : 'Archived'}</Badge>
-                  <span {...stylex.props(studentStyles.action)} aria-hidden="true">
+                  <Badge>{yogi.status === 'active' ? 'Active' : 'Archived'}</Badge>
+                  <span {...stylex.props(yogiStyles.action)} aria-hidden="true">
                     <ArrowRightIcon size={18} />
                   </span>
                 </Link>
               ))}
             </div>
           ) : (
-            <section
-              aria-label="Empty students"
-              {...stylex.props(dashboardStyles.classEmptySection)}
-            >
+            <section aria-label="Empty yogis" {...stylex.props(dashboardStyles.classEmptySection)}>
               <UserCircleCheckIcon
                 {...stylex.props(dashboardStyles.classEmptyIcon)}
                 size={84}
@@ -521,10 +510,10 @@ export default function StudentManager({
               />
               <div>
                 <p {...stylex.props(dashboardStyles.classEmptyTitle)} role="status">
-                  No students found.
+                  No yogis found.
                 </p>
                 <p {...stylex.props(dashboardStyles.classEmptyDescription)}>
-                  Try another search or add a new student to get started.
+                  Try another search or add a new yogi to get started.
                 </p>
               </div>
             </section>

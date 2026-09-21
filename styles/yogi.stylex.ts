@@ -1,14 +1,14 @@
 import * as stylex from '@stylexjs/stylex';
 import { colors, fontSize, fontWeight, radius, spacing } from './tokens.stylex';
 
-export const studentStyles = stylex.create({
+export const yogiStyles = stylex.create({
   history: {
     display: 'grid',
     gap: spacing.md,
     marginBottom: spacing.xl,
   },
 
-  studentTabsList: {
+  yogiTabsList: {
     marginBottom: spacing.lg,
   },
   historyDashboard: {

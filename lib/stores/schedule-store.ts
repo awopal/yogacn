@@ -10,7 +10,7 @@ export type ScheduleForm = {
   status: ClassStatus;
   start: string;
   end: string;
-  studentIds: string[];
+  yogiIds: string[];
   note: string;
   recurring: boolean;
 };
@@ -22,7 +22,7 @@ export const emptyScheduleForm: ScheduleForm = {
   status: 'scheduled',
   start: '',
   end: '',
-  studentIds: [],
+  yogiIds: [],
   note: '',
   recurring: false,
 };
@@ -33,7 +33,7 @@ type ScheduleState = {
   selectedTimeSlot: string | null;
   typeFilter: ClassType | 'all';
   statusFilter: ClassStatus | 'all';
-  studentFilter: string;
+  yogiFilter: string;
   dateFilter: string;
   draft: ScheduleForm | null;
   editingId: string | null;
@@ -42,7 +42,7 @@ type ScheduleState = {
   openNew: (form: ScheduleForm) => void;
   openEdit: (id: string, form: ScheduleForm) => void;
   setDraft: (draft: ScheduleForm) => void;
-  setFilter: <K extends 'typeFilter' | 'statusFilter' | 'studentFilter' | 'dateFilter'>(
+  setFilter: <K extends 'typeFilter' | 'statusFilter' | 'yogiFilter' | 'dateFilter'>(
     key: K,
     value: ScheduleState[K],
   ) => void;
@@ -61,7 +61,7 @@ const initialState = {
   selectedTimeSlot: null,
   typeFilter: 'all' as const,
   statusFilter: 'all' as const,
-  studentFilter: 'all',
+  yogiFilter: 'all',
   dateFilter: '',
   draft: null,
   editingId: null,
@@ -81,6 +81,6 @@ export const useScheduleStore = create<ScheduleState>((set) => ({
   setConflictIds: (conflictIds) => set({ conflictIds }),
   closeDraft: () => set({ draft: null, editingId: null }),
   resetFilters: () =>
-    set({ typeFilter: 'all', statusFilter: 'all', studentFilter: 'all', dateFilter: '' }),
+    set({ typeFilter: 'all', statusFilter: 'all', yogiFilter: 'all', dateFilter: '' }),
   reset: () => set(initialState),
 }));

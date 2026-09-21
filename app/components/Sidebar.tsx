@@ -11,10 +11,10 @@ import { Button } from '@/components/ui/button';
 import geometry from './Sidebar.module.css';
 
 const items = [
-  { href: '/dashboard', label: 'Dashboard', Icon: Home },
+  { href: '/instructors', label: 'Dashboard', Icon: Home },
   { href: '/schedule', label: 'Class Schedule', Icon: CalendarDays },
   { href: '/classes', label: 'Classes', Icon: LibraryBig },
-  { href: '/students', label: 'Student notes', Icon: UsersRound },
+  { href: '/instructors/yogis', label: 'Yogi notes', Icon: UsersRound },
 ];
 
 export default function Sidebar({ logoutAction }: { logoutAction: () => Promise<void> }) {
@@ -24,7 +24,7 @@ export default function Sidebar({ logoutAction }: { logoutAction: () => Promise<
     <aside {...stylex.props(appStyles.sidebar)} aria-label="Workspace navigation">
       <div>
         <Link
-          href="/dashboard"
+          href="/instructors"
           {...stylex.props(appStyles.sidebarBrand)}
           aria-label="yogacn dashboard"
         >
@@ -36,7 +36,7 @@ export default function Sidebar({ logoutAction }: { logoutAction: () => Promise<
         <nav {...stylex.props(appStyles.sidebarNav)} aria-label="Main navigation">
           {items.map(({ href, label, Icon }, index) => {
             const isActive =
-              pathname === href || (href !== '/dashboard' && pathname.startsWith(`${href}/`));
+              pathname === href || (href !== '/instructors' && pathname.startsWith(`${href}/`));
             return (
               <div key={href} {...stylex.props(appStyles.sidebarMenuItem)}>
                 {index < items.length - 1 ? (

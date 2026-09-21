@@ -1,16 +1,16 @@
-import type { SessionAttendance, Student } from '../types';
+import type { SessionAttendance, Yogi } from '../types';
 
 export type AttendanceSummary = {
-  activeStudents: number;
-  uniqueStudents: number;
+  activeYogis: number;
+  uniqueYogis: number;
   totalVisits: number;
 };
 
 export const getRecentAttendance = (attendance: SessionAttendance[]) =>
   [...attendance].sort((a, b) => b.attendedAt.localeCompare(a.attendedAt));
 
-export const getAttendanceSummary = (students: Student[], attendance: SessionAttendance[]) => ({
-  activeStudents: students.filter((student) => student.status === 'active').length,
-  uniqueStudents: new Set(attendance.map((entry) => entry.studentId)).size,
+export const getAttendanceSummary = (yogis: Yogi[], attendance: SessionAttendance[]) => ({
+  activeYogis: yogis.filter((yogi) => yogi.status === 'active').length,
+  uniqueYogis: new Set(attendance.map((entry) => entry.yogiId)).size,
   totalVisits: attendance.length,
 });

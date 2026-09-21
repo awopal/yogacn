@@ -1,6 +1,6 @@
-import type { Student } from './types';
+import type { Yogi } from './types';
 
-export type StudentFormValues = {
+export type YogiFormValues = {
   name: string;
   email: string;
   phoneNumber: string;
@@ -14,12 +14,12 @@ export type StudentFormValues = {
   fitnessLevel: string;
 };
 
-export type StudentFormErrors = Partial<Record<'name' | 'email' | 'phoneNumber', string>>;
+export type YogiFormErrors = Partial<Record<'name' | 'email' | 'phoneNumber', string>>;
 
 export const timings = ['Morning', 'Evening', 'Weekdays', 'Weekends'];
 export const goals = ['Build strength', 'Improve flexibility', 'Reduce stress', 'Better balance'];
 
-export const emptyStudentForm: StudentFormValues = {
+export const emptyYogiForm: YogiFormValues = {
   name: '',
   email: '',
   phoneNumber: '',
@@ -33,24 +33,24 @@ export const emptyStudentForm: StudentFormValues = {
   fitnessLevel: '',
 };
 
-export function studentToForm(student: Student): StudentFormValues {
+export function yogiToForm(yogi: Yogi): YogiFormValues {
   return {
-    name: student.displayName,
-    email: student.email ?? '',
-    phoneNumber: student.phoneNumber ?? '',
-    gender: student.gender ?? '',
-    notes: student.note ?? '',
-    preferredClassLevel: student.preferredClassLevel ?? '',
-    preferredYogaType: student.preferredYogaType ?? '',
-    preferredClassTiming: student.preferredClassTiming ?? [],
-    specificTimingNotes: student.specificTimingNotes ?? '',
-    primaryGoals: student.primaryGoals ?? [],
-    fitnessLevel: student.fitnessLevel ?? '',
+    name: yogi.displayName,
+    email: yogi.email ?? '',
+    phoneNumber: yogi.phoneNumber ?? '',
+    gender: yogi.gender ?? '',
+    notes: yogi.note ?? '',
+    preferredClassLevel: yogi.preferredClassLevel ?? '',
+    preferredYogaType: yogi.preferredYogaType ?? '',
+    preferredClassTiming: yogi.preferredClassTiming ?? [],
+    specificTimingNotes: yogi.specificTimingNotes ?? '',
+    primaryGoals: yogi.primaryGoals ?? [],
+    fitnessLevel: yogi.fitnessLevel ?? '',
   };
 }
 
-export function validateStudentForm(form: StudentFormValues): StudentFormErrors {
-  const errors: StudentFormErrors = {};
+export function validateYogiForm(form: YogiFormValues): YogiFormErrors {
+  const errors: YogiFormErrors = {};
   if (!form.name.trim()) errors.name = 'กรุณากรอกชื่อ-นามสกุล';
   if (form.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) {
     errors.email = 'กรุณากรอกอีเมลให้ถูกต้อง';
@@ -61,20 +61,20 @@ export function validateStudentForm(form: StudentFormValues): StudentFormErrors 
   return errors;
 }
 
-export function formToStudent(form: StudentFormValues, existing?: Student): Student {
+export function formToYogi(form: YogiFormValues, existing?: Yogi): Yogi {
   return {
-    id: existing?.id ?? `student-${Date.now()}`,
+    id: existing?.id ?? `yogi-${Date.now()}`,
     displayName: form.name.trim(),
     note: form.notes.trim(),
     status: existing?.status ?? 'active',
     email: form.email.trim() || undefined,
     phoneNumber: form.phoneNumber.trim() || undefined,
-    gender: (form.gender || undefined) as Student['gender'],
-    preferredClassLevel: (form.preferredClassLevel || undefined) as Student['preferredClassLevel'],
+    gender: (form.gender || undefined) as Yogi['gender'],
+    preferredClassLevel: (form.preferredClassLevel || undefined) as Yogi['preferredClassLevel'],
     preferredYogaType: form.preferredYogaType.trim() || undefined,
     preferredClassTiming: form.preferredClassTiming.length ? form.preferredClassTiming : undefined,
     specificTimingNotes: form.specificTimingNotes.trim() || undefined,
     primaryGoals: form.primaryGoals.length ? form.primaryGoals : undefined,
-    fitnessLevel: (form.fitnessLevel || undefined) as Student['fitnessLevel'],
+    fitnessLevel: (form.fitnessLevel || undefined) as Yogi['fitnessLevel'],
   };
 }

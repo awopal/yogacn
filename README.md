@@ -1,6 +1,6 @@
 # yogacn
 
-An MVP workspace for yoga teachers to plan classes, teach from a focused sequence, preserve post-class reflections, and keep private student-observation timelines. The interface and demo content are in English.
+An MVP workspace for yoga instructors to plan classes, teach from a focused sequence, preserve post-class reflections, and keep private yogi-observation timelines. The interface and demo content are in English.
 
 ## Getting started
 

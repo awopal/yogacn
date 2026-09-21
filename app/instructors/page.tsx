@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import * as stylex from '@stylexjs/stylex';
-import { demoAttendance, demoPlans, demoStudents } from '../../lib/server/demo';
+import { demoAttendance, demoPlans, demoYogis } from '../../lib/server/demo';
 import { getAttendanceSummary } from '../../lib/server/attendance';
 import AppShell from '../components/AppShell';
 import { pageStyles } from '@/styles/page.stylex';
@@ -15,7 +15,7 @@ import { RecentNotesPreview } from '../components/dashboard/RecentNotesPreview';
 
 export default async function DashboardPage() {
   if ((await cookies()).get('yoga_demo_auth')?.value !== '1') redirect('/');
-  const attendanceSummary = getAttendanceSummary(demoStudents, demoAttendance);
+  const attendanceSummary = getAttendanceSummary(demoYogis, demoAttendance);
   // const currentWeekday = new Intl.DateTimeFormat('en-US', {
   //   timeZone: 'Asia/Bangkok',
   //   weekday: 'long',
@@ -40,8 +40,8 @@ export default async function DashboardPage() {
             tone="yellow"
           />
           <SummaryCard
-            label="Active students"
-            value={attendanceSummary.activeStudents}
+            label="Active yogis"
+            value={attendanceSummary.activeYogis}
             detail="Currently active"
             tone="green"
           />
@@ -65,7 +65,7 @@ export default async function DashboardPage() {
             <ActivitySummaryCard summary={attendanceSummary} />
           </div>
           <div {...stylex.props(dashboardStyles.overviewCard)}>
-            <RecentNotesPreview students={demoStudents} />
+            <RecentNotesPreview yogis={demoYogis} />
           </div>
         </div>
       </div>

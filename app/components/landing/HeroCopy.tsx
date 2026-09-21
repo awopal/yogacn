@@ -33,7 +33,7 @@ export function HeroCopy() {
       </h1>
 
       <p {...stylex.props(landingStyles.description)}>
-        One happy little home for yoga teachers and students to plan classes, keep track of your
+        One happy little home for yoga instructors and yogis to plan classes, keep track of your
         practice and grow together.
       </p>
     </>

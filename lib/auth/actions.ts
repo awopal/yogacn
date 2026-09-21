@@ -4,12 +4,13 @@ import { redirect } from 'next/navigation';
 import { createSession, type DemoRole } from './session';
 
 function getRole(formData: FormData): DemoRole {
-  return formData.get('role') === 'teacher' ? 'teacher' : 'student';
+  return formData.get('role') === 'instructor' ? 'instructor' : 'yogi';
 }
 
 async function signIn(formData: FormData) {
-  await createSession(getRole(formData));
-  redirect('/dashboard');
+  const role = getRole(formData);
+  await createSession(role);
+  redirect(role === 'yogi' ? '/yogis' : '/instructors');
 }
 
 export async function login(formData: FormData) {

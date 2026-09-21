@@ -2,29 +2,29 @@
 
 import { useState } from 'react';
 import * as stylex from '@stylexjs/stylex';
-import type { Student } from '../../lib/types';
+import type { Yogi } from '../../lib/types';
 import { Button } from '@/components/ui/button';
 import { dashboardStyles } from '@/styles/dashboard.stylex';
 import { typographyStyles } from '@/styles/typography.stylex';
-import StudentManager from './StudentManager';
+import YogiManager from './YogiManager';
 
-export default function StudentsPageContent({ initialStudents }: { initialStudents: Student[] }) {
+export default function YogisPageContent({ initialYogis }: { initialYogis: Yogi[] }) {
   const [open, setOpen] = useState(false);
 
   return (
     <>
       <header {...stylex.props(dashboardStyles.dashboardWelcome)}>
         <div>
-          <h1 {...stylex.props(typographyStyles.h3)}>Student notes</h1>
+          <h1 {...stylex.props(typographyStyles.h3)}>Yogi notes</h1>
           <p {...stylex.props(typographyStyles.muted, dashboardStyles.dashboardIntro)}>
             Notes that support safe and appropriate teaching.
           </p>
         </div>
         <Button type="button" onClick={() => setOpen(true)}>
-          ＋ Add student
+          ＋ Add yogi
         </Button>
       </header>
-      <StudentManager initialStudents={initialStudents} open={open} onOpenChange={setOpen} />
+      <YogiManager initialYogis={initialYogis} open={open} onOpenChange={setOpen} />
     </>
   );
 }
