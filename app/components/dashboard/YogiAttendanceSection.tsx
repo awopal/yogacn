@@ -8,6 +8,7 @@ import { pageStyles } from '@/styles/page.stylex';
 import { typographyStyles } from '@/styles/typography.stylex';
 import { CalendarCheckIcon, SealCheckIcon, UserCircleCheckIcon } from '@/components/icons';
 import { colors } from '@/styles/tokens.stylex';
+import { INSTRUCTOR_ROUTES } from '@/lib/routes';
 
 export function YogiAttendanceSection({
   attendance,
@@ -150,7 +151,7 @@ export function YogiAttendanceSection({
                       {session.entries.slice(0, 4).map((entry) => (
                         <Link
                           key={entry.id}
-                          href={`/instructors/yogis/${entry.yogiId}`}
+                          href={INSTRUCTOR_ROUTES.YOGIS.BY_ID(entry.yogiId)}
                           aria-label={`${entry.yogiName}, ${session.classTitle}`}
                           title={entry.yogiName}
                           {...stylex.props(dashboardStyles.weeklyAvatarLink)}

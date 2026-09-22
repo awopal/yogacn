@@ -6,6 +6,7 @@ import { dashboardStyles } from '@/styles/dashboard.stylex';
 import { typographyStyles } from '@/styles/typography.stylex';
 import { levelLabel, statusLabel } from '@/lib/utils';
 import { ViewAllLink } from './ViewAllLink';
+import { INSTRUCTOR_ROUTES } from '@/lib/routes';
 
 export function RecentClassesCard({ plans }: { plans: ClassPlan[] }) {
   const recent = [...plans]
@@ -22,14 +23,14 @@ export function RecentClassesCard({ plans }: { plans: ClassPlan[] }) {
           </h2>
         </div>
 
-        <ViewAllLink href="/classes">View all classes</ViewAllLink>
+        <ViewAllLink href={INSTRUCTOR_ROUTES.CLASSES.ROOT}>View all classes</ViewAllLink>
       </div>
 
       <div {...stylex.props(dashboardStyles.previewList)}>
         {recent.map((plan) => (
           <Link
             key={plan.id}
-            href={`/classes/${plan.id}/teach`}
+            href={INSTRUCTOR_ROUTES.CLASSES.TEACH(plan.id)}
             {...stylex.props(dashboardStyles.previewRow)}
           >
             <span {...stylex.props(dashboardStyles.previewIcon)} aria-hidden="true">

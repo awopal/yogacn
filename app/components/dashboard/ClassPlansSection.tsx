@@ -9,6 +9,7 @@ import { typographyStyles } from '@/styles/typography.stylex';
 import { levelLabel, statusLabel } from '../../../lib/utils';
 import { EyeIcon } from '@/components/icons';
 import { PublishToggle } from './PublishToggle';
+import { INSTRUCTOR_ROUTES } from '@/lib/routes';
 
 export function ClassPlansSection({ plans }: { plans: ClassPlan[] }) {
   return (
@@ -38,7 +39,7 @@ export function ClassPlansSection({ plans }: { plans: ClassPlan[] }) {
             <Button variant="ghost" asChild {...stylex.props(dashboardStyles.allClassAction)}>
               <Link
                 aria-label={`Open ${plan.title}`}
-                href={`/classes/${plan.id}/edit`}
+                href={INSTRUCTOR_ROUTES.CLASSES.EDIT(plan.id)}
                 title="Open plan"
               >
                 <EyeIcon size={28} aria-hidden="true" />

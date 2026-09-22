@@ -3,6 +3,7 @@ import * as stylex from '@stylexjs/stylex';
 import type { AttendanceSummary } from '@/lib/server/attendance';
 import { dashboardStyles } from '@/styles/dashboard.stylex';
 import { typographyStyles } from '@/styles/typography.stylex';
+import { INSTRUCTOR_ROUTES } from '@/lib/routes';
 import { ViewAllLink } from './ViewAllLink';
 
 export function ActivitySummaryCard({ summary }: { summary: AttendanceSummary }) {
@@ -31,7 +32,7 @@ export function ActivitySummaryCard({ summary }: { summary: AttendanceSummary })
           <span>total visits</span>
         </div>
       </div>
-      <Link href="/instructors/yogis" {...stylex.props(dashboardStyles.activityPreview)}>
+      <Link href={INSTRUCTOR_ROUTES.YOGIS.ROOT} {...stylex.props(dashboardStyles.activityPreview)}>
         <span>Attendance is building steadily</span>
         <progress
           value={summary.totalVisits}

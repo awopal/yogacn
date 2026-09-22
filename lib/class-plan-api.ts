@@ -1,6 +1,7 @@
 import type { ClassBuilderDraft } from '@/lib/stores/class-builder-store';
 import type { ClassPlan, PlanStatus } from '@/lib/types';
 import { httpClientWithToast } from '@/lib/http/client';
+import { API_ROUTES } from '@/lib/routes';
 
 export type ClassPlanFilter = 'all' | PlanStatus;
 export type ClassPlanCounts = Record<ClassPlanFilter, number>;
@@ -43,24 +44,30 @@ const queryString = (query: ClassPlanQuery) => {
 
 export const classPlanApi: ClassPlanApi = {
   async list(query, signal) {
-    return httpClientWithToast.request<ClassPlanPage>(`/api/classes?${queryString(query)}`, {
-      signal,
-      errorToast: { title: 'Failed to load class plans' },
-    });
+    return httpClientWithToast.request<ClassPlanPage>(
+      `${API_ROUTES.CLASSES}?${queryString(query)}`,
+      {
+        signal,
+        errorToast: { title: 'Failed to load class plans' },
+      },
+    );
   },
 
   async save(draft, planId) {
-    await httpClientWithToast.request(planId ? `/api/classes/${planId}` : '/api/classes', {
-      method: planId ? 'PATCH' : 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(draft),
-      successToast: {
-        title: planId ? 'Plan updated successfully' : 'Plan saved successfully',
-        description: planId
-          ? 'The class plan was updated successfully'
-          : 'The class plan was created successfully',
+    await httpClientWithToast.request(
+      planId ? API_ROUTES.CLASS_BY_ID(planId) : API_ROUTES.CLASSES,
+      {
+        method: planId ? 'PATCH' : 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(draft),
+        successToast: {
+          title: planId ? 'Plan updated successfully' : 'Plan saved successfully',
+          description: planId
+            ? 'The class plan was updated successfully'
+            : 'The class plan was created successfully',
+        },
+        errorToast: { title: 'Failed to save the class plan' },
       },
-      errorToast: { title: 'Failed to save the class plan' },
-    });
+    );
   },
 };

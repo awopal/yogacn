@@ -36,6 +36,7 @@ import { statusLabel } from '@/lib/utils';
 import { TrashIcon } from '@/components/icons';
 import { colors } from '@/styles/tokens.stylex';
 import { layoutStyles } from '@/styles/layout.stylex';
+import { INSTRUCTOR_ROUTES } from '@/lib/routes';
 import { classTemplates, cloneTemplate } from '@/lib/class-templates';
 import { classPlanApi } from '@/lib/class-plan-api';
 import { browserDraftStorage } from '@/lib/class-plan-draft';
@@ -300,7 +301,7 @@ export default function Planner({
 
     setSaveState('saved');
 
-    router.push('/classes');
+    router.push(INSTRUCTOR_ROUTES.CLASSES.ROOT);
   }
 
   return (

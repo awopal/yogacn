@@ -5,6 +5,7 @@ import * as stylex from '@stylexjs/stylex';
 import { pageStyles } from '../../styles/page.stylex';
 import { teachingStyles } from '../../styles/teaching.stylex';
 import { typographyStyles } from '../../styles/typography.stylex';
+import { INSTRUCTOR_ROUTES } from '@/lib/routes';
 export default function TeachingMode({ title }: { title: string }) {
   const items = ['Seated breathing', 'Cat–Cow', 'Bird Dog', 'Hold Plank', 'Navasana', 'Savasana'];
   const [current, setCurrent] = useState(0);
@@ -46,7 +47,9 @@ export default function TeachingMode({ title }: { title: string }) {
       </div>
       <Button variant="outline" asChild>
         <a
-          href={`/classes/${title === 'Core & Control' ? 'core-control' : 'gentle-balance'}/reflect`}
+          href={INSTRUCTOR_ROUTES.CLASSES.REFLECT(
+            title === 'Core & Control' ? 'core-control' : 'gentle-balance',
+          )}
         >
           Finish and reflect
         </a>

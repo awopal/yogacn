@@ -22,6 +22,7 @@ import { dashboardStyles } from '@/styles/dashboard.stylex';
 import { LibraryBig, Loader, X } from 'lucide-react';
 import { ArrowRightIcon } from '@/components/icons';
 import { layoutStyles } from '@/styles/layout.stylex';
+import { INSTRUCTOR_ROUTES } from '@/lib/routes';
 
 const filters: ClassPlanFilter[] = ['all', 'ready', 'draft', 'taught'];
 
@@ -136,7 +137,7 @@ export default function ClassLibrary({
           {plans.map((plan) => (
             <li key={plan.id}>
               <Link
-                href={`/classes/${plan.id}/edit`}
+                href={INSTRUCTOR_ROUTES.CLASSES.EDIT(plan.id)}
                 {...stylex.props(dashboardStyles.fullPlanRow)}
               >
                 <div {...stylex.props(dashboardStyles.previewCopy)}>

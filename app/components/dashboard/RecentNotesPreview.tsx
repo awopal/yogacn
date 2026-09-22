@@ -4,6 +4,7 @@ import type { Yogi } from '@/lib/types';
 import { dashboardStyles } from '@/styles/dashboard.stylex';
 import { typographyStyles } from '@/styles/typography.stylex';
 import { ViewAllLink } from './ViewAllLink';
+import { INSTRUCTOR_ROUTES } from '@/lib/routes';
 
 export function RecentNotesPreview({ yogis }: { yogis: Yogi[] }) {
   return (
@@ -15,13 +16,13 @@ export function RecentNotesPreview({ yogis }: { yogis: Yogi[] }) {
             Recent notes
           </h2>
         </div>
-        <ViewAllLink href="/instructors/yogis">View all notes</ViewAllLink>
+        <ViewAllLink href={INSTRUCTOR_ROUTES.YOGIS.ROOT}>View all notes</ViewAllLink>
       </div>
       <div {...stylex.props(dashboardStyles.previewList)}>
         {yogis.slice(0, 3).map((yogi) => (
           <Link
             key={yogi.id}
-            href={`/instructors/yogis/${yogi.id}`}
+            href={INSTRUCTOR_ROUTES.YOGIS.BY_ID(yogi.id)}
             {...stylex.props(dashboardStyles.noteRow)}
           >
             <span {...stylex.props(dashboardStyles.previewIcon)} aria-hidden="true">

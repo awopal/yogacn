@@ -4,6 +4,7 @@ import * as stylex from '@stylexjs/stylex';
 import { Button } from '@/components/ui/button';
 import { dashboardStyles } from '@/styles/dashboard.stylex';
 import { typographyStyles } from '@/styles/typography.stylex';
+import { INSTRUCTOR_ROUTES } from '@/lib/routes';
 
 export function DashboardHeader() {
   return (
@@ -15,7 +16,7 @@ export function DashboardHeader() {
         </p>
       </div>
       <Button asChild>
-        <Link href="/classes/new">
+        <Link href={INSTRUCTOR_ROUTES.CLASSES.NEW}>
           <Plus size={18} aria-hidden="true" /> Create new class
         </Link>
       </Button>

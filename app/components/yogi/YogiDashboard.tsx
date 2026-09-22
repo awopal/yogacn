@@ -21,7 +21,6 @@ import {
 } from 'lucide-react';
 import { Popover } from 'radix-ui';
 import * as stylex from '@stylexjs/stylex';
-import { SummaryCard } from '@/app/components/dashboard/SummaryCard';
 import { YogaLogoIcon } from '@/components/icons';
 import { Badge, type BadgeVariant } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -32,6 +31,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/components/ui/toast';
 import { yogiDashboardStyles as styles } from '@/styles/yogi-dashboard.stylex';
 import { colors } from '@/styles/tokens.stylex';
+import { YOGI_ROUTES } from '@/lib/routes';
 
 type ClassItem = {
   title: string;
@@ -281,7 +281,7 @@ export default function YogiDashboard() {
     <main {...stylex.props(styles.appPage)}>
       <div {...stylex.props(styles.shell)}>
         <header {...stylex.props(styles.topbar)}>
-          <a href="/yogis" {...stylex.props(styles.brand)} aria-label="yogacn yogi home">
+          <a href={YOGI_ROUTES.ROOT} {...stylex.props(styles.brand)} aria-label="yogacn yogi home">
             <YogaLogoIcon size={30} color={colors.primary} />
             <span>
               yogacn<small {...stylex.props(styles.brandCaption)}>Move · Breathe · Be you</small>
@@ -392,37 +392,6 @@ export default function YogiDashboard() {
                   <X size={16} aria-hidden="true" />
                 </Button>
               ) : null}
-            </div>
-
-            <div {...stylex.props(styles.summaryGrid)}>
-              <SummaryCard
-                compact
-                label="Classes this week"
-                value="3 / 5"
-                detail="Two more to reach your goal"
-                tone="green"
-              />
-              <SummaryCard
-                compact
-                label="Practice time"
-                value="180"
-                detail="minutes · 20% more this week"
-                tone="pink"
-              />
-              <SummaryCard
-                compact
-                label="Current streak"
-                value="12"
-                detail="days · keep it going"
-                tone="yellow"
-              />
-              <SummaryCard
-                compact
-                label="Next class"
-                value="08:00"
-                detail="Morning Flow · tomorrow"
-                tone="purple"
-              />
             </div>
 
             <section id="classes" aria-labelledby="featured-title">

@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation';
 import { demoAttendance, demoPlans, demoYogis } from '../../../../lib/server/demo';
-import AppShell from '../../../components/AppShell';
 import YogiDetailTabs from '../../../components/YogiDetailTabs';
 import * as stylex from '@stylexjs/stylex';
 import { pageStyles } from '@/styles/page.stylex';
@@ -11,22 +10,20 @@ export default async function YogiDetailPage({ params }: { params: Promise<{ id:
   const yogi = demoYogis.find((item) => item.id === id);
   if (!yogi) notFound();
   return (
-    <AppShell>
-      <div {...stylex.props(pageStyles.page)}>
-        <YogiDetailTabs
-          yogi={yogi}
-          attendance={demoAttendance
-            .filter((entry) => entry.yogiId === yogi.id)
-            .sort((a, b) => b.attendedAt.localeCompare(a.attendedAt))
-            .map((entry) => ({
-              ...entry,
-              level: (() => {
-                const plan = demoPlans.find((item) => item.title === entry.classTitle);
-                return plan ? levelLabel[plan.level] : undefined;
-              })(),
-            }))}
-        />
-      </div>
-    </AppShell>
+    <div {...stylex.props(pageStyles.page)}>
+      <YogiDetailTabs
+        yogi={yogi}
+        attendance={demoAttendance
+          .filter((entry) => entry.yogiId === yogi.id)
+          .sort((a, b) => b.attendedAt.localeCompare(a.attendedAt))
+          .map((entry) => ({
+            ...entry,
+            level: (() => {
+              const plan = demoPlans.find((item) => item.title === entry.classTitle);
+              return plan ? levelLabel[plan.level] : undefined;
+            })(),
+          }))}
+      />
+    </div>
   );
 }

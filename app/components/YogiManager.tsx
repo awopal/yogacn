@@ -30,6 +30,7 @@ import { yogiService, type YogiRepository } from '../../lib/yogi-service';
 import { ArrowRightIcon, UserCircleCheckIcon } from '@/components/icons';
 import { UserShield, X } from 'lucide-react';
 import { colors } from '@/styles/tokens.stylex';
+import { INSTRUCTOR_ROUTES } from '@/lib/routes';
 import {
   emptyYogiForm,
   formToYogi,
@@ -484,7 +485,7 @@ export default function YogiManager({
                   key={`${yogi.id || yogi.displayName}-${index}`}
                   {...stylex.props(cardStyles.card)}
                   className={stylex.props(yogiStyles.item).className}
-                  href={`/instructors/yogis/${yogi.id}`}
+                  href={INSTRUCTOR_ROUTES.YOGIS.BY_ID(yogi.id)}
                 >
                   <div {...stylex.props(yogiStyles.avatar)}>{yogi.displayName[0]}</div>
                   <div {...stylex.props(yogiStyles.content)}>

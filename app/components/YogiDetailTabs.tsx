@@ -15,6 +15,7 @@ import { dashboardStyles } from '@/styles/dashboard.stylex';
 import { pageStyles } from '@/styles/page.stylex';
 import { yogiStyles } from '@/styles/yogi.stylex';
 import { typographyStyles } from '@/styles/typography.stylex';
+import { INSTRUCTOR_ROUTES } from '@/lib/routes';
 
 type AttendanceVisit = SessionAttendance & { level?: string };
 type YogiTab = 'profile' | 'attendance' | 'observations';
@@ -92,7 +93,7 @@ export default function YogiDetailTabs({
       <header {...stylex.props(dashboardStyles.dashboardWelcome)}>
         <div>
           <p {...stylex.props(pageStyles.eyebrow)}>
-            <Link href="/instructors/yogis" {...stylex.props(pageStyles.backLink)}>
+            <Link href={INSTRUCTOR_ROUTES.YOGIS.ROOT} {...stylex.props(pageStyles.backLink)}>
               YOGIS
             </Link>
             <span aria-hidden="true">&nbsp;•&nbsp;</span>

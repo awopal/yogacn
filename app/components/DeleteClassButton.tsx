@@ -6,18 +6,19 @@ import { Button } from '@/components/ui/button';
 import { TrashIcon } from '@/components/icons';
 import { colors } from '@/styles/tokens.stylex';
 import { httpClientWithToast } from '@/lib/http/client';
+import { API_ROUTES, INSTRUCTOR_ROUTES } from '@/lib/routes';
 
 export function DeleteClassButton({ planId, planTitle }: { planId: string; planTitle: string }) {
   const router = useRouter();
 
   async function deleteClass() {
     try {
-      await httpClientWithToast.request(`/api/classes/${planId}`, {
+      await httpClientWithToast.request(API_ROUTES.CLASS_BY_ID(planId), {
         method: 'DELETE',
         successToast: { title: 'Class deleted successfully' },
         errorToast: { title: 'Failed to delete the class' },
       });
-      router.push('/classes');
+      router.push(INSTRUCTOR_ROUTES.CLASSES.ROOT);
     } catch (error) {
       // User feedback is handled by the HTTP toast middleware.
       console.error('Failed to delete class plan', { planId, error });

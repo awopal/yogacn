@@ -6,6 +6,7 @@ import { dashboardStyles } from '@/styles/dashboard.stylex';
 import { typographyStyles } from '@/styles/typography.stylex';
 import { levelLabel, statusLabel } from '@/lib/utils';
 import { ViewAllLink } from './ViewAllLink';
+import { INSTRUCTOR_ROUTES } from '@/lib/routes';
 
 export function ClassPlansPreview({ plans }: { plans: ClassPlan[] }) {
   return (
@@ -17,14 +18,14 @@ export function ClassPlansPreview({ plans }: { plans: ClassPlan[] }) {
             Class plans
           </h2>
         </div>
-        <ViewAllLink href="/classes">View all plans</ViewAllLink>
+        <ViewAllLink href={INSTRUCTOR_ROUTES.CLASSES.ROOT}>View all plans</ViewAllLink>
       </div>
       <p {...stylex.props(dashboardStyles.planCount)}>{plans.length} plans ready in your library</p>
       <div {...stylex.props(dashboardStyles.previewList)}>
         {plans.slice(0, 3).map((plan) => (
           <Link
             key={plan.id}
-            href={`/classes/${plan.id}/edit`}
+            href={INSTRUCTOR_ROUTES.CLASSES.EDIT(plan.id)}
             {...stylex.props(dashboardStyles.planPreviewRow)}
           >
             <span {...stylex.props(dashboardStyles.previewCopy)}>

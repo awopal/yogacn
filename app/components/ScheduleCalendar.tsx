@@ -57,6 +57,7 @@ import {
   useScheduleStore,
 } from '@/lib/stores/schedule-store';
 import { colors } from '@/styles/tokens.stylex';
+import { INSTRUCTOR_ROUTES } from '@/lib/routes';
 import { MoonDayIcon, type MoonDay, type MoonDayType } from '@/components/MoonDayIndicator';
 
 const statusLabels: Record<ClassStatus, string> = {
@@ -637,7 +638,7 @@ function ClassForm({
             </Combobox>
             {form.classPlanId && (
               <Link
-                href={`/classes/${form.classPlanId}/edit`}
+                href={INSTRUCTOR_ROUTES.CLASSES.EDIT(form.classPlanId)}
                 target="_blank"
                 rel="noreferrer"
                 {...stylex.props(dashboardStyles.viewAllLink)}

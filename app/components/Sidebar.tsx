@@ -2,29 +2,51 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { CalendarDays, LogOut, UserRound, UsersRound, LibraryBig, Home } from 'lucide-react';
+import { CalendarDays, Home, LibraryBig, LogOut, UserRound, UsersRound } from 'lucide-react';
 import * as stylex from '@stylexjs/stylex';
 import { YogaLogoIcon } from '@/components/icons';
 import { appStyles } from '@/styles/app.stylex';
 import { colors } from '@/styles/tokens.stylex';
 import { Button } from '@/components/ui/button';
 import geometry from './Sidebar.module.css';
+import { yogiProfile, yogiSidebarItems } from '../yogis/sidebar-menu';
+import { instructorProfile, instructorSidebarItems } from '../instructors/sidebar-menu';
 
-const items = [
-  { href: '/instructors', label: 'Dashboard', Icon: Home },
-  { href: '/schedule', label: 'Class Schedule', Icon: CalendarDays },
-  { href: '/classes', label: 'Classes', Icon: LibraryBig },
-  { href: '/instructors/yogis', label: 'Yogi notes', Icon: UsersRound },
-];
+export type SidebarMenuItem = {
+  href: string;
+  label: string;
+  icon: 'calendar' | 'home' | 'library' | 'users';
+};
 
-export default function Sidebar({ logoutAction }: { logoutAction: () => Promise<void> }) {
+const sidebarIcons = {
+  calendar: CalendarDays,
+  home: Home,
+  library: LibraryBig,
+  users: UsersRound,
+} as const;
+
+export default function Sidebar({
+  logoutAction,
+  isBaseRoute,
+  brandHref,
+}: {
+  logoutAction: () => Promise<void>;
+  isBaseRoute: boolean;
+  brandHref?: string;
+}) {
+  const menuItems = isBaseRoute ? yogiSidebarItems : instructorSidebarItems;
+  const profile = isBaseRoute ? yogiProfile : instructorProfile;
+
   const pathname = usePathname();
+  const homeHref = menuItems[0]?.href ?? '/';
+  const homePath = homeHref.split('#')[0];
+  const resolvedBrandHref = brandHref ?? homeHref;
 
   return (
     <aside {...stylex.props(appStyles.sidebar)} aria-label="Workspace navigation">
       <div>
         <Link
-          href="/instructors"
+          href={resolvedBrandHref}
           {...stylex.props(appStyles.sidebarBrand)}
           aria-label="yogacn dashboard"
         >
@@ -34,12 +56,15 @@ export default function Sidebar({ logoutAction }: { logoutAction: () => Promise<
         </Link>
 
         <nav {...stylex.props(appStyles.sidebarNav)} aria-label="Main navigation">
-          {items.map(({ href, label, Icon }, index) => {
+          {menuItems.map(({ href, label, icon }, index) => {
+            const Icon = sidebarIcons[icon];
             const isActive =
-              pathname === href || (href !== '/instructors' && pathname.startsWith(`${href}/`));
+              href === homeHref
+                ? pathname === homePath
+                : !href.includes('#') && (pathname === href || pathname.startsWith(`${href}/`));
             return (
               <div key={href} {...stylex.props(appStyles.sidebarMenuItem)}>
-                {index < items.length - 1 ? (
+                {index < menuItems.length - 1 ? (
                   <svg
                     {...stylex.props(appStyles.sidebarConnector)}
                     viewBox="0 0 60 64"
@@ -75,7 +100,7 @@ export default function Sidebar({ logoutAction }: { logoutAction: () => Promise<
           size="sm"
           {...stylex.props(appStyles.sidebarProfileButton)}
         >
-          <Link href="/profile" aria-label="Profile">
+          <Link href={profile.href} aria-label="Profile">
             <UserRound color={colors.primary} aria-hidden="true" />
           </Link>
         </Button>

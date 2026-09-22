@@ -11,6 +11,7 @@ import { formStyles } from '../../styles/form.stylex';
 import { feedbackStyles } from '../../styles/feedback.stylex';
 import { reflectionStyles } from '../../styles/reflection.stylex';
 import { typographyStyles } from '../../styles/typography.stylex';
+import { INSTRUCTOR_ROUTES } from '@/lib/routes';
 const schema = z.object({
   actual: z.number().min(1).max(360),
   reflection: z.string().min(2, 'กรุณาเขียน reflection อย่างน้อยเล็กน้อย'),
@@ -65,7 +66,7 @@ export default function ReflectionForm({ planned }: { planned: number }) {
       <div {...stylex.props(pageStyles.actions)}>
         <Button type="submit">Save reflection</Button>
         <Button variant="outline" asChild>
-          <a href="/instructors">Cancel</a>
+          <a href={INSTRUCTOR_ROUTES.ROOT}>Cancel</a>
         </Button>
       </div>
       {message && (

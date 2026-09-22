@@ -1,10 +1,11 @@
 import { notFound } from 'next/navigation';
-import { demoPlans } from '../../../../lib/server/demo';
-import ReflectionForm from '../../../components/ReflectionForm';
+import { demoPlans } from '@/lib/server/demo';
+import ReflectionForm from '../../../../components/ReflectionForm';
 import * as stylex from '@stylexjs/stylex';
 import { pageStyles } from '@/styles/page.stylex';
 import { Button } from '@/components/ui/button';
 import { typographyStyles } from '@/styles/typography.stylex';
+import { INSTRUCTOR_ROUTES } from '@/lib/routes';
 export default async function ReflectPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const plan = demoPlans.find((item) => item.id === id);
@@ -17,7 +18,7 @@ export default async function ReflectPage({ params }: { params: Promise<{ id: st
           <h1 {...stylex.props(typographyStyles.h1)}>{plan.title}</h1>
         </div>
         <Button variant="outline" asChild>
-          <a href="/instructors">Dashboard</a>
+          <a href={INSTRUCTOR_ROUTES.ROOT}>Dashboard</a>
         </Button>
       </div>
       <ReflectionForm planned={plan.plannedDurationMinutes} />

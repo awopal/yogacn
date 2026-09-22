@@ -5,14 +5,15 @@ import * as stylex from '@stylexjs/stylex';
 import { layoutStyles } from '@/styles/layout.stylex';
 import { typographyStyles } from '@/styles/typography.stylex';
 import { MoonDayIndicator } from '@/components/MoonDayIndicator';
+import { INSTRUCTOR_ROUTES } from '@/lib/routes';
 
 function getMenuLabel(pathname: string) {
-  if (pathname.startsWith('/classes/new')) return 'New class';
-  if (pathname.startsWith('/classes/')) return 'Classes';
-  if (pathname.startsWith('/classes')) return 'Classes';
-  if (pathname.startsWith('/schedule')) return 'Class Schedule';
-  if (pathname.startsWith('/instructors/yogis')) return 'Yogi notes';
-  if (pathname.startsWith('/profile')) return 'Profile';
+  if (pathname.startsWith(INSTRUCTOR_ROUTES.CLASSES.NEW)) return 'New class';
+  if (pathname.startsWith(`${INSTRUCTOR_ROUTES.CLASSES.ROOT}/`)) return 'Classes';
+  if (pathname.startsWith(INSTRUCTOR_ROUTES.CLASSES.ROOT)) return 'Classes';
+  if (pathname.startsWith(INSTRUCTOR_ROUTES.SCHEDULE)) return 'Class Schedule';
+  if (pathname.startsWith(INSTRUCTOR_ROUTES.YOGIS.ROOT)) return 'Yogi notes';
+  if (pathname.startsWith(INSTRUCTOR_ROUTES.PROFILE)) return 'Profile';
   return 'Dashboard';
 }
 

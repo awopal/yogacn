@@ -9,6 +9,7 @@ import { dashboardStyles } from '@/styles/dashboard.stylex';
 import { pageStyles } from '@/styles/page.stylex';
 import { typographyStyles } from '@/styles/typography.stylex';
 import { levelLabel, statusLabel } from '../../../lib/utils';
+import { INSTRUCTOR_ROUTES } from '@/lib/routes';
 
 export function RecentlyTaughtSection({ plans }: { plans: ClassPlan[] }) {
   return (
@@ -52,14 +53,14 @@ export function RecentlyTaughtSection({ plans }: { plans: ClassPlan[] }) {
               <Button variant="outline" asChild>
                 <Link
                   aria-label={`Continue editing ${plan.title}`}
-                  href={`/classes/${plan.id}/edit`}
+                  href={INSTRUCTOR_ROUTES.CLASSES.EDIT(plan.id)}
                   title="Continue editing"
                 >
                   <PencilLineIcon size={24} color={colors.primary} />
                 </Link>
               </Button>
               <Button variant="ghost" asChild>
-                <Link href={`/classes/${plan.id}/teach`}>Open Teaching Mode →</Link>
+                <Link href={INSTRUCTOR_ROUTES.CLASSES.TEACH(plan.id)}>Open Teaching Mode →</Link>
               </Button>
             </div>
           </article>
