@@ -10,8 +10,8 @@ export const layoutStyles = stylex.create({
     minHeight: '100dvh',
     maxHeight: '100dvh',
     overflow: 'hidden',
-    gap: spacing.md,
-    paddingLeft: spacing.md,
+    gap: spacing.sm,
+    paddingLeft: spacing.sm,
     '@media (max-width: 640px)': {
       gridTemplateColumns: '72px minmax(0, 1fr)',
       padding: spacing.sm,

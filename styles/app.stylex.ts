@@ -31,8 +31,8 @@ export const appStyles = stylex.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 48,
-    width: 48,
+    height: 44,
+    width: 44,
   },
   sidebarNav: {
     position: 'relative',

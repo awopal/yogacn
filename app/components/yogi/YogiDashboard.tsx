@@ -4,127 +4,123 @@ import { useMemo, useState } from 'react';
 import {
   ArrowRight,
   Bell,
-  CalendarDays,
-  ChevronDown,
-  ChevronLeft,
+  Bookmark,
+  BookmarkCheck,
+  Check,
   ChevronRight,
   Clock3,
-  Coffee,
+  Flame,
   Heart,
   Home,
   LibraryBig,
+  Play,
   Search,
   SlidersHorizontal,
   Sparkles,
+  Target,
   UserRound,
-  X,
 } from 'lucide-react';
-import { Popover } from 'radix-ui';
 import * as stylex from '@stylexjs/stylex';
-import { YogaLogoIcon } from '@/components/icons';
 import { Badge, type BadgeVariant } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { SectionHeader } from '@/components/ui/section-header';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/components/ui/toast';
 import { yogiDashboardStyles as styles } from '@/styles/yogi-dashboard.stylex';
-import { colors } from '@/styles/tokens.stylex';
-import { YOGI_ROUTES } from '@/lib/routes';
+import { typographyStyles } from '@/styles/typography.stylex';
+import { MoonDayIndicator } from '@/components/MoonDayIndicator';
+import { layoutStyles } from '@/styles/layout.stylex';
 
-type ClassItem = {
+type VideoItem = {
   title: string;
   instructor: string;
   duration: string;
   level: string;
+  category: string;
   reason: string;
   image: string;
   badge: BadgeVariant;
 };
 
-const classes: ClassItem[] = [
+const videos: VideoItem[] = [
   {
     title: 'Morning Flow',
     instructor: 'Sarah Kim',
-    duration: '45 min',
+    duration: '25 min',
     level: 'Intermediate',
-    reason: 'Because you liked Restorative Yoga',
+    category: 'Mobility',
+    reason: 'Build an energising morning habit',
     image:
       'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=800&q=84',
     badge: 'ready',
   },
   {
-    title: 'Yin Yoga',
+    title: 'Slow & Steady Yoga',
     instructor: 'Mika Chen',
-    duration: '60 min',
+    duration: '35 min',
     level: 'Beginner',
-    reason: 'Because you follow Mika Chen',
+    category: 'Relaxation',
+    reason: 'A gentle reset for your body',
     image:
       'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=800&q=84',
     badge: 'taught',
   },
   {
-    title: 'Power Flow',
+    title: 'Core & Balance',
     instructor: 'Alex Rivera',
-    duration: '60 min',
-    level: 'Advanced',
-    reason: 'A good match for your practice',
+    duration: '20 min',
+    level: 'Intermediate',
+    category: 'Strength',
+    reason: 'Recommended for your progress',
     image:
       'https://images.unsplash.com/photo-1599447421416-3414500d18a5?auto=format&fit=crop&w=800&q=84',
     badge: 'draft',
   },
 ];
 
-const bookings = [
+const learning = [
   {
-    title: 'Restorative Yoga',
-    detail: 'Sat, Jan 24 · 17:30–18:30',
-    instructor: 'Mika Chen',
-    state: 'Confirmed',
-  },
-  {
-    title: 'Hatha Yoga',
-    detail: 'Sun, Jan 25 · 10:00–11:00',
+    title: 'Foundations of Yoga',
     instructor: 'Sarah Kim',
-    state: 'Upcoming',
+    progress: 72,
+    lessons: '8 of 11 lessons',
+    image: videos[0].image,
   },
-];
-
-const instructors = [
-  { name: 'Sarah Kim', focus: 'Vinyasa · Mobility', classes: '8 classes available' },
-  { name: 'Mika Chen', focus: 'Yin · Restorative', classes: '5 classes available' },
-];
-
-const monthDays = [
-  29, 30, 31, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
-  25, 26, 27, 28, 29, 30, 31, 1,
-];
-
-const schedule = [
-  { time: '08:00', title: 'Morning Flow', instructor: 'Sarah Kim', variant: 'ready' as const },
-  { time: '10:00', title: 'Beginner Yoga', instructor: 'Mika Chen', variant: 'private' as const },
   {
-    time: '13:00',
-    title: 'Lunch break',
-    instructor: 'Take time for yourself',
-    variant: 'private' as const,
-    break: true,
+    title: 'Restorative Evenings',
+    instructor: 'Mika Chen',
+    progress: 34,
+    lessons: '3 of 9 lessons',
+    image: videos[1].image,
   },
-  { time: '17:30', title: 'Vinyasa Flow', instructor: 'Alex Rivera', variant: 'draft' as const },
-  { time: '19:00', title: 'Yin Yoga', instructor: 'Mika Chen', variant: 'taught' as const },
 ];
 
-function ClassCard({
+const plan = [
+  { day: 'Today', title: 'Morning Flow', detail: '25 min · Mobility', complete: true },
+  { day: 'Tomorrow', title: 'Slow & Steady Yoga', detail: '35 min · Relaxation', complete: false },
+  { day: 'Friday', title: 'Core & Balance', detail: '20 min · Strength', complete: false },
+];
+
+const categories = ['All', 'Mobility', 'Strength', 'Relaxation'];
+
+export function getGreeting(date = new Date()) {
+  const hour = date.getHours();
+  if (hour < 12) return 'Good morning';
+  if (hour < 18) return 'Good afternoon';
+  return 'Good evening';
+}
+
+function VideoCard({
   item,
   saved,
   onSave,
-  onBook,
+  onOpen,
 }: {
-  item: ClassItem;
+  item: VideoItem;
   saved: boolean;
   onSave: () => void;
-  onBook: () => void;
+  onOpen: () => void;
 }) {
   return (
     <Card {...stylex.props(styles.classCard)}>
@@ -135,8 +131,7 @@ function ClassCard({
         aria-label={`${item.title} with ${item.instructor}`}
       >
         <Badge variant={item.badge}>
-          <Sparkles size={12} aria-hidden="true" />
-          Recommended
+          <Sparkles size={12} aria-hidden="true" /> Recommended
         </Badge>
         <Button
           variant="secondary"
@@ -169,110 +164,54 @@ function ClassCard({
           </span>
           <span>{item.instructor}</span>
         </div>
-        <Button size="md" onClick={onBook}>
-          Book class
+        <Button size="md" onClick={onOpen}>
+          <Play size={15} fill="currentColor" aria-hidden="true" />
+          Start practice
         </Button>
       </div>
     </Card>
   );
 }
 
-function ScheduleRailContent({ titleId = 'schedule-title' }: { titleId?: string }) {
-  return (
-    <>
-      <div {...stylex.props(styles.calendarHeader)}>
-        <div>
-          <span {...stylex.props(styles.calendarMonth)}>January</span>
-          <h2 id={titleId} {...stylex.props(styles.calendarTitle)}>
-            21, Tuesday
-          </h2>
-        </div>
-        <div>
-          <Button variant="ghost" size="sm" aria-label="Previous month">
-            <ChevronLeft size={18} />
-          </Button>
-          <Button variant="ghost" size="sm" aria-label="Next month">
-            <ChevronRight size={18} />
-          </Button>
-        </div>
-      </div>
-      <div {...stylex.props(styles.weekdays)}>
-        {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-          <span key={day}>{day}</span>
-        ))}
-      </div>
-      <div {...stylex.props(styles.monthGrid)}>
-        {monthDays.map((date, index) => (
-          <Button
-            key={`${date}-${index}`}
-            variant={date === 21 ? 'calendar' : 'calendarCell'}
-            size="calendar"
-            noPadding
-            aria-current={date === 21 ? 'date' : undefined}
-          >
-            {date}
-          </Button>
-        ))}
-      </div>
-      <div {...stylex.props(styles.scheduleDivider)} />
-      <div {...stylex.props(styles.scheduleList)}>
-        {schedule.map((event) => (
-          <div key={event.title} {...stylex.props(styles.scheduleRow)}>
-            <time>{event.time}</time>
-            <div {...stylex.props(styles.scheduleEvent)}>
-              <span {...stylex.props(styles.bookingIcon)}>
-                {event.break ? (
-                  <Coffee size={18} aria-hidden="true" />
-                ) : (
-                  <CalendarDays size={18} aria-hidden="true" />
-                )}
-              </span>
-              <span {...stylex.props(styles.bookingCopy)}>
-                <strong>{event.title}</strong>
-                <span>{event.instructor}</span>
-              </span>
-              {!event.break ? <Badge variant={event.variant}>Booked</Badge> : null}
-            </div>
-          </div>
-        ))}
-      </div>
-    </>
-  );
-}
-
 export default function YogiDashboard() {
   const toastManager = useToast();
   const [search, setSearch] = useState('');
-  const [savedClasses, setSavedClasses] = useState<string[]>([]);
+  const [category, setCategory] = useState('All');
+  const [savedVideos, setSavedVideos] = useState<string[]>(['Slow & Steady Yoga']);
   const normalizedSearch = search.trim().toLowerCase();
-  const filteredClasses = useMemo(
+  const filteredVideos = useMemo(
     () =>
-      normalizedSearch.length === 0
-        ? classes
-        : classes.filter((item) =>
-            `${item.title} ${item.instructor} ${item.level}`
-              .toLowerCase()
-              .includes(normalizedSearch),
-          ),
-    [normalizedSearch],
+      videos.filter((item) => {
+        const matchesCategory = category === 'All' || item.category === category;
+        const matchesSearch =
+          !normalizedSearch ||
+          `${item.title} ${item.instructor} ${item.level} ${item.category}`
+            .toLowerCase()
+            .includes(normalizedSearch);
+        return matchesCategory && matchesSearch;
+      }),
+    [category, normalizedSearch],
   );
 
-  function goToSection(value: string) {
-    document
-      .getElementById(value === 'overview' ? 'yogi-overview' : value)
-      ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
   function toggleSaved(title: string) {
-    setSavedClasses((current) =>
+    setSavedVideos((current) =>
       current.includes(title) ? current.filter((item) => item !== title) : [...current, title],
     );
   }
-
-  function bookClass(item: ClassItem) {
+  function scrollToSection(id: string) {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  function openPractice(title: string) {
     toastManager.add({
-      title: 'Class booked',
-      description: `${item.title} with ${item.instructor} is now in My bookings.`,
+      title: 'Practice ready',
+      description: `${title} is ready when you are.`,
+      type: 'success',
+    });
+  }
+  function markComplete(title: string) {
+    toastManager.add({
+      title: 'Practice logged',
+      description: `${title} was added to your practice history.`,
       type: 'success',
     });
   }
@@ -280,247 +219,305 @@ export default function YogiDashboard() {
   return (
     <main {...stylex.props(styles.appPage)}>
       <div {...stylex.props(styles.shell)}>
-        <header {...stylex.props(styles.topbar)}>
-          <a href={YOGI_ROUTES.ROOT} {...stylex.props(styles.brand)} aria-label="yogacn yogi home">
-            <YogaLogoIcon size={30} color={colors.primary} />
-            <span>
-              yogacn<small {...stylex.props(styles.brandCaption)}>Move · Breathe · Be you</small>
-            </span>
-          </a>
-
-          <div {...stylex.props(styles.desktopNav)}>
-            <Tabs defaultValue="overview" onValueChange={goToSection}>
-              <TabsList aria-label="Yogi navigation">
-                <TabsTrigger value="overview">Overview</TabsTrigger>
-                <TabsTrigger value="classes">Classes</TabsTrigger>
-                <TabsTrigger value="instructors">Instructors</TabsTrigger>
-                <TabsTrigger value="bookings">Bookings</TabsTrigger>
-              </TabsList>
-            </Tabs>
-          </div>
-
-          <div {...stylex.props(styles.headerSearch)}>
-            <Search size={18} aria-hidden="true" />
-            <Input
-              type="search"
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-              placeholder="Search classes or instructors"
-              aria-label="Search classes or instructors"
-            />
-            {search.length > 0 ? (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setSearch('')}
-                aria-label="Clear search"
-              >
-                <X size={16} aria-hidden="true" />
-              </Button>
-            ) : null}
-          </div>
-
-          <Button variant="ghost" size="sm" aria-label="Notifications">
-            <Bell size={20} aria-hidden="true" />
-          </Button>
-          <Popover.Root>
-            <Popover.Trigger asChild>
-              <Button
-                variant="ghost"
-                size="sm"
-                className={stylex.props(styles.mobileScheduleTrigger).className}
-                aria-label="Open daily schedule"
-              >
-                <CalendarDays size={20} aria-hidden="true" />
-              </Button>
-            </Popover.Trigger>
-            <Popover.Portal>
-              <Popover.Content
-                align="end"
-                sideOffset={8}
-                aria-label="Daily schedule"
-                {...stylex.props(styles.schedulePopover)}
-              >
-                <ScheduleRailContent titleId="mobile-schedule-title" />
-              </Popover.Content>
-            </Popover.Portal>
-          </Popover.Root>
-          <Button
-            variant="ghost"
-            size="sm"
-            className={stylex.props(styles.profileButton).className}
-          >
-            <span {...stylex.props(styles.profileAvatar)}>JT</span>
-            <span {...stylex.props(styles.profileCopy)}>
-              <strong>James Tan</strong>
-              <small>Member</small>
-            </span>
-            <ChevronDown size={16} aria-hidden="true" />
-          </Button>
-        </header>
-
         <div {...stylex.props(styles.workspace)}>
-          <div id="yogi-overview" {...stylex.props(styles.contentColumn)}>
-            <section {...stylex.props(styles.welcome)}>
-              <div>
-                <h1 {...stylex.props(styles.welcomeTitle)}>Good evening, James</h1>
-                <p {...stylex.props(styles.welcomeCopy)}>A calmer mind is a stronger you.</p>
-              </div>
-              <div
-                {...stylex.props(styles.heroMedia)}
-                role="img"
-                aria-label="Yoga yogi practising in a bright studio"
-              />
-            </section>
-
-            <div {...stylex.props(styles.mobileSearch)}>
-              <Search size={18} aria-hidden="true" />
-              <Input
-                type="search"
-                value={search}
-                onChange={(event) => setSearch(event.target.value)}
-                placeholder="Search classes or instructors"
-                aria-label="Search classes or instructors on mobile"
-              />
-              {search.length > 0 ? (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setSearch('')}
-                  aria-label="Clear mobile search"
-                >
-                  <X size={16} aria-hidden="true" />
-                </Button>
-              ) : null}
+          <section {...stylex.props(styles.welcome)}>
+            <div {...stylex.props(layoutStyles.appHeaderTitle, typographyStyles.body)}>
+              <span {...stylex.props(typographyStyles.brand)}>yogacn</span>
+              <MoonDayIndicator />
+              <p {...stylex.props(styles.welcomeTitle)}>{getGreeting()}, James</p>
             </div>
+            <div {...stylex.props(styles.welcomeActions)}>
+              <Button variant="ghost" size="sm" aria-label="Notifications">
+                <Bell size={20} aria-hidden="true" />
+              </Button>
+              <Button variant="ghost" size="sm" aria-label="Open profile">
+                <UserRound size={20} aria-hidden="true" />
+              </Button>
+            </div>
+          </section>
+
+          <div id="yogi-overview" {...stylex.props(styles.contentColumn)}>
+            <section {...stylex.props(styles.dashboardHero)} aria-labelledby="hero-title">
+              <div {...stylex.props(styles.continueCard)}>
+                <div {...stylex.props(styles.continueCopy)}>
+                  <Badge variant="ready">Continue your practice</Badge>
+                  <h1 id="hero-title" {...stylex.props(styles.heroTitle)}>
+                    Foundations of Yoga
+                  </h1>
+                  <p {...stylex.props(styles.heroDescription)}>
+                    Pick up where you left off and keep your practice moving.
+                  </p>
+                  <div {...stylex.props(styles.progressRow)}>
+                    <span>Lesson 8 of 11</span>
+                    <strong>72%</strong>
+                  </div>
+                  <div {...stylex.props(styles.progressTrack)}>
+                    <span {...stylex.props(styles.progressTrackFill)} style={{ width: '72%' }} />
+                  </div>
+                  <Button size="md" onClick={() => openPractice('Foundations of Yoga')}>
+                    <Play size={15} fill="currentColor" aria-hidden="true" />
+                    Continue learning
+                  </Button>
+                </div>
+                <div
+                  {...stylex.props(styles.continueArt)}
+                  style={{ backgroundImage: `url(${videos[0].image})` }}
+                  role="img"
+                  aria-label="Yoga practice"
+                />
+              </div>
+              <div {...stylex.props(styles.metricsCard)}>
+                <div {...stylex.props(styles.metricHeader)}>
+                  <span>My practice</span>
+                  <Target size={18} aria-hidden="true" />
+                </div>
+                <div {...stylex.props(styles.metricGrid)}>
+                  <div>
+                    <strong>8</strong>
+                    <span>Sessions</span>
+                  </div>
+                  <div>
+                    <strong>120</strong>
+                    <span>Minutes</span>
+                  </div>
+                  <div>
+                    <strong>4</strong>
+                    <span>Day streak</span>
+                  </div>
+                </div>
+                <div {...stylex.props(styles.streakNote)}>
+                  <Flame size={16} aria-hidden="true" />
+                  You are building a great habit
+                </div>
+              </div>
+            </section>
 
             <section id="classes" aria-labelledby="featured-title">
               <SectionHeader
-                title="Featured classes"
+                title="Recommended for you"
                 titleId="featured-title"
-                description="Suggested from instructors you follow and the classes you enjoy."
+                description="Practice suggestions based on your goals and recent sessions."
                 action={
-                  <Button variant="ghost" size="sm">
+                  <Button variant="ghost" size="sm" onClick={() => scrollToSection('classes')}>
                     View all <ArrowRight size={16} aria-hidden="true" />
                   </Button>
                 }
               />
-              {filteredClasses.length > 0 ? (
+              <div {...stylex.props(styles.filterBar)}>
+                <div {...stylex.props(styles.categoryTabs)}>
+                  {categories.map((item) => (
+                    <Button
+                      key={item}
+                      variant={category === item ? 'secondary' : 'ghost'}
+                      size="sm"
+                      onClick={() => setCategory(item)}
+                      aria-pressed={category === item}
+                    >
+                      {item}
+                    </Button>
+                  ))}
+                </div>
+                <div {...stylex.props(styles.searchWrap)}>
+                  <Search size={16} aria-hidden="true" />
+                  <Input
+                    {...stylex.props(styles.searchInput)}
+                    type="search"
+                    value={search}
+                    onChange={(event) => setSearch(event.target.value)}
+                    placeholder="Search practices"
+                    aria-label="Search practices"
+                  />
+                </div>
+              </div>
+              {filteredVideos.length > 0 ? (
                 <div {...stylex.props(styles.classGrid)}>
-                  {filteredClasses.map((item) => (
-                    <ClassCard
+                  {filteredVideos.map((item) => (
+                    <VideoCard
                       key={item.title}
                       item={item}
-                      saved={savedClasses.includes(item.title)}
+                      saved={savedVideos.includes(item.title)}
                       onSave={() => toggleSaved(item.title)}
-                      onBook={() => bookClass(item)}
+                      onOpen={() => openPractice(item.title)}
                     />
                   ))}
                 </div>
               ) : (
                 <div {...stylex.props(styles.emptyState)}>
                   <Search size={28} aria-hidden="true" />
-                  <strong>No matching classes</strong>
-                  <span>Try a instructor, level or another class name.</span>
-                  <Button variant="outline" size="sm" onClick={() => setSearch('')}>
-                    Clear search
+                  <strong>No practices found</strong>
+                  <span>Try another goal, level or practice name.</span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setSearch('');
+                      setCategory('All');
+                    }}
+                  >
+                    Clear filters
                   </Button>
                 </div>
               )}
             </section>
 
-            <section
-              id="bookings"
-              aria-labelledby="bookings-title"
-              {...stylex.props(styles.section)}
-            >
-              <SectionHeader
-                title="My bookings"
-                titleId="bookings-title"
-                description="Your confirmed and upcoming classes."
-                action={
-                  <Button variant="ghost" size="sm">
-                    View all <ArrowRight size={16} aria-hidden="true" />
-                  </Button>
-                }
-              />
-              <div {...stylex.props(styles.bookingList)}>
-                {bookings.map((booking) => (
-                  <Card key={booking.title} {...stylex.props(styles.bookingRow)}>
-                    <span {...stylex.props(styles.bookingIcon)}>
-                      <CalendarDays size={20} aria-hidden="true" />
-                    </span>
-                    <span {...stylex.props(styles.bookingCopy)}>
-                      <strong>{booking.title}</strong>
-                      <span>
-                        {booking.detail} · {booking.instructor}
-                      </span>
-                    </span>
-                    <Badge variant={booking.state === 'Confirmed' ? 'published' : 'private'}>
-                      {booking.state}
-                    </Badge>
-                    <Button variant="ghost" size="sm" aria-label={`Open ${booking.title}`}>
-                      <ChevronRight size={17} aria-hidden="true" />
+            <section id="learning" {...stylex.props(styles.twoColumnSection)}>
+              <div>
+                <SectionHeader
+                  title="My learning"
+                  titleId="learning-title"
+                  description="Your courses in progress."
+                  action={
+                    <Button variant="ghost" size="sm" onClick={() => scrollToSection('learning')}>
+                      Library <ArrowRight size={16} aria-hidden="true" />
                     </Button>
-                  </Card>
-                ))}
+                  }
+                />
+                <div {...stylex.props(styles.learningList)}>
+                  {learning.map((item) => (
+                    <Card key={item.title} {...stylex.props(styles.learningRow)}>
+                      <div
+                        {...stylex.props(styles.learningThumb)}
+                        style={{ backgroundImage: `url(${item.image})` }}
+                      />
+                      <div {...stylex.props(styles.learningCopy)}>
+                        <strong>{item.title}</strong>
+                        <span>
+                          {item.instructor} · {item.lessons}
+                        </span>
+                        <div {...stylex.props(styles.progressTrack)}>
+                          <span
+                            {...stylex.props(styles.progressTrackFill)}
+                            style={{ width: `${item.progress}%` }}
+                          />
+                        </div>
+                      </div>
+                      <strong {...stylex.props(styles.learningPercent)}>{item.progress}%</strong>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        aria-label={`Continue ${item.title}`}
+                        onClick={() => openPractice(item.title)}
+                      >
+                        <ChevronRight size={18} />
+                      </Button>
+                    </Card>
+                  ))}
+                </div>
               </div>
+              <Card {...stylex.props(styles.studyCraftCard)}>
+                <div {...stylex.props(styles.studyCraftHeader)}>
+                  <div>
+                    <span {...stylex.props(styles.studyCraftKicker)}>Your practice plan</span>
+                    <h2 id="plan-title" {...stylex.props(styles.studyCraftTitle)}>
+                      Study Craft
+                    </h2>
+                  </div>
+                  <Button variant="ghost" size="sm" aria-label="Open practice plan">
+                    <SlidersHorizontal size={17} aria-hidden="true" />
+                  </Button>
+                </div>
+                <div {...stylex.props(styles.studyCraftVisual)}>
+                  <span {...stylex.props(styles.studyCraftOrb, styles.studyCraftOrbPrimary)}>
+                    <Target size={22} aria-hidden="true" />
+                  </span>
+                  <span {...stylex.props(styles.studyCraftOrb, styles.studyCraftOrbAccent)}>
+                    <Sparkles size={18} aria-hidden="true" />
+                  </span>
+                  <span {...stylex.props(styles.studyCraftOrb, styles.studyCraftOrbSecondary)}>
+                    <Heart size={18} aria-hidden="true" />
+                  </span>
+                  <span {...stylex.props(styles.studyCraftPlus)}>+</span>
+                </div>
+                <div {...stylex.props(styles.studyCraftSummary)}>
+                  <div>
+                    <strong>Starter plan</strong>
+                    <span>3 flexible practices this week</span>
+                  </div>
+                  <Badge variant="private">1 of 3 done</Badge>
+                </div>
+                <div {...stylex.props(styles.studyCraftProgress)}>
+                  <span {...stylex.props(styles.progressTrackFill)} style={{ width: '33%' }} />
+                </div>
+                <div {...stylex.props(styles.studyCraftPlanList)}>
+                  {plan.map((item) => (
+                    <div key={item.title} {...stylex.props(styles.planRow)}>
+                      <span
+                        {...stylex.props(item.complete ? styles.planCheckDone : styles.planCheck)}
+                      >
+                        {item.complete ? <Check size={14} /> : null}
+                      </span>
+                      <div>
+                        <strong>{item.title}</strong>
+                        <span>
+                          {item.day} · {item.detail}
+                        </span>
+                      </div>
+                      {item.complete ? (
+                        <Badge variant="ready">Done</Badge>
+                      ) : (
+                        <Button variant="ghost" size="sm" onClick={() => markComplete(item.title)}>
+                          Log practice
+                        </Button>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </Card>
             </section>
 
             <section
-              id="instructors"
-              aria-labelledby="instructors-title"
-              {...stylex.props(styles.section)}
+              id="saved"
+              aria-labelledby="saved-title"
+              {...stylex.props(styles.savedSection)}
             >
               <SectionHeader
-                title="My instructors"
-                titleId="instructors-title"
-                description="Instructors you subscribe to across your practice."
+                title="Saved for later"
+                titleId="saved-title"
+                description="Practices you want to come back to."
                 action={
-                  <Button variant="ghost" size="sm">
-                    Find instructors <ArrowRight size={16} aria-hidden="true" />
+                  <Button variant="ghost" size="sm" onClick={() => scrollToSection('saved')}>
+                    View saved <ArrowRight size={16} aria-hidden="true" />
                   </Button>
                 }
               />
-              <div {...stylex.props(styles.bookingList)}>
-                {instructors.map((instructor) => (
-                  <Card key={instructor.name} {...stylex.props(styles.bookingRow)}>
-                    <span {...stylex.props(styles.instructorAvatar)} aria-hidden="true">
-                      {instructor.name.charAt(0)}
-                    </span>
-                    <span {...stylex.props(styles.bookingCopy)}>
-                      <strong>{instructor.name}</strong>
-                      <span>
-                        {instructor.focus} · {instructor.classes}
+              <div {...stylex.props(styles.savedList)}>
+                {videos
+                  .filter((item) => savedVideos.includes(item.title))
+                  .map((item) => (
+                    <button
+                      type="button"
+                      key={item.title}
+                      {...stylex.props(styles.savedItem)}
+                      onClick={() => openPractice(item.title)}
+                    >
+                      <span {...stylex.props(styles.savedIcon)}>
+                        <BookmarkCheck size={18} aria-hidden="true" />
                       </span>
-                    </span>
-                    <Badge variant="published">Subscribed</Badge>
-                    <Button variant="ghost" size="sm" aria-label={`Open ${instructor.name}`}>
-                      <ChevronRight size={17} aria-hidden="true" />
-                    </Button>
-                  </Card>
-                ))}
+                      <span>
+                        <strong>{item.title}</strong>
+                        <small>
+                          {item.duration} · {item.category}
+                        </small>
+                      </span>
+                      <Play size={16} aria-hidden="true" />
+                    </button>
+                  ))}
               </div>
             </section>
           </div>
-
-          <aside {...stylex.props(styles.scheduleRail)} aria-labelledby="schedule-title">
-            <ScheduleRailContent />
-          </aside>
         </div>
-
         <nav {...stylex.props(styles.mobileNav)} aria-label="Mobile yogi navigation">
           <a href="#yogi-overview" aria-label="Overview" {...stylex.props(styles.mobileNavLink)}>
             <Home size={22} />
           </a>
-          <a href="#classes" aria-label="Classes" {...stylex.props(styles.mobileNavLink)}>
+          <a href="#classes" aria-label="Explore practices" {...stylex.props(styles.mobileNavLink)}>
             <LibraryBig size={22} />
           </a>
-          <a href="#bookings" aria-label="Bookings" {...stylex.props(styles.mobileNavLink)}>
-            <CalendarDays size={22} />
+          <a href="#learning" aria-label="My learning" {...stylex.props(styles.mobileNavLink)}>
+            <Target size={22} />
           </a>
-          <a href="#instructors" aria-label="Instructors" {...stylex.props(styles.mobileNavLink)}>
-            <UserRound size={22} />
+          <a href="#saved" aria-label="Saved practices" {...stylex.props(styles.mobileNavLink)}>
+            <Bookmark size={22} />
           </a>
         </nav>
       </div>

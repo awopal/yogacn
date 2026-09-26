@@ -2,7 +2,15 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { CalendarDays, Home, LibraryBig, LogOut, UserRound, UsersRound } from 'lucide-react';
+import {
+  CalendarDays,
+  Home,
+  LibraryBig,
+  LogOut,
+  Sparkles,
+  UserRound,
+  UsersRound,
+} from 'lucide-react';
 import * as stylex from '@stylexjs/stylex';
 import { YogaLogoIcon } from '@/components/icons';
 import { appStyles } from '@/styles/app.stylex';
@@ -15,7 +23,7 @@ import { instructorProfile, instructorSidebarItems } from '../instructors/sideba
 export type SidebarMenuItem = {
   href: string;
   label: string;
-  icon: 'calendar' | 'home' | 'library' | 'users';
+  icon: 'calendar' | 'home' | 'library' | 'users' | 'workshop';
 };
 
 const sidebarIcons = {
@@ -23,6 +31,7 @@ const sidebarIcons = {
   home: Home,
   library: LibraryBig,
   users: UsersRound,
+  workshop: Sparkles,
 } as const;
 
 export default function Sidebar({
@@ -51,7 +60,7 @@ export default function Sidebar({
           aria-label="yogacn dashboard"
         >
           <span {...stylex.props(appStyles.sidebarLogo)}>
-            <YogaLogoIcon size={42} strokeWidth={4} color={colors.tertiary} />
+            <YogaLogoIcon size={40} strokeWidth={4} color={colors.tertiary} />
           </span>
         </Link>
 
@@ -85,7 +94,7 @@ export default function Sidebar({
                 >
                   <Icon
                     {...stylex.props(appStyles.sidebarIcon)}
-                    size={isActive ? 28 : 24}
+                    size={isActive ? 24 : 22}
                     aria-hidden="true"
                   />
                 </Link>

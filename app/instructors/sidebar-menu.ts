@@ -5,6 +5,7 @@ export const instructorSidebarItems: SidebarMenuItem[] = [
   { href: INSTRUCTOR_ROUTES.ROOT, label: 'Dashboard', icon: 'home' },
   { href: INSTRUCTOR_ROUTES.SCHEDULE, label: 'Class Schedule', icon: 'calendar' },
   { href: INSTRUCTOR_ROUTES.CLASSES.ROOT, label: 'Classes', icon: 'library' },
+  { href: INSTRUCTOR_ROUTES.WORKSHOPS.ROOT, label: 'Workshops', icon: 'workshop' },
   { href: INSTRUCTOR_ROUTES.YOGIS.ROOT, label: 'Yogi notes', icon: 'users' },
 ];
 

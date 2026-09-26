@@ -32,6 +32,11 @@ export const INSTRUCTOR_ROUTES = defineRoutes({
     TEACH: (id: string) => `/instructors/classes/${id}/teach`,
     REFLECT: (id: string) => `/instructors/classes/${id}/reflect`,
   },
+  WORKSHOPS: {
+    ROOT: '/instructors/workshops',
+    CREATE: '/instructors/workshops/create',
+    EDIT: (id: string) => `/instructors/workshops/edit/${id}`,
+  },
   YOGIS: {
     ROOT: '/instructors/yogis',
     BY_ID: (id: string) => `/instructors/yogis/${id}`,
